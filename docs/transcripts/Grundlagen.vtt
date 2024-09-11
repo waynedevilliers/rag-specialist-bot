@@ -1,0 +1,221 @@
+WEBVTT
+
+1
+00:00:06.890 --> 00:00:10.510
+Willkommen im Course Einführung in Adobe Illustrator.
+
+2
+00:00:10.690 --> 00:00:13.190
+Ich zeige euch in diesem Course,
+
+3
+00:00:13.190 --> 00:00:16.610
+wie man mit Adobe Illustrator erste technische
+
+4
+00:00:16.610 --> 00:00:19.270
+Modezeichnungen erstellen kann.
+
+5
+00:00:19.490 --> 00:00:23.170
+Adobe Illustrator ist ein relativ komplexes Programm,
+
+6
+00:00:23.170 --> 00:00:26.210
+das auch in vielen Berufsfeldern genutzt wird.
+
+7
+00:00:26.350 --> 00:00:28.990
+In der Modebranche benutzen wir es hauptsächlich zur
+
+8
+00:00:28.990 --> 00:00:31.190
+Erstellung von technischen Modezeichnungen.
+
+9
+00:00:31.190 --> 00:00:33.610
+Ich habe den Course deshalb so strukturiert,
+
+10
+00:00:33.610 --> 00:00:36.010
+dass du nach und nach in essenzielle Funktionen des
+
+11
+00:00:36.010 --> 00:00:39.950
+Programms eingeführt wirst, und zwar in diese,
+
+12
+00:00:39.950 --> 00:00:43.330
+die du brauchst, um technische Modezeichnungen zu erstellen.
+
+13
+00:00:43.330 --> 00:00:47.070
+Du lernst also Schritt für Schritt einige Tools kennen und
+
+14
+00:00:47.070 --> 00:00:50.410
+kannst dein Wissen Kurs für Kurs erweitern.
+
+15
+00:00:50.410 --> 00:00:53.890
+Wir legen jetzt los mit Adobe Illustrator.
+
+16
+00:00:55.230 --> 00:00:57.190
+Zunächst öffnest du das Programm.
+
+17
+00:00:58.250 --> 00:01:02.990
+Du klickst also auf Adobe Illustrator und du wirst sehen,
+
+18
+00:01:02.990 --> 00:01:07.030
+oben links kannst du auf neue Datei gehen.
+
+19
+00:01:07.370 --> 00:01:09.670
+Oder wenn es mal etwas schneller gehen soll,
+
+20
+00:01:09.670 --> 00:01:13.150
+kannst du auch auf schnell eine neue Datei erstellen gehen.
+
+21
+00:01:13.790 --> 00:01:17.570
+Das machen wir jetzt. Klick also hier auf A4 und
+
+22
+00:01:17.570 --> 00:01:18.750
+schon öffnet sich eine
+
+23
+00:01:19.890 --> 00:01:23.190
+Datei Du siehst jetzt eine weiße Seite.
+
+24
+00:01:23.190 --> 00:01:25.310
+Das ist deine Zeichenfläche.
+
+25
+00:01:25.310 --> 00:01:30.090
+Das ist quasi wie ein weißes Platt Papier, nur digital.
+
+26
+00:01:31.520 --> 00:01:34.420
+Mit den meisten Programmen findest du oben eine Menüleiste.
+
+27
+00:01:34.420 --> 00:01:37.000
+Die wollen wir uns jetzt einmal anschauen.
+
+28
+00:01:37.360 --> 00:01:41.600
+Unter dem Menü Datei kannst du eine neue Datei anlegen oder
+
+29
+00:01:41.600 --> 00:01:44.720
+eine Datei oder eine bestehende Datei
+
+30
+00:01:44.720 --> 00:01:46.560
+Öffnen.
+
+31
+00:01:47.160 --> 00:01:51.040
+Das Menü bearbeiten bietet Optionen wie
+
+32
+00:01:51.040 --> 00:01:52.920
+einfügen, rückgängig
+
+33
+00:01:52.920 --> 00:01:54.160
+Machen.
+
+34
+00:01:54.920 --> 00:01:57.960
+Danach folgen die Menüs Objekt,
+
+35
+00:01:57.960 --> 00:01:59.680
+Schrift,
+
+36
+00:01:59.680 --> 00:02:03.320
+Auswahl, Effekt und Ansicht.
+
+37
+00:02:03.320 --> 00:02:07.020
+Das sind Menüs auf die ich später eingehen werde.
+
+38
+00:02:09.040 --> 00:02:10.760
+Dann gibt es das Menü Fenster.
+
+39
+00:02:10.760 --> 00:02:13.760
+Das finde ich ein relativ wichtiges Menü,
+
+40
+00:02:13.760 --> 00:02:17.440
+denn hier kannst du Bedienfelder oder
+
+41
+00:02:17.440 --> 00:02:22.180
+Werkzeuge öffnen bzw.
+
+42
+00:02:22.180 --> 00:02:24.240
+ein und ausblenden.
+
+43
+00:02:25.260 --> 00:02:26.960
+Also, falls dir mal etwas fehlt,
+
+44
+00:02:26.960 --> 00:02:29.280
+kannst du hier einfach nachschauen.
+
+45
+00:02:30.120 --> 00:02:32.720
+Zuletzt haben wir das Menü Hilfe.
+
+46
+00:02:33.280 --> 00:02:36.240
+Hier findest du einige Tutorials und
+
+47
+00:02:36.240 --> 00:02:37.700
+Antworten auf eventuelle
+
+48
+00:02:37.700 --> 00:02:40.960
+Fragen.
+
+49
+00:02:41.000 --> 00:02:43.380
+Wenn du dir jetzt deinen Bildschirm anschaust,
+
+50
+00:02:43.380 --> 00:02:46.980
+fällt dir vielleicht links eine Werkzeugleiste
+
+51
+00:02:46.980 --> 00:02:48.060
+Auf.
+
+52
+00:02:49.320 --> 00:02:52.140
+Die kannst du ganz nach deinem Geschmack anpassen.
+
+53
+00:02:52.140 --> 00:02:54.300
+Ich mag sie gern etwas kompakter,
+
+54
+00:02:54.300 --> 00:02:58.800
+also klicke ich hier auf diesen Doppelfeil und schon ist sie
+
+55
+00:02:58.800 --> 00:03:00.460
+in einem anderen Format.

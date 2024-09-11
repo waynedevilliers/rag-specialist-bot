@@ -6,15 +6,21 @@
  */
 
 import { ValidationUtils } from './validation-schemas'
+import { SecurityValidator } from './security-validator'
 
 /**
  * Fashion design related keywords and topics
  */
 const FASHION_KEYWORDS = {
-  // Core fashion terms
+  // Core fashion terms  
   CORE: [
     'fashion', 'design', 'garment', 'clothing', 'apparel', 'textile', 'fabric',
-    'pattern', 'sewing', 'tailoring', 'dressmaking', 'couture', 'ready-to-wear'
+    'pattern', 'sewing', 'tailoring', 'dressmaking', 'couture', 'ready-to-wear',
+    'course', 'lesson', 'module', 'ellu', 'studios', 'tutorial', 'learning',
+    // Conversational context terms
+    'forgot', 'forget', 'missing', 'teil', 'part', 'about', 'what about',
+    'thats', "that's", 'wie wäre', 'was ist mit', 'explain', 'erklären', 
+    'show me', 'zeig mir', 'tell me more', 'erzähl mir mehr'
   ],
   
   // Construction techniques
@@ -26,9 +32,10 @@ const FASHION_KEYWORDS = {
   
   // Adobe Illustrator terms
   ILLUSTRATOR: [
-    'illustrator', 'adobe', 'vector', 'pen tool', 'pathfinder', 'brush',
-    'technical flat', 'fashion illustration', 'color palette', 'swatches',
-    'artboard', 'layers', 'bezier', 'anchor point'
+    'illustrator', 'adobe', 'vector', 'pen', 'tool', 'pathfinder', 'brush',
+    'technical', 'flat', 'fashion', 'illustration', 'color', 'palette', 'swatches',
+    'artboard', 'layers', 'layer', 'bezier', 'anchor', 'point', 'line', 'weight', 'weights', 'stroke',
+    'fill', 'croquis', 'template', 'annotation', 'workflow'
   ],
   
   // Garment types
@@ -138,17 +145,40 @@ const FASHION_QUESTION_PATTERNS = [
   /(illustrator|adobe).*fashion/i,
   /(technical\s+flat|fashion\s+illustration)/i,
   /fabric\s+(choice|selection|properties)/i,
-  /pattern\s+(making|drafting|adjustment)/i
+  /pattern\s+(making|drafting|adjustment)/i,
+  /(course|lesson|module)\s*\d+/i,
+  /what\s+(courses?|lessons?|modules?)/i,
+  /tell\s+me\s+about\s+(course|lesson|module)/i,
+  /ellu\s+studios/i,
+  /what\s+(are|is)\s+(layers?|line\s*weights?)/i,
+  /tell\s+me\s+(more\s+)?about\s+(layers?|line\s*weights?)/i,
+  /layers?\s+(in|for|organization)/i,
+  /pen\s+tool/i,
+  /technical\s+(drawing|flat)/i,
+  /croquis/i,
+  /workflow/i,
+  
+  // Conversational follow-up patterns
+  /did\s+you\s+(forget|miss)\s+(.*)(ebenen?|layers?|werkzeuge?|tools?)/i,
+  /(what\s+about|was\s+ist\s+mit|wie\s+wäre\s+es\s+mit)\s+(.*)(ebenen?|layers?|teil|part)/i,
+  /that[''s]*\s+(a\s+)?part\s+(from|of|von)\s+(part|teil)\s*\d+/i,
+  /(teil|part)\s+(from|von|aus)\s+(teil|part)\s*\d+/i,
+  /(explain|erklären?)\s+(.*)(grundlagen|basics|werkzeuge?|tools?|ebenen?|layers?)/i,
+  /tell\s+me\s+(more\s+)?(about|über)\s+(the\s+)?(grundlagen|werkzeuge?|ebenen?)/i,
+  /(show\s+me|zeig\s+mir)\s+(.*)(grundlagen|werkzeuge?|ebenen?|tools?|layers?)/i,
+  /mit\s+(ebenen?|layers?)\s+(arbeiten|zu\s+arbeiten|working)/i,
+  /(forgot|vergessen|miss|missing)\s+(.*)(ebenen?|layers?|werkzeuge?|tools?)/i,
+  /thats?\s+(.*)(part|teil|module|modul)\s+(.*)(illustrator|adobe)/i
 ] as const
 
 /**
  * Relevance scoring thresholds
  */
 const THRESHOLDS = {
-  HIGH_RELEVANCE: 0.7,    // Definitely fashion-related
-  LOW_RELEVANCE: 0.3,     // Probably not fashion-related
-  KEYWORD_WEIGHT: 0.6,    // Weight of keyword matching
-  PATTERN_WEIGHT: 0.4     // Weight of pattern matching
+  HIGH_RELEVANCE: 0.2,    // Definitely fashion-related (very low)
+  LOW_RELEVANCE: 0.1,     // Probably not fashion-related (very low) 
+  KEYWORD_WEIGHT: 0.4,    // Weight of keyword matching
+  PATTERN_WEIGHT: 0.6     // Weight of pattern matching (higher)
 } as const
 
 /**
@@ -169,83 +199,40 @@ export class RelevanceFilter {
   
   /**
    * Determine if a query is relevant to fashion design
+   * Simplified to only handle greetings - let RAG system handle everything else
    */
   static analyzeRelevance(query: string): RelevanceResult {
     try {
       // Validate and clean the query
       const cleanQuery = ValidationUtils.validateQuery(query).toLowerCase()
       
-      // Check for prompt injection attempts first
-      if (this.isPromptInjection(cleanQuery)) {
-        return {
-          isRelevant: false,
-          confidence: 1.0,
-          reasoning: 'Prompt injection or role-playing attempt detected',
-          suggestedResponse: 'I\'m a fashion design assistant and can only help with topics related to garment construction, pattern making, and Adobe Illustrator for fashion. Please ask me about fashion design instead.',
-          shouldUseRAG: false
-        }
-      }
-      
-      // Check for greetings 
+      // Check for greetings - provide quick response without RAG
       if (this.isGreeting(cleanQuery)) {
         return {
-          isRelevant: true, // Greetings are relevant for user experience
+          isRelevant: true,
           confidence: 1.0,
           reasoning: 'Simple greeting detected',
           suggestedResponse: this.getGreetingResponse(),
-          shouldUseRAG: false // But don't use expensive RAG for greetings
-        }
-      }
-      
-      // Check for obvious non-fashion content
-      const nonFashionScore = this.calculateNonFashionScore(cleanQuery)
-      if (nonFashionScore > THRESHOLDS.HIGH_RELEVANCE) {
-        return {
-          isRelevant: false,
-          confidence: nonFashionScore,
-          reasoning: 'Query appears to be unrelated to fashion design',
-          suggestedResponse: 'I specialize in fashion design and Adobe Illustrator. Could you ask me about garment construction, pattern making, or fashion illustration instead?',
           shouldUseRAG: false
         }
       }
       
-      // Calculate fashion relevance score
-      const fashionScore = this.calculateFashionScore(cleanQuery)
-      
-      if (fashionScore >= THRESHOLDS.HIGH_RELEVANCE) {
-        return {
-          isRelevant: true,
-          confidence: fashionScore,
-          reasoning: 'High fashion design relevance detected',
-          shouldUseRAG: true
-        }
-      }
-      
-      if (fashionScore <= THRESHOLDS.LOW_RELEVANCE) {
-        return {
-          isRelevant: false,
-          confidence: 1 - fashionScore,
-          reasoning: 'Low fashion design relevance',
-          suggestedResponse: 'I can help with fashion design, garment construction, pattern making, and Adobe Illustrator for fashion. What would you like to learn about?',
-          shouldUseRAG: false
-        }
-      }
-      
-      // Borderline case - use RAG but with lower confidence
+      // For everything else, let RAG system handle it
+      // RAG system has proper role boundaries and will redirect non-fashion questions
       return {
         isRelevant: true,
-        confidence: fashionScore,
-        reasoning: 'Moderate fashion design relevance - proceeding with caution',
+        confidence: 0.8,
+        reasoning: 'Allowing RAG system to handle query and enforce role boundaries',
         shouldUseRAG: true
       }
       
     } catch (error) {
-      // If validation fails, treat as potentially relevant but with low confidence
+      // If validation fails, still let RAG handle it
       return {
         isRelevant: true,
-        confidence: 0.1,
-        reasoning: 'Query validation failed - proceeding with minimal confidence',
-        shouldUseRAG: false
+        confidence: 0.5,
+        reasoning: 'Query validation failed - letting RAG system handle',
+        shouldUseRAG: true
       }
     }
   }
@@ -354,6 +341,23 @@ export class RelevanceFilter {
   }
   
   /**
+   * Check for explicit fashion terms that should always be considered relevant
+   */
+  private static containsExplicitFashionTerms(query: string): boolean {
+    const explicitTerms = [
+      'layers', 'layer', 'line weights', 'line weight', 'weights', 'weight',
+      'pen tool', 'adobe illustrator', 'illustrator', 'technical flat',
+      'fashion illustration', 'croquis', 'template', 'workflow',
+      'dart', 'seam', 'bias', 'ease', 'draping', 'pattern', 'sewing',
+      'bodice', 'sleeve', 'collar', 'hem', 'zipper', 'fitting',
+      'course 101', 'course 201', 'course 301', 'ellu studios'
+    ]
+    
+    const lowerQuery = query.toLowerCase()
+    return explicitTerms.some(term => lowerQuery.includes(term))
+  }
+
+  /**
    * Check if word is a common stop word
    */
   private static isStopWord(word: string): boolean {
@@ -407,6 +411,185 @@ export class RelevanceFilter {
       greetings: results.filter(r => r.isRelevant && !r.shouldUseRAG).length,
       irrelevant: results.filter(r => !r.isRelevant).length,
       averageConfidence: results.reduce((sum, r) => sum + r.confidence, 0) / results.length
+    }
+  }
+
+  /**
+   * Calculate Levenshtein distance between two strings
+   */
+  private static levenshteinDistance(str1: string, str2: string): number {
+    const matrix: number[][] = []
+    
+    // Create matrix
+    for (let i = 0; i <= str2.length; i++) {
+      matrix[i] = [i]
+    }
+    for (let j = 0; j <= str1.length; j++) {
+      matrix[0][j] = j
+    }
+    
+    // Fill matrix
+    for (let i = 1; i <= str2.length; i++) {
+      for (let j = 1; j <= str1.length; j++) {
+        if (str2[i - 1] === str1[j - 1]) {
+          matrix[i][j] = matrix[i - 1][j - 1]
+        } else {
+          matrix[i][j] = Math.min(
+            matrix[i - 1][j - 1] + 1, // substitution
+            matrix[i][j - 1] + 1,     // insertion
+            matrix[i - 1][j] + 1      // deletion
+          )
+        }
+      }
+    }
+    
+    return matrix[str2.length][str1.length]
+  }
+
+  /**
+   * Find closest matching fashion terms for potentially misspelled words
+   */
+  private static findClosestFashionTerms(word: string, maxDistance: number = 2): string[] {
+    const allFashionKeywords = [
+      ...FASHION_KEYWORDS.CORE,
+      ...FASHION_KEYWORDS.TECHNIQUES,
+      ...FASHION_KEYWORDS.ILLUSTRATOR,
+      ...FASHION_KEYWORDS.GARMENTS,
+      ...FASHION_KEYWORDS.MEASUREMENTS,
+      ...FASHION_KEYWORDS.TOOLS
+    ]
+
+    const matches: Array<{ term: string; distance: number }> = []
+
+    for (const term of allFashionKeywords) {
+      if (term.length >= 3) { // Only check meaningful terms
+        const distance = this.levenshteinDistance(word.toLowerCase(), term.toLowerCase())
+        
+        // Consider it a match if distance is small relative to word length
+        const maxAllowedDistance = Math.min(maxDistance, Math.floor(term.length / 3))
+        
+        if (distance <= maxAllowedDistance) {
+          matches.push({ term, distance })
+        }
+      }
+    }
+
+    // Return closest matches, sorted by distance
+    return matches
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 3) // Max 3 suggestions
+      .map(match => match.term)
+  }
+
+  /**
+   * Enhanced keyword matching with spell checking
+   */
+  private static calculateKeywordScoreWithSpellCheck(query: string): { score: number; suggestions: string[] } {
+    const words = this.extractWords(query)
+    const allFashionKeywords = [
+      ...FASHION_KEYWORDS.CORE,
+      ...FASHION_KEYWORDS.TECHNIQUES,
+      ...FASHION_KEYWORDS.ILLUSTRATOR,
+      ...FASHION_KEYWORDS.GARMENTS,
+      ...FASHION_KEYWORDS.MEASUREMENTS,
+      ...FASHION_KEYWORDS.TOOLS
+    ]
+    
+    let exactMatches = 0
+    let fuzzyMatches = 0
+    const suggestions: string[] = []
+    
+    for (const word of words) {
+      // Check for exact matches first
+      const exactMatch = allFashionKeywords.some(keyword => 
+        word.toLowerCase().includes(keyword.toLowerCase()) || 
+        keyword.toLowerCase().includes(word.toLowerCase())
+      )
+      
+      if (exactMatch) {
+        exactMatches++
+      } else {
+        // Check for fuzzy matches
+        const closestTerms = this.findClosestFashionTerms(word)
+        if (closestTerms.length > 0) {
+          fuzzyMatches++
+          suggestions.push(...closestTerms)
+        }
+      }
+    }
+    
+    // Calculate score: exact matches get full weight, fuzzy matches get partial weight
+    const baseScore = (exactMatches + (fuzzyMatches * 0.7)) / words.length
+    const bonusMultiplier = Math.min(1 + ((exactMatches + fuzzyMatches) * 0.1), 2)
+    
+    return {
+      score: Math.min(baseScore * bonusMultiplier, 1),
+      suggestions: [...new Set(suggestions)] // Remove duplicates
+    }
+  }
+
+  /**
+   * Enhanced relevance analysis with spell checking and suggestions
+   */
+  static analyzeRelevanceWithSpellCheck(query: string): RelevanceResult & { spellSuggestions?: string[] } {
+    try {
+      const cleanQuery = SecurityValidator.validateQuery(query)
+      
+      // Check for prompt injection first
+      if (this.isPromptInjection(cleanQuery)) {
+        return {
+          isRelevant: false,
+          confidence: 0,
+          reasoning: 'Potential prompt injection detected',
+          shouldUseRAG: false
+        }
+      }
+      
+      // Handle greetings quickly
+      if (this.isGreeting(cleanQuery)) {
+        return {
+          isRelevant: true,
+          confidence: 0.95,
+          reasoning: 'Simple greeting detected',
+          suggestedResponse: this.getGreetingResponse(),
+          shouldUseRAG: false
+        }
+      }
+
+      // Enhanced keyword analysis with spell checking
+      const keywordAnalysis = this.calculateKeywordScoreWithSpellCheck(cleanQuery)
+      const patternScore = this.calculatePatternScore(cleanQuery)
+      
+      const totalScore = (keywordAnalysis.score * THRESHOLDS.KEYWORD_WEIGHT) + 
+                        (patternScore * THRESHOLDS.PATTERN_WEIGHT)
+
+      // If we have spell suggestions and low score, include them in the response
+      if (keywordAnalysis.suggestions.length > 0 && totalScore < THRESHOLDS.HIGH_RELEVANCE) {
+        return {
+          isRelevant: true,
+          confidence: Math.max(totalScore, 0.6), // Boost confidence if we have suggestions
+          reasoning: 'Potential fashion terms detected with spell checking',
+          shouldUseRAG: true,
+          spellSuggestions: keywordAnalysis.suggestions
+        }
+      }
+      
+      // For everything else, let RAG system handle it
+      return {
+        isRelevant: true,
+        confidence: 0.8,
+        reasoning: 'Allowing RAG system to handle query and enforce role boundaries',
+        shouldUseRAG: true
+      }
+      
+    } catch (error) {
+      // If validation fails, still let RAG handle it
+      return {
+        isRelevant: true,
+        confidence: 0.5,
+        reasoning: 'Query validation failed - letting RAG system handle',
+        shouldUseRAG: true
+      }
     }
   }
 }
