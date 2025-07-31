@@ -8,7 +8,9 @@ export interface DocumentChunk {
   section: string
   metadata: {
     title: string
-    type: 'nextjs' | 'react' | 'troubleshooting'
+    type: 'pattern-making' | 'illustrator-fashion' | 'draping' | 'construction'
+    courseNumber: string
+    moduleNumber: string
     length: number
   }
 }
@@ -22,25 +24,29 @@ export class KnowledgeBase {
 
     const dataPath = join(process.cwd(), 'src', 'data')
     
-    // Load Next.js documentation
-    const nextjsContent = readFileSync(join(dataPath, 'nextjs-docs.md'), 'utf-8')
-    const nextjsChunks = this.chunkDocument(nextjsContent, 'nextjs-docs.md', 'Next.js Documentation')
+    // Load Pattern Making Fundamentals (Course 101)
+    const patternMakingContent = readFileSync(join(dataPath, 'pattern-making-fundamentals.md'), 'utf-8')
+    const patternMakingChunks = this.chunkDocument(patternMakingContent, 'pattern-making-fundamentals.md', 'Pattern Making Fundamentals - Course 101', 'pattern-making', '101')
     
-    // Load React documentation
-    const reactContent = readFileSync(join(dataPath, 'react-docs.md'), 'utf-8')
-    const reactChunks = this.chunkDocument(reactContent, 'react-docs.md', 'React Documentation')
+    // Load Illustrator for Fashion Design (Course 201)
+    const illustratorContent = readFileSync(join(dataPath, 'illustrator-fashion-design.md'), 'utf-8')
+    const illustratorChunks = this.chunkDocument(illustratorContent, 'illustrator-fashion-design.md', 'Adobe Illustrator for Fashion Design - Course 201', 'illustrator-fashion', '201')
     
-    // Load troubleshooting guide
-    const troubleshootingContent = readFileSync(join(dataPath, 'troubleshooting.md'), 'utf-8')
-    const troubleshootingChunks = this.chunkDocument(troubleshootingContent, 'troubleshooting.md', 'Troubleshooting Guide')
+    // Load Draping Techniques (Course 301)
+    const drapingContent = readFileSync(join(dataPath, 'draping-techniques.md'), 'utf-8')
+    const drapingChunks = this.chunkDocument(drapingContent, 'draping-techniques.md', 'Draping Techniques - Course 301', 'draping', '301')
     
-    this.chunks = [...nextjsChunks, ...reactChunks, ...troubleshootingChunks]
+    // Load Fashion Construction Methods (Course 401)
+    const constructionContent = readFileSync(join(dataPath, 'fashion-construction-methods.md'), 'utf-8')
+    const constructionChunks = this.chunkDocument(constructionContent, 'fashion-construction-methods.md', 'Fashion Construction Methods - Course 401', 'construction', '401')
+    
+    this.chunks = [...patternMakingChunks, ...illustratorChunks, ...drapingChunks, ...constructionChunks]
     this.isLoaded = true
     
-    console.log(`Loaded ${this.chunks.length} document chunks`)
+    console.log(`Loaded ${this.chunks.length} fashion course document chunks`)
   }
 
-  private chunkDocument(content: string, source: string, title: string): DocumentChunk[] {
+  private chunkDocument(content: string, source: string, title: string, type: DocumentChunk['metadata']['type'], courseNumber: string): DocumentChunk[] {
     const chunks: DocumentChunk[] = []
     const chunkSize = 1000
     const overlap = 200
@@ -50,6 +56,7 @@ export class KnowledgeBase {
     
     sections.forEach((section, sectionIndex) => {
       const sectionTitle = this.extractSectionTitle(section)
+      const moduleNumber = this.extractModuleNumber(section)
       const sectionContent = section.trim()
       
       if (sectionContent.length <= chunkSize) {
@@ -61,7 +68,9 @@ export class KnowledgeBase {
           section: sectionTitle,
           metadata: {
             title,
-            type: this.getDocumentType(source),
+            type,
+            courseNumber,
+            moduleNumber,
             length: sectionContent.length
           }
         })
@@ -76,7 +85,9 @@ export class KnowledgeBase {
             section: sectionTitle,
             metadata: {
               title,
-              type: this.getDocumentType(source),
+              type,
+              courseNumber,
+              moduleNumber,
               length: chunk.length
             }
           })
@@ -92,10 +103,14 @@ export class KnowledgeBase {
     return match ? match[1].trim() : 'Untitled Section'
   }
 
-  private getDocumentType(source: string): 'nextjs' | 'react' | 'troubleshooting' {
-    if (source.includes('nextjs')) return 'nextjs'
-    if (source.includes('react')) return 'react'
-    return 'troubleshooting'
+  private extractModuleNumber(section: string): string {
+    // Extract module number from section title like "Module 1.1: Introduction to Pattern Making"
+    const match = section.match(/^#{1,3}\s+Module\s+(\d+\.\d+):/m)
+    if (match) return match[1]
+    
+    // If no module found in title, check content for module references
+    const contentMatch = section.match(/Module\s+(\d+\.\d+)/m)
+    return contentMatch ? contentMatch[1] : 'General'
   }
 
   private splitTextIntoChunks(text: string, chunkSize: number, overlap: number): string[] {
@@ -131,33 +146,71 @@ export class KnowledgeBase {
     return this.chunks
   }
 
-  getChunksByType(type: 'nextjs' | 'react' | 'troubleshooting'): DocumentChunk[] {
+  getChunksByType(type: 'pattern-making' | 'illustrator-fashion' | 'draping' | 'construction'): DocumentChunk[] {
     return this.chunks.filter(chunk => chunk.metadata.type === type)
   }
 
+  getChunksByCourse(courseNumber: string): DocumentChunk[] {
+    return this.chunks.filter(chunk => chunk.metadata.courseNumber === courseNumber)
+  }
+
+  getChunksByModule(moduleNumber: string): DocumentChunk[] {
+    return this.chunks.filter(chunk => chunk.metadata.moduleNumber === moduleNumber)
+  }
+
+  searchChunksByContext(query: string, courseNumber?: string, moduleNumber?: string, limit: number = 10): DocumentChunk[] {
+    let filteredChunks = this.chunks
+
+    // Filter by course if specified
+    if (courseNumber) {
+      filteredChunks = filteredChunks.filter(chunk => chunk.metadata.courseNumber === courseNumber)
+    }
+
+    // Filter by module if specified
+    if (moduleNumber) {
+      filteredChunks = filteredChunks.filter(chunk => chunk.metadata.moduleNumber === moduleNumber)
+    }
+
+    // Perform search on filtered chunks
+    return this.searchInChunks(query, filteredChunks, limit)
+  }
+
   searchChunks(query: string, limit: number = 10): DocumentChunk[] {
+    return this.searchInChunks(query, this.chunks, limit)
+  }
+
+  private searchInChunks(query: string, chunks: DocumentChunk[], limit: number): DocumentChunk[] {
     const queryLower = query.toLowerCase()
     
-    // Simple text-based search for now (will be enhanced with vector search)
-    const scored = this.chunks.map(chunk => {
+    // Enhanced search with fashion-specific term scoring
+    const scored = chunks.map(chunk => {
       const contentLower = chunk.content.toLowerCase()
       const sectionLower = chunk.section.toLowerCase()
       
       let score = 0
       
       // Exact matches in section titles get high score
-      if (sectionLower.includes(queryLower)) score += 10
+      if (sectionLower.includes(queryLower)) score += 15
       
       // Matches in content
       const contentMatches = (contentLower.match(new RegExp(queryLower.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length
-      score += contentMatches * 2
+      score += contentMatches * 3
       
-      // Keyword matching
+      // Fashion-specific keyword matching with higher scores
       const queryWords = queryLower.split(/\s+/)
       queryWords.forEach(word => {
-        if (contentLower.includes(word)) score += 1
-        if (sectionLower.includes(word)) score += 2
+        // Higher scores for fashion technique terms
+        if (this.isFashionTechniqueTerm(word)) {
+          if (contentLower.includes(word)) score += 3
+          if (sectionLower.includes(word)) score += 5
+        } else {
+          if (contentLower.includes(word)) score += 1
+          if (sectionLower.includes(word)) score += 2
+        }
       })
+      
+      // Boost score for relevant course types
+      if (this.isRelevantCourseType(query, chunk.metadata.type)) score += 5
       
       return { chunk, score }
     })
@@ -167,6 +220,37 @@ export class KnowledgeBase {
       .sort((a, b) => b.score - a.score)
       .slice(0, limit)
       .map(item => item.chunk)
+  }
+
+  private isFashionTechniqueTerm(word: string): boolean {
+    const fashionTerms = [
+      'dart', 'seam', 'ease', 'draping', 'pattern', 'bias', 'grain', 'sleeve', 'bodice',
+      'illustrator', 'flat', 'sketch', 'color', 'palette', 'swatch', 'repeat',
+      'muslin', 'fitting', 'alteration', 'hem', 'zipper', 'button', 'collar',
+      'measurement', 'yardage', 'fabric', 'cutting', 'layout', 'notch'
+    ]
+    return fashionTerms.includes(word.toLowerCase())
+  }
+
+  private isRelevantCourseType(query: string, courseType: string): boolean {
+    const queryLower = query.toLowerCase()
+    
+    switch (courseType) {
+      case 'pattern-making':
+        return queryLower.includes('pattern') || queryLower.includes('measurement') || 
+               queryLower.includes('ease') || queryLower.includes('seam')
+      case 'illustrator-fashion':
+        return queryLower.includes('illustrator') || queryLower.includes('flat') || 
+               queryLower.includes('color') || queryLower.includes('sketch')
+      case 'draping':
+        return queryLower.includes('draping') || queryLower.includes('bias') || 
+               queryLower.includes('muslin') || queryLower.includes('form')
+      case 'construction':
+        return queryLower.includes('sewing') || queryLower.includes('construction') || 
+               queryLower.includes('fitting') || queryLower.includes('finish')
+      default:
+        return false
+    }
   }
 }
 

@@ -1,9 +1,16 @@
-# RAG Specialist Bot - Setup Guide
+# ELLU Studios Fashion Design Assistant - Setup Guide
+
+*Originally: RAG Specialist Bot - Technical Documentation Assistant*
 
 ## Prerequisites
 - Node.js 18+ and npm
-- OpenAI API key
+- OpenAI API key with billing configured
 - VS Code (recommended)
+
+## Project Evolution
+This project demonstrates RAG system flexibility through complete domain transformation:
+- **Phase 1-2**: Technical Documentation Assistant (Next.js/React)
+- **Phase 3**: Fashion Design Student Assistant (ELLU Studios courses)
 
 ## Quick Start
 
@@ -20,8 +27,8 @@ Create/update `.env.local` with your OpenAI API key:
 OPENAI_API_KEY=your_openai_api_key_here
 
 # Optional: App Configuration
-NEXT_PUBLIC_APP_NAME=RAG Specialist Bot
-NEXT_PUBLIC_APP_DESCRIPTION=A specialized chatbot for technical documentation
+NEXT_PUBLIC_APP_NAME=ELLU Studios Fashion Assistant
+NEXT_PUBLIC_APP_DESCRIPTION=Fashion design student support chatbot
 NODE_ENV=development
 ```
 
@@ -39,28 +46,47 @@ npm run dev
 
 Visit `http://localhost:3000` to see the chat interface.
 
-### 4. Test the Chat
+### 4. Test the Fashion Design Assistant
 Try these example queries:
-- "How do I create a Next.js app?"
-- "What's the difference between server and client components?"
-- "Help me optimize this React component for performance"
+- "How do I calculate fabric for a wrap dress?"
+- "Show me how to create darts properly"
+- "What's the difference between draping and flat pattern making?"
+- "Help me set up Illustrator for technical flats"
+- "Calculate measurements for a size 12 blouse with 3 inches of ease"
 
-## Current Features (Phase 1)
+### 5. Test Function Calling
+The assistant includes 3 specialized functions:
+- **Measurement Calculator**: "Calculate fabric needed for a fitted skirt"
+- **Technique Guide**: "Show me how to set sleeves step by step"
+- **Illustrator Help**: "How do I create a textile pattern repeat?"
 
-### ✅ Working Features
+## Current Features (All Phases Complete)
+
+### ✅ Phase 1: Foundation (Completed)
 - **Real-time Chat**: Professional chat interface with message history
 - **Error Handling**: Comprehensive error handling for API failures, network issues, rate limits
 - **Input Validation**: Message length limits, required field validation
 - **Loading States**: Animated loading indicators during API calls
 - **Responsive Design**: Mobile-friendly interface with Tailwind CSS
 - **Keyboard Shortcuts**: Enter to send, Shift+Enter for new line
-- **Specialized Assistant**: Focused on Next.js/React development help
 
-### 🔄 In Development (Phase 2)
-- **RAG System**: Knowledge base with Next.js/React documentation
-- **Vector Search**: Semantic search through documentation
-- **Source Citations**: References to original documentation
-- **Function Calling**: Code validation, component generation, docs search
+### ✅ Phase 2: Advanced RAG (Completed)
+- **RAG System**: Knowledge base with 4 fashion design courses
+- **Vector Search**: Semantic search through course documentation
+- **Source Citations**: References with course and module attribution
+- **Hybrid Search**: Combines vector similarity and text matching
+
+### ✅ Phase 3: Domain Transformation & Function Calling (Completed)
+- **Complete Domain Change**: From technical docs to fashion education
+- **Student Support System**: Educational prompts and guidance
+- **3 Fashion Functions**: Measurement calculator, technique guide, Illustrator help
+- **Course-Aware Interface**: Fashion-themed UI with course badges
+
+### 🎓 Current Domain: ELLU Studios Fashion Design Courses
+- **Course 101**: Pattern Making Fundamentals
+- **Course 201**: Adobe Illustrator for Fashion Design
+- **Course 301**: Draping Techniques  
+- **Course 401**: Fashion Construction Methods
 
 ## Troubleshooting
 
@@ -101,43 +127,131 @@ npm run lint
 
 # Check TypeScript types (add this script if missing)
 npm run typecheck
+
+# Run all tests
+npm test
+
+# Run tests in watch mode (development)
+npm run test:watch
+
+# Run tests with coverage analysis
+npm run test:coverage
+```
+
+## Testing Setup
+
+### Test Suite Overview
+The project includes a comprehensive automated test suite with 27 passing tests covering:
+
+- **API Route Tests**: Authentication, validation, and error handling
+- **Fashion Function Tests**: Measurement calculations and technique guidance
+- **Input Validation Tests**: Schema enforcement and security
+
+### Running Tests
+```bash
+# Run all tests once
+npm test
+
+# Development mode with automatic re-running
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+```
+
+### Test Structure
+```
+src/
+├── app/api/chat/__tests__/
+│   └── route.test.ts              # API endpoint testing
+├── lib/__tests__/
+│   ├── validation.test.ts         # Input validation testing
+│   └── fashion-functions-simple.test.ts  # Function testing
+└── jest.config.js                 # Jest configuration
+```
+
+### Adding New Tests
+1. Create test files with `.test.ts` or `.test.tsx` extension
+2. Place in `__tests__` directories alongside source files
+3. Use Jest and mocking for external dependencies
+4. Run `npm test` to verify new tests pass
 ```
 
 ## Project Structure
 ```
 rag-specialist-bot/
 ├── src/app/
-│   ├── api/chat/route.ts          # OpenAI chat endpoint
+│   ├── api/
+│   │   ├── chat/route.ts              # RAG + Function calling endpoint
+│   │   └── functions/route.ts         # Fashion function execution
 │   ├── components/
-│   │   └── ChatInterface.tsx      # Main chat UI
-│   ├── page.tsx                   # Home page
-│   ├── layout.tsx                 # App layout
-│   └── globals.css                # Global styles
-├── .env.local                     # Environment variables
-├── package.json                   # Dependencies
-├── PROJECT_ANALYSIS.md            # Project planning
-├── CLAUDE.md                      # Development memory
-└── SETUP.md                       # This file
+│   │   ├── ChatInterface.tsx          # Fashion-themed chat UI
+│   │   ├── SourceCitations.tsx        # Course-aware source display
+│   │   ├── MessageBubble.tsx          # Enhanced message display
+│   │   └── FunctionResults.tsx        # Function result display
+│   ├── page.tsx                       # Student assistant home
+│   ├── layout.tsx                     # Fashion-themed layout
+│   └── globals.css                    # Global styles
+├── lib/
+│   ├── rag-system.ts                  # Core RAG with fashion prompts
+│   ├── vector-store.ts                # Vector embeddings
+│   ├── knowledge-base.ts              # Fashion course management
+│   └── fashion-functions.ts           # Function implementations
+├── data/                              # Fashion course knowledge base
+│   ├── pattern-making-fundamentals.md    # Course 101 content
+│   ├── illustrator-fashion-design.md     # Course 201 content
+│   ├── draping-techniques.md             # Course 301 content
+│   └── fashion-construction-methods.md   # Course 401 content
+├── .env.local                         # Environment variables
+├── package.json                       # Dependencies
+├── PROJECT_ANALYSIS.md                # Project evolution analysis
+├── CLAUDE.md                          # Development memory
+└── SETUP.md                           # This file
 ```
 
 ## API Endpoints
 
 ### POST /api/chat
-**Purpose:** Main chat endpoint for user queries
+**Purpose:** Main chat endpoint with RAG retrieval and function calling
 
 **Request:**
 ```json
 {
-  "message": "How do I create a Next.js component?"
+  "message": "How do I calculate fabric for a wrap dress?"
 }
 ```
 
 **Response:**
 ```json
 {
-  "content": "To create a Next.js component...",
-  "sources": [],
-  "timestamp": "2025-01-28T10:00:00Z"
+  "content": "To calculate fabric for a wrap dress...",
+  "sources": [
+    {
+      "title": "Pattern Making Fundamentals - Course 101",
+      "section": "Fabric Calculations",
+      "type": "pattern-making",
+      "courseNumber": "101",
+      "moduleNumber": "1.3",
+      "excerpt": "For wrap dresses, calculate...",
+      "relevanceScore": 0.95
+    }
+  ],
+  "processingTime": 1250
+}
+```
+
+### POST /api/functions
+**Purpose:** Execute fashion-specific functions
+
+**Request:**
+```json
+{
+  "function": "calculate_measurements",
+  "parameters": {
+    "garmentType": "dress",
+    "measurements": {"bust": 36, "waist": 28, "hip": 38, "length": 42},
+    "ease": {"bust": 4, "waist": 2, "hip": 3}
+  }
 }
 ```
 
@@ -153,8 +267,8 @@ rag-specialist-bot/
 | Variable | Required | Description | Example |
 |----------|----------|-------------|---------|
 | `OPENAI_API_KEY` | Yes | OpenAI API key for chat completions | `sk-...` |
-| `NEXT_PUBLIC_APP_NAME` | No | App display name | `RAG Specialist Bot` |
-| `NEXT_PUBLIC_APP_DESCRIPTION` | No | App description | `AI chatbot for developers` |
+| `NEXT_PUBLIC_APP_NAME` | No | App display name | `ELLU Studios Fashion Assistant` |
+| `NEXT_PUBLIC_APP_DESCRIPTION` | No | App description | `Fashion design student support chatbot` |
 | `NODE_ENV` | No | Environment mode | `development` |
 
 ## Security Considerations
@@ -165,11 +279,11 @@ rag-specialist-bot/
 - ✅ **API Key Protection**: Server-side only, not exposed to client
 - ✅ **Request Validation**: Type checking with proper error responses
 
-### Future Security Enhancements (Phase 3)
-- Rate limiting per user/IP
-- Request logging and monitoring
-- Input sanitization for code examples
-- CORS configuration for production
+### Implemented Security Enhancements ✅
+- ✅ **Function Parameter Validation**: Zod schemas for all function inputs
+- ✅ **Educational Content Safety**: Curated fashion course content
+- ✅ **Function Call Validation**: Type-safe function parameter handling
+- ✅ **Domain-Specific Security**: Fashion education focused, no code execution
 
 ## Performance Considerations
 
@@ -179,19 +293,25 @@ rag-specialist-bot/
 - TypeScript for better development experience
 - Error boundaries to prevent crashes
 
-### Future Optimizations (Phase 2+)
-- Vector database caching
-- Response streaming for long responses
-- Conversation history persistence
-- Bundle optimization and code splitting
+### Implemented Optimizations ✅
+- ✅ **Vector Embeddings Caching**: In-memory vector storage for fast retrieval
+- ✅ **Hybrid Search**: Optimized combination of semantic and text search
+- ✅ **Efficient Chunking**: Smart 1000-character chunks with 200-character overlap
+- ✅ **Course-Aware Filtering**: Targeted retrieval by course and module
+- ✅ **Function Result Caching**: Optimized calculation and guidance functions
 
 ## Getting Help
 
-### Resources
+### Technical Resources
 - [Next.js Documentation](https://nextjs.org/docs)
 - [LangChain.js Documentation](https://js.langchain.com/)
 - [OpenAI API Documentation](https://platform.openai.com/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Zod Validation Documentation](https://zod.dev/)
+
+### Fashion Education Resources
+- [ELLU Studios](https://ellustudios.com) - Fashion design education inspiration
+- Course content covers pattern making, Adobe Illustrator, draping, and construction techniques
 
 ### Support
 - Check the browser console for errors
@@ -199,13 +319,42 @@ rag-specialist-bot/
 - Ensure environment variables are correctly set
 - Verify OpenAI account has sufficient credits
 
-## Next Steps
+## Next Steps & Testing
 
-Once you have the basic chat working:
+The complete system is ready for use! Try these activities:
 
-1. **Add your specific queries** to test the Next.js/React assistance
-2. **Review the code structure** in `src/app/components/ChatInterface.tsx`
-3. **Prepare for Phase 2** by reviewing the knowledge base requirements
-4. **Test error scenarios** by temporarily removing the API key
+### Fashion Design Queries
+1. **Test course-specific questions**: "How do I measure for a fitted bodice?"
+2. **Try technique guidance**: "Show me how to create French seams"
+3. **Ask about Illustrator**: "How do I set up artboards for fashion flats?"
 
-The foundation is solid and ready for RAG implementation!
+### Function Testing
+1. **Measurement Calculator**: 
+   ```
+   "Calculate fabric for a size 14 wrap dress with 3 inches ease"
+   ```
+
+2. **Technique Guide**: 
+   ```
+   "Give me step-by-step instructions for inserting an invisible zipper"
+   ```
+
+3. **Illustrator Help**: 
+   ```
+   "How do I create a seamless textile pattern in Illustrator?"
+   ```
+
+### Advanced Features to Explore
+- **Source Citations**: Notice how responses include course and module references
+- **Course Navigation**: See how the assistant understands course context
+- **Educational Support**: Experience student-focused guidance and encouragement
+
+### Development & Extension
+- **Code Structure**: Review the modular architecture in `/src/lib/`
+- **Knowledge Base**: Examine course content in `/src/data/`
+- **Function Implementation**: Study `/src/lib/fashion-functions.ts`
+- **Domain Adaptation**: Understand how the system was transformed from technical to fashion domain
+
+## Project Achievement
+
+This project demonstrates a complete RAG system transformation while maintaining technical excellence - a unique achievement in showing domain adaptability of well-architected AI systems!

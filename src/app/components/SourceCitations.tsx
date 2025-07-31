@@ -12,12 +12,14 @@ export default function SourceCitations({ sources }: SourceCitationsProps) {
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'nextjs':
-        return '⚡'
-      case 'react':
-        return '⚛️'
-      case 'troubleshooting':
-        return '🛠️'
+      case 'pattern-making':
+        return '📐'
+      case 'illustrator-fashion':
+        return '🎨'
+      case 'draping':
+        return '🧵'
+      case 'construction':
+        return '✂️'
       default:
         return '📚'
     }
@@ -25,12 +27,14 @@ export default function SourceCitations({ sources }: SourceCitationsProps) {
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'nextjs':
-        return 'bg-black text-white'
-      case 'react':
+      case 'pattern-making':
+        return 'bg-purple-600 text-white'
+      case 'illustrator-fashion':
+        return 'bg-pink-600 text-white'
+      case 'draping':
+        return 'bg-green-600 text-white'
+      case 'construction':
         return 'bg-blue-600 text-white'
-      case 'troubleshooting':
-        return 'bg-orange-600 text-white'
       default:
         return 'bg-gray-600 text-white'
     }
@@ -56,7 +60,10 @@ export default function SourceCitations({ sources }: SourceCitationsProps) {
                 <div className="flex items-center gap-1 mb-1">
                   <span className="text-sm">{getTypeIcon(source.type)}</span>
                   <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${getTypeColor(source.type)}`}>
-                    {source.type.toUpperCase()}
+                    Course {source.courseNumber}
+                  </span>
+                  <span className="px-1.5 py-0.5 rounded text-xs font-medium bg-gray-200 text-gray-700">
+                    Module {source.moduleNumber}
                   </span>
                   <span className="text-xs text-gray-500 ml-1">
                     {source.relevanceScore}

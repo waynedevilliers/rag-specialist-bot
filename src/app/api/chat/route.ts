@@ -4,12 +4,20 @@ import { ragSystem } from "@/lib/rag-system";
 export async function POST(req: NextRequest) {
   try {
     // Parse request body
-    const { message } = await req.json();
+    const { message, language = 'en' } = await req.json();
 
     // Validate input
     if (!message || typeof message !== "string") {
       return NextResponse.json(
         { error: "Message is required and must be a string" },
+        { status: 400 }
+      );
+    }
+
+    // Validate language
+    if (!['en', 'de'].includes(language)) {
+      return NextResponse.json(
+        { error: "Language must be 'en' or 'de'" },
         { status: 400 }
       );
     }
@@ -25,19 +33,20 @@ export async function POST(req: NextRequest) {
     if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json(
         { error: "OpenAI API key not configured" },
-        { status: 500 }
+        { status: 401 }
       );
     }
 
     // Use RAG system for enhanced responses
-    const ragResponse = await ragSystem.query(message);
+    const ragResponse = await ragSystem.query(message, language);
 
-    // Return the response with sources
+    // Return the response with sources and token usage
     return NextResponse.json({
       content: ragResponse.content,
       sources: ragResponse.sources,
       timestamp: new Date().toISOString(),
       processingTime: ragResponse.processingTime,
+      tokenUsage: ragResponse.tokenUsage,
     });
 
   } catch (error) {
