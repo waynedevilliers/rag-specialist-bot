@@ -24,7 +24,7 @@ describe("Fashion Functions", () => {
 
     it("rejects invalid garment types", () => {
       const invalidParams = {
-        garmentType: "invalid" as any,
+        garmentType: "invalid" as "dress" | "blouse" | "pants" | "skirt",
         measurements: { bust: 36 },
         fabricWidth: 45
       };
