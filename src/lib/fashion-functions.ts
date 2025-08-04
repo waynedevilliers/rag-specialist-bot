@@ -10,9 +10,9 @@ export const MeasurementCalculatorSchema = z.object({
     length: z.number().min(10).max(80).optional()
   }),
   ease: z.object({
-    bust: z.number().min(0).max(8).default(3),
-    waist: z.number().min(0).max(6).default(1.5),
-    hip: z.number().min(0).max(6).default(2.5)
+    bust: z.number().min(0).max(8).optional(),
+    waist: z.number().min(0).max(6).optional(),
+    hip: z.number().min(0).max(6).optional()
   }).optional(),
   seamAllowance: z.number().min(0.25).max(1.5).default(0.625), // 5/8" default
   fabricWidth: z.number().min(36).max(60).default(45) // inches

@@ -1,6 +1,7 @@
 import { ChatOpenAI } from '@langchain/openai'
 import { knowledgeBase } from './knowledge-base'
 import { vectorStore, VectorMatch } from './vector-store'
+import { ModelService, ModelConfig } from './model-service'
 
 // Circuit breaker state
 interface CircuitBreakerState {
@@ -48,6 +49,7 @@ export interface DocumentSource {
 
 export class RAGSystem {
   private llm: ChatOpenAI
+  private modelService: ModelService | null = null
   private isInitialized = false
   
   // Response cache
@@ -242,7 +244,7 @@ export class RAGSystem {
     }
   }
 
-  async query(userQuery: string, language: 'en' | 'de' = 'en'): Promise<RAGResponse> {
+  async query(userQuery: string, language: 'en' | 'de' = 'en', modelConfig?: ModelConfig): Promise<RAGResponse> {
     const startTime = Date.now()
     const queryHash = this.hashQuery(userQuery + language)
     
@@ -290,7 +292,7 @@ export class RAGSystem {
       
       // Step 3: Generate response with context and track tokens (with retry)
       const { response, tokenUsage } = await this.withRetry(
-        () => this.generateResponse(userQuery, relevantChunks, language),
+        () => this.generateResponse(userQuery, relevantChunks, language, modelConfig),
         3,
         1000
       )
@@ -419,7 +421,7 @@ export class RAGSystem {
     }
   }
 
-  private async generateResponse(query: string, relevantChunks: VectorMatch[], language: 'en' | 'de' = 'en'): Promise<{ response: string; tokenUsage: TokenUsage }> {
+  private async generateResponse(query: string, relevantChunks: VectorMatch[], language: 'en' | 'de' = 'en', modelConfig?: ModelConfig): Promise<{ response: string; tokenUsage: TokenUsage }> {
     const context = relevantChunks
       .map((match, index) => `[${index + 1}] ${match.chunk.section}: ${match.chunk.content}`)
       .join('\n\n')
@@ -479,23 +481,62 @@ Student Question: ${query}
 Provide a helpful, educational response that supports the student's learning. Reference specific course modules or techniques from the context when applicable. Remember, you're helping students who are actively learning these skills, so be encouraging and thorough in your explanations.`
 
     try {
-      const response = await this.llm.invoke(systemPrompt)
+      // Use ModelService if configured, otherwise fallback to LangChain
+      let response: unknown
+      let promptTokens = 0
+      let completionTokens = 0
+      let totalTokens = 0
+      let responseContent = ''
       
-      // Try multiple ways to extract token usage from LangChain response
-      let usage = null
-      if (response.response_metadata?.tokenUsage) {
-        usage = response.response_metadata.tokenUsage
-      } else if (response.usage_metadata) {
-        usage = response.usage_metadata
-      } else if (response.additional_kwargs?.usage) {
-        usage = response.additional_kwargs.usage
-      } else if (response.response_metadata?.usage) {
-        usage = response.response_metadata.usage
+      if (modelConfig && modelConfig.provider !== 'openai') {
+        // Use ModelService for non-OpenAI providers
+        const modelService = new ModelService(modelConfig)
+        const modelResponse = await modelService.generateResponse([
+          { role: 'system', content: systemPrompt }
+        ])
+        
+        responseContent = modelResponse.content
+        promptTokens = modelResponse.usage.promptTokens
+        completionTokens = modelResponse.usage.completionTokens
+        totalTokens = modelResponse.usage.totalTokens
+      } else {
+        // Use LangChain ChatOpenAI for OpenAI models
+        response = await this.llm.invoke(systemPrompt)
+        responseContent = (response as { content?: string; text?: string }).content || (response as { content?: string; text?: string }).text || ''
+        
+        // Try multiple ways to extract token usage from LangChain response
+        const langChainResponse = response as {
+          response_metadata?: { tokenUsage?: unknown; usage?: unknown };
+          usage_metadata?: unknown;
+          additional_kwargs?: { usage?: unknown };
+        };
+        
+        let usage = null
+        if (langChainResponse.response_metadata?.tokenUsage) {
+          usage = langChainResponse.response_metadata.tokenUsage
+        } else if (langChainResponse.usage_metadata) {
+          usage = langChainResponse.usage_metadata
+        } else if (langChainResponse.additional_kwargs?.usage) {
+          usage = langChainResponse.additional_kwargs.usage
+        } else if (langChainResponse.response_metadata?.usage) {
+          usage = langChainResponse.response_metadata.usage
+        }
+        
+        const usageObj = usage as { 
+          prompt_tokens?: number; 
+          input_tokens?: number; 
+          promptTokens?: number;
+          completion_tokens?: number;
+          output_tokens?: number;
+          completionTokens?: number;
+          total_tokens?: number;
+          totalTokens?: number;
+        } | null;
+        
+        promptTokens = usageObj?.prompt_tokens || usageObj?.input_tokens || usageObj?.promptTokens || 0
+        completionTokens = usageObj?.completion_tokens || usageObj?.output_tokens || usageObj?.completionTokens || 0
+        totalTokens = usageObj?.total_tokens || usageObj?.totalTokens || promptTokens + completionTokens
       }
-      
-      const promptTokens = usage?.prompt_tokens || usage?.input_tokens || usage?.promptTokens || 0
-      const completionTokens = usage?.completion_tokens || usage?.output_tokens || usage?.completionTokens || 0
-      const totalTokens = usage?.total_tokens || usage?.totalTokens || promptTokens + completionTokens
       
       // More accurate embedding token estimation
       const embeddingTokens = this.estimateTokensAccurately(context)
@@ -509,7 +550,7 @@ Provide a helpful, educational response that supports the student's learning. Re
       }
       
       return {
-        response: response.content as string,
+        response: responseContent,
         tokenUsage
       }
     } catch (error) {

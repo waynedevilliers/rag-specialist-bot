@@ -4,11 +4,11 @@ import { useState, useEffect } from "react";
 import { Send, Bot, User, Loader2, Download, FileText, FileSpreadsheet, FileImage, Zap, DollarSign, Globe, History } from "lucide-react";
 import SourceCitations from "./SourceCitations";
 import ConversationHistory from "./ConversationHistory";
+import ModelSelector from "./ModelSelector";
 import { DocumentSource } from "@/lib/rag-system";
 import { Language, t } from "@/lib/translations";
 import { ConversationManager, ConversationSession } from "@/lib/conversation-manager";
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import { ModelConfig } from "@/lib/model-service";
 
 // Format timestamp consistently for SSR compatibility
 function formatTime(date: Date): string {
@@ -82,6 +82,12 @@ export default function ChatInterface() {
   const [isClient, setIsClient] = useState(false);
   const [language, setLanguage] = useState<Language>('en');
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
+  const [modelConfig, setModelConfig] = useState<ModelConfig>({
+    provider: 'openai',
+    model: 'gpt-4o-mini',
+    temperature: 0.7,
+    maxTokens: 2000
+  });
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -101,7 +107,7 @@ export default function ChatInterface() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input, language }),
+        body: JSON.stringify({ message: input, language, modelConfig }),
       });
 
       if (!response.ok) {
@@ -258,99 +264,48 @@ export default function ChatInterface() {
     }
   }, [language, isClient]);
 
-  const exportAsJSON = () => {
-    const exportData = {
-      exportDate: new Date().toISOString(),
-      conversationLength: messages.length,
-      messages: messages.map(msg => ({
-        id: msg.id,
-        type: msg.type,
-        content: msg.content,
-        timestamp: msg.timestamp.toISOString(),
-        sources: msg.sources,
-        processingTime: msg.processingTime,
-        tokenUsage: msg.tokenUsage
-      }))
-    };
-
-    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `fashion-assistant-conversation-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    setShowExportMenu(false);
+  const exportAsJSON = async () => {
+    if (!currentSession) {
+      alert('No conversation to export');
+      return;
+    }
+    
+    try {
+      await ConversationManager.exportSession(currentSession.id, 'json');
+      setShowExportMenu(false);
+    } catch (error) {
+      console.error('Failed to export JSON:', error);
+      alert('Failed to export conversation. Please try again.');
+    }
   };
 
-  const exportAsCSV = () => {
-    const csvHeader = 'Type,Content,Timestamp,Processing Time (ms),Sources Count,Total Tokens,Total Cost ($)\n';
-    const csvRows = messages.map(msg => {
-      const content = msg.content.replace(/"/g, '""').replace(/\n/g, ' ');
-      const sourcesCount = msg.sources ? msg.sources.length : 0;
-      const totalTokens = msg.tokenUsage?.totalTokens || '';
-      const totalCost = msg.tokenUsage?.cost.totalCost.toFixed(5) || '';
-      return `"${msg.type}","${content}","${msg.timestamp.toISOString()}","${msg.processingTime || ''}","${sourcesCount}","${totalTokens}","${totalCost}"`;
-    }).join('\n');
-
-    const csvContent = csvHeader + csvRows;
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `fashion-assistant-conversation-${new Date().toISOString().split('T')[0]}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-    setShowExportMenu(false);
+  const exportAsCSV = async () => {
+    if (!currentSession) {
+      alert('No conversation to export');
+      return;
+    }
+    
+    try {
+      await ConversationManager.exportSession(currentSession.id, 'csv');
+      setShowExportMenu(false);
+    } catch (error) {
+      console.error('Failed to export CSV:', error);
+      alert('Failed to export conversation. Please try again.');
+    }
   };
 
   const exportAsPDF = async () => {
+    if (!currentSession) {
+      alert('No conversation to export');
+      return;
+    }
+    
     try {
-      const messagesContainer = document.getElementById('messages-container');
-      if (!messagesContainer) return;
-
-      const canvas = await html2canvas(messagesContainer, {
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#ffffff'
-      });
-
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210;
-      const pageHeight = 295;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      // Add title
-      pdf.setFontSize(16);
-      pdf.text('ELLU Studios Fashion Assistant Conversation', 20, 20);
-      pdf.setFontSize(10);
-      pdf.text(`Exported on: ${new Date().toLocaleString()}`, 20, 30);
-      
-      position = 40;
-      heightLeft = imgHeight;
-
-      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-
-      while (heightLeft >= 0) {
-        position = heightLeft - imgHeight;
-        pdf.addPage();
-        pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight;
-      }
-
-      pdf.save(`fashion-assistant-conversation-${new Date().toISOString().split('T')[0]}.pdf`);
+      await ConversationManager.exportSession(currentSession.id, 'pdf');
       setShowExportMenu(false);
     } catch (error) {
       console.error('Failed to export PDF:', error);
-      alert('Failed to export PDF. Please try again.');
+      alert('Failed to export conversation. Please try again.');
     }
   };
 
@@ -417,6 +372,12 @@ export default function ChatInterface() {
           </div>
           
           <div className="flex items-center gap-2">
+            {/* Model Selector */}
+            <ModelSelector
+              currentConfig={modelConfig}
+              onConfigChange={setModelConfig}
+            />
+            
             {/* History Panel Toggle */}
             <button
               onClick={() => setShowHistoryPanel(true)}

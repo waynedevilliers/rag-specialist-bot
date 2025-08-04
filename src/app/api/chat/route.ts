@@ -4,7 +4,7 @@ import { ragSystem } from "@/lib/rag-system";
 export async function POST(req: NextRequest) {
   try {
     // Parse request body
-    const { message, language = 'en' } = await req.json();
+    const { message, language = 'en', modelConfig } = await req.json();
 
     // Validate input
     if (!message || typeof message !== "string") {
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Use RAG system for enhanced responses
-    const ragResponse = await ragSystem.query(message, language);
+    const ragResponse = await ragSystem.query(message, language, modelConfig);
 
     // Return the response with sources and token usage
     return NextResponse.json({
