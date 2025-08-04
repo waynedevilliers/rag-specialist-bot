@@ -46,18 +46,18 @@ interface Message {
 function TokenUsageDisplay({ tokenUsage, language }: { tokenUsage: TokenUsage; language: Language }) {
   
   return (
-    <div className="mt-2 p-2 bg-gray-50 rounded-md text-xs space-y-1">
-      <div className="flex items-center gap-4 text-gray-600">
+    <div className="mt-2 p-2 bg-gradient-to-r from-rose-25 to-pink-25 border border-rose-100 rounded-md text-xs space-y-1">
+      <div className="flex items-center gap-4 text-rose-700">
         <div className="flex items-center gap-1">
-          <Zap className="w-3 h-3" />
+          <Zap className="w-3 h-3 text-rose-500" />
           <span>{t('tokens', language)}: {tokenUsage.totalTokens.toLocaleString()}</span>
         </div>
         <div className="flex items-center gap-1">
-          <DollarSign className="w-3 h-3" />
+          <DollarSign className="w-3 h-3 text-rose-500" />
           <span>{t('cost', language)}: ${tokenUsage.cost.totalCost.toFixed(5)}</span>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-2 text-gray-500">
+      <div className="grid grid-cols-2 gap-2 text-rose-600">
         <div>{t('prompt', language)}: {tokenUsage.promptTokens.toLocaleString()}</div>
         <div>{t('completion', language)}: {tokenUsage.completionTokens.toLocaleString()}</div>
         <div>{t('embedding', language)}: {tokenUsage.embeddingTokens?.toLocaleString() || '0'}</div>
@@ -350,11 +350,11 @@ export default function ChatInterface() {
       
       <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white">
       {/* Header */}
-      <div className="border-b border-gray-200 p-4">
+      <div className="border-b-2 border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50 p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <Bot className="w-6 h-6 text-blue-600" />
+            <div className="p-2 bg-gradient-to-br from-rose-100 to-pink-100 rounded-lg border-2 border-rose-200 shadow-sm">
+              <Bot className="w-6 h-6 text-rose-600" />
             </div>
             <div>
               <h1 className="text-xl font-semibold text-gray-900">{t('appTitle', language)}</h1>
@@ -381,9 +381,9 @@ export default function ChatInterface() {
             {/* History Panel Toggle */}
             <button
               onClick={() => setShowHistoryPanel(true)}
-              className="flex items-center gap-2 px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              className="flex items-center gap-2 px-3 py-2 text-sm bg-white hover:bg-rose-50 border border-rose-200 hover:border-rose-300 rounded-lg transition-colors shadow-sm"
             >
-              <History className="w-4 h-4" />
+              <History className="w-4 h-4 text-rose-600" />
               {t('conversationHistory', language)}
             </button>
             
@@ -391,19 +391,19 @@ export default function ChatInterface() {
             <div className="relative">
               <button
                 onClick={() => setShowLanguageMenu(!showLanguageMenu)}
-                className="flex items-center gap-2 px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+                className="flex items-center gap-2 px-3 py-2 text-sm bg-white hover:bg-rose-50 border border-rose-200 hover:border-rose-300 rounded-lg transition-colors shadow-sm"
               >
-                <Globe className="w-4 h-4" />
+                <Globe className="w-4 h-4 text-rose-600" />
                 {language === 'en' ? 'EN' : 'DE'}
               </button>
               
               {showLanguageMenu && (
-                <div className="absolute right-0 top-full mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+                <div className="absolute right-0 top-full mt-2 w-32 bg-white border-2 border-rose-200 rounded-lg shadow-lg z-10">
                   <div className="p-2">
                     <button
                       onClick={() => switchLanguage('en')}
                       className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md ${
-                        language === 'en' ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-100'
+                        language === 'en' ? 'bg-rose-100 text-rose-700 border border-rose-200' : 'hover:bg-rose-50'
                       }`}
                     >
                       English
@@ -411,7 +411,7 @@ export default function ChatInterface() {
                     <button
                       onClick={() => switchLanguage('de')}
                       className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md ${
-                        language === 'de' ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-100'
+                        language === 'de' ? 'bg-rose-100 text-rose-700 border border-rose-200' : 'hover:bg-rose-50'
                       }`}
                     >
                       Deutsch
@@ -425,35 +425,35 @@ export default function ChatInterface() {
             <div className="relative export-menu-container">
             <button
               onClick={() => setShowExportMenu(!showExportMenu)}
-              className="flex items-center gap-2 px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+              className="flex items-center gap-2 px-3 py-2 text-sm bg-white hover:bg-rose-50 border border-rose-200 hover:border-rose-300 rounded-lg transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={messages.length <= 1}
             >
-              <Download className="w-4 h-4" />
+              <Download className="w-4 h-4 text-rose-600" />
               {t('exportButton', language)}
             </button>
             
             {showExportMenu && (
-              <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10">
+              <div className="absolute right-0 top-full mt-2 w-48 bg-white border-2 border-rose-200 rounded-lg shadow-lg z-10">
                 <div className="p-2">
                   <button
                     onClick={exportAsJSON}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 rounded-md"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-rose-50 rounded-md"
                   >
-                    <FileText className="w-4 h-4" />
+                    <FileText className="w-4 h-4 text-rose-600" />
                     {t('exportAsJSON', language)}
                   </button>
                   <button
                     onClick={exportAsCSV}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 rounded-md"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-rose-50 rounded-md"
                   >
-                    <FileSpreadsheet className="w-4 h-4" />
+                    <FileSpreadsheet className="w-4 h-4 text-rose-600" />
                     {t('exportAsCSV', language)}
                   </button>
                   <button
                     onClick={exportAsPDF}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-gray-100 rounded-md"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-rose-50 rounded-md"
                   >
-                    <FileImage className="w-4 h-4" />
+                    <FileImage className="w-4 h-4 text-rose-600" />
                     {t('exportAsPDF', language)}
                   </button>
                   <hr className="my-2" />
@@ -479,8 +479,8 @@ export default function ChatInterface() {
             className={`flex gap-3 ${message.type === "user" ? "justify-end" : "justify-start"}`}
           >
             {message.type === "assistant" && (
-              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                <Bot className="w-4 h-4 text-blue-600" />
+              <div className="w-8 h-8 bg-gradient-to-br from-rose-100 to-pink-100 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-rose-200 shadow-sm">
+                <Bot className="w-4 h-4 text-rose-600" />
               </div>
             )}
             
@@ -488,8 +488,8 @@ export default function ChatInterface() {
               <div
                 className={`rounded-lg p-3 ${
                   message.type === "user"
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-900 border"
+                    ? "bg-blue-600 text-white border border-blue-500"
+                    : "bg-gradient-to-br from-rose-50 to-pink-50 text-gray-900 border-2 border-rose-200 shadow-sm"
                 }`}
               >
                 <div className="whitespace-pre-wrap">{message.content}</div>
@@ -522,11 +522,11 @@ export default function ChatInterface() {
         
         {isLoading && (
           <div className="flex gap-3 justify-start">
-            <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-              <Bot className="w-4 h-4 text-blue-600" />
+            <div className="w-8 h-8 bg-gradient-to-br from-rose-100 to-pink-100 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-rose-200 shadow-sm">
+              <Bot className="w-4 h-4 text-rose-600" />
             </div>
-            <div className="bg-gray-100 text-gray-900 border rounded-lg p-3 flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin" />
+            <div className="bg-gradient-to-br from-rose-50 to-pink-50 text-gray-900 border-2 border-rose-200 rounded-lg p-3 flex items-center gap-2 shadow-sm">
+              <Loader2 className="w-4 h-4 animate-spin text-rose-500" />
               <span>{t('processing', language)}</span>
             </div>
           </div>
@@ -534,26 +534,26 @@ export default function ChatInterface() {
       </div>
 
       {/* Input */}
-      <div className="border-t border-gray-200 p-4">
+      <div className="border-t-2 border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50 p-4">
         <div className="flex gap-2">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder={t('inputPlaceholder', language)}
-            className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+            className="flex-1 p-3 border-2 border-rose-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 resize-none bg-white shadow-sm"
             rows={1}
             disabled={isLoading}
           />
           <button
             onClick={sendMessage}
             disabled={isLoading || !input.trim()}
-            className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+            className="px-4 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-lg hover:from-rose-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-sm border border-rose-300 transition-all duration-200"
           >
             <Send className="w-4 h-4" />
           </button>
         </div>
-        <div className="text-xs text-gray-500 mt-2">
+        <div className="text-xs text-rose-600 mt-2">
           {t('keyboardHint', language)}
         </div>
       </div>

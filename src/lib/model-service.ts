@@ -86,42 +86,150 @@ export class ModelService {
   }
 
   private async generateAnthropicResponse(messages: ChatMessage[]): Promise<ModelResponse> {
-    // Placeholder for Anthropic Claude integration
-    // This would require @anthropic-ai/sdk when dependencies allow
-    try {
-      // For now, fallback to OpenAI with a note about the provider switch
-      console.log('Anthropic provider requested, falling back to OpenAI');
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) {
+      console.log('Anthropic API key not found, falling back to OpenAI');
       const openAIResponse = await this.generateOpenAIResponse(messages);
-      
-      // Add a note about the fallback
       return {
         ...openAIResponse,
-        content: `[Note: Claude model unavailable, using OpenAI fallback]\n\n${openAIResponse.content}`,
-        provider: 'anthropic', // Keep the requested provider for UI purposes
+        content: `[Note: Claude API key not configured, using OpenAI fallback]\n\n${openAIResponse.content}`,
+        provider: 'anthropic',
+      };
+    }
+
+    try {
+      // Convert messages for Anthropic format
+      const systemMessage = messages.find(m => m.role === 'system')?.content || '';
+      const conversationMessages = messages.filter(m => m.role !== 'system').map(msg => ({
+        role: msg.role === 'assistant' ? 'assistant' : 'user',
+        content: msg.content
+      }));
+
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: this.config.model || 'claude-3-5-sonnet-20241022',
+          max_tokens: this.config.maxTokens || 2000,
+          temperature: this.config.temperature || 0.7,
+          system: systemMessage,
+          messages: conversationMessages
+        })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Anthropic API error:', errorText);
+        throw new Error(`Anthropic API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      return {
+        content: data.content[0]?.text || 'No response generated',
+        usage: {
+          promptTokens: data.usage?.input_tokens || 0,
+          completionTokens: data.usage?.output_tokens || 0,
+          totalTokens: (data.usage?.input_tokens || 0) + (data.usage?.output_tokens || 0),
+        },
+        model: data.model || this.config.model || 'claude-3-5-sonnet-20241022',
+        provider: 'anthropic',
       };
     } catch (error) {
       console.error('Anthropic API error:', error);
-      throw new Error('Failed to generate Anthropic response');
+      // Fallback to OpenAI on error
+      const openAIResponse = await this.generateOpenAIResponse(messages);
+      return {
+        ...openAIResponse,
+        content: `[Note: Claude API error, using OpenAI fallback]\n\n${openAIResponse.content}`,
+        provider: 'anthropic',
+      };
     }
   }
 
   private async generateGeminiResponse(messages: ChatMessage[]): Promise<ModelResponse> {
-    // Placeholder for Google Gemini integration
-    // This would require @google/generative-ai when dependencies allow
-    try {
-      // For now, fallback to OpenAI with a note about the provider switch
-      console.log('Gemini provider requested, falling back to OpenAI');
+    const apiKey = process.env.GOOGLE_API_KEY;
+    if (!apiKey) {
+      console.log('Google API key not found, falling back to OpenAI');
       const openAIResponse = await this.generateOpenAIResponse(messages);
-      
-      // Add a note about the fallback
       return {
         ...openAIResponse,
-        content: `[Note: Gemini model unavailable, using OpenAI fallback]\n\n${openAIResponse.content}`,
-        provider: 'gemini', // Keep the requested provider for UI purposes
+        content: `[Note: Gemini API key not configured, using OpenAI fallback]\n\n${openAIResponse.content}`,
+        provider: 'gemini',
+      };
+    }
+
+    try {
+      // Convert messages for Gemini format
+      const systemInstruction = messages.find(m => m.role === 'system')?.content || '';
+      const conversationMessages = messages.filter(m => m.role !== 'system');
+      
+      // Gemini expects alternating user/model messages
+      const contents = conversationMessages.map(msg => ({
+        role: msg.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: msg.content }]
+      }));
+
+      const modelName = this.config.model || 'gemini-1.5-flash';
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+
+      const requestBody: any = {
+        contents,
+        generationConfig: {
+          temperature: this.config.temperature || 0.7,
+          maxOutputTokens: this.config.maxTokens || 2000,
+        }
+      };
+
+      if (systemInstruction) {
+        requestBody.systemInstruction = {
+          parts: [{ text: systemInstruction }]
+        };
+      }
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Gemini API error:', errorText);
+        throw new Error(`Gemini API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      if (!data.candidates || !data.candidates[0]?.content?.parts[0]?.text) {
+        throw new Error('No response generated from Gemini');
+      }
+      
+      return {
+        content: data.candidates[0].content.parts[0].text,
+        usage: {
+          promptTokens: data.usageMetadata?.promptTokenCount || 0,
+          completionTokens: data.usageMetadata?.candidatesTokenCount || 0,
+          totalTokens: data.usageMetadata?.totalTokenCount || 0,
+        },
+        model: modelName,
+        provider: 'gemini',
       };
     } catch (error) {
       console.error('Gemini API error:', error);
-      throw new Error('Failed to generate Gemini response');
+      // Fallback to OpenAI on error
+      const openAIResponse = await this.generateOpenAIResponse(messages);
+      return {
+        ...openAIResponse,
+        content: `[Note: Gemini API error, using OpenAI fallback]\n\n${openAIResponse.content}`,
+        provider: 'gemini',
+      };
     }
   }
 
