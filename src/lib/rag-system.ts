@@ -492,7 +492,8 @@ Provide a helpful, educational response that supports the student's learning. Re
         // Use ModelService for non-OpenAI providers
         const modelService = new ModelService(modelConfig)
         const modelResponse = await modelService.generateResponse([
-          { role: 'system', content: systemPrompt }
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: query }
         ])
         
         responseContent = modelResponse.content

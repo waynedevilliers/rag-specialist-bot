@@ -51,12 +51,18 @@ export async function POST(req: NextRequest) {
 
   } catch (error) {
     console.error("Chat API error:", error);
+    console.error("Error details:", {
+      name: error instanceof Error ? error.name : 'Unknown',
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+      modelConfig
+    });
 
     // Handle different types of errors
     if (error instanceof Error) {
       if (error.message.includes("API key")) {
         return NextResponse.json(
-          { error: "Invalid API key configuration" },
+          { error: "Invalid API key configuration", details: error.message },
           { status: 401 }
         );
       }
@@ -72,6 +78,14 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(
           { error: "Request timeout. Please try again." },
           { status: 408 }
+        );
+      }
+
+      // Return the actual error message in development
+      if (process.env.NODE_ENV === 'development') {
+        return NextResponse.json(
+          { error: "Development error", details: error.message },
+          { status: 500 }
         );
       }
     }
