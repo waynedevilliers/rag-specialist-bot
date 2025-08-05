@@ -177,7 +177,19 @@ export class ModelService {
       const modelName = this.config.model || 'gemini-1.5-flash';
       const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
 
-      const requestBody: any = {
+      const requestBody: {
+        contents: Array<{
+          role: string;
+          parts: Array<{ text: string }>;
+        }>;
+        generationConfig: {
+          temperature: number;
+          maxOutputTokens: number;
+        };
+        systemInstruction?: {
+          parts: Array<{ text: string }>;
+        };
+      } = {
         contents,
         generationConfig: {
           temperature: this.config.temperature || 0.7,

@@ -1,5 +1,5 @@
 import { DocumentSource } from '@/lib/rag-system'
-import { BookOpen, ExternalLink, Tag } from 'lucide-react'
+import { BookOpen, ExternalLink } from 'lucide-react'
 
 interface SourceCitationsProps {
   sources: DocumentSource[]

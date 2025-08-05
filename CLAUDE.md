@@ -114,12 +114,40 @@ All functions must include:
 - **API Issues**: Verify OpenAI API key and billing status
 - **Fashion Functions**: Check parameter validation and Zod schemas
 
+## Sub-Agent Architecture
+
+### Active Coordination Structure
+- **Status Tracking**: `.claude/status.md` - Daily progress updates from all agents
+- **Agent State**: `.claude/agent-state.json` - Current sprint priorities and coordination
+- **Handoff Requests**: `.claude/handoffs/` - Cross-agent communication and requests
+- **Session Management**: `.claude/sessions/` - Agent-specific session configurations
+
+### Agent Specializations
+- **Lead Agent** (Current): Coordination, architecture decisions, git management, integration
+- **RAG/AI Specialist**: Vector embeddings, model optimization, RAG pipeline performance  
+- **Frontend Specialist**: React components, UI/UX, conversation management (planned)
+- **API Specialist**: Route optimization, fashion functions, error handling (planned)
+- **Testing Specialist**: Coverage expansion, performance testing, validation (planned)
+
+### Coordination Protocols
+1. **Daily Sync**: Lead agent reviews `.claude/status.md` and coordinates priorities
+2. **Handoff Communication**: Agents create requests in `.claude/handoffs/` for cross-agent needs
+3. **Git Strategy**: Lead agent handles all commits and merges; specialists work in focused branches
+4. **Session Management**: Each agent maintains focused context without interference
+
+### Current Sprint: AI Performance Optimization
+- **Priority 1**: RAG system optimization and vector embedding efficiency
+- **Priority 2**: Multi-model response quality improvement  
+- **Priority 3**: Performance monitoring and caching implementation
+- **Target**: 30% performance improvement by 2025-08-06
+
 ## Recent Architectural Decisions
 - **2024-08-04**: Completed domain transformation from technical docs to fashion education
 - **2024-08-04**: Implemented comprehensive test suite with 27 passing tests
 - **2024-08-04**: Added multi-model support with fallback mechanisms
 - **2024-08-04**: Enhanced export capabilities with PDF/CSV/JSON formats
 - **2024-08-04**: Configured Vercel deployment with production scaling
+- **2024-08-04**: Established sub-agent coordination architecture for specialized development
 
 ## Session End Checklist
 - [ ] Code changes committed with descriptive messages

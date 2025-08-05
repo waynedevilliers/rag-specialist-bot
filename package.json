@@ -27,6 +27,11 @@
     "react-dom": "19.1.0",
     "zod": "3.23.8"
   },
+  "overrides": {
+    "@browserbasehq/stagehand": {
+      "openai": "$openai"
+    }
+  },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
