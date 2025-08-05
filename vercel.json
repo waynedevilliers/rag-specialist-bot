@@ -1,21 +1,10 @@
 {
   "version": 2,
-  "name": "ellu-fashion-assistant",
-  "alias": ["ellu-fashion-assistant"],
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
   "functions": {
     "src/app/api/*/route.ts": {
       "memory": 512,
       "maxDuration": 30
     }
-  },
-  "env": {
-    "OPENAI_API_KEY": "@openai-api-key"
   },
   "regions": ["iad1"],
   "github": {

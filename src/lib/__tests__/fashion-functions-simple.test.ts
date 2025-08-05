@@ -1,8 +1,6 @@
 import { 
   FashionFunctions,
-  MeasurementCalculatorSchema,
-  TechniqueGuideSchema,
-  IllustratorHelpSchema
+  MeasurementCalculatorSchema
 } from "../fashion-functions";
 
 describe("Fashion Functions", () => {

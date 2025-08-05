@@ -341,7 +341,7 @@ export class FashionFunctions {
    * Provide Adobe Illustrator guidance for fashion design tasks
    */
   static getIllustratorHelp(params: z.infer<typeof IllustratorHelpSchema>): IllustratorHelpResult {
-    const { task, toolPreference, outputType, complexity } = params
+    const { task, outputType, complexity } = params
     
     const illustratorDatabase: Record<string, IllustratorHelpResult> = {
       technical_flat: {

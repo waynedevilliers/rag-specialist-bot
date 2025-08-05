@@ -54,8 +54,7 @@ export async function POST(req: NextRequest) {
     console.error("Error details:", {
       name: error instanceof Error ? error.name : 'Unknown',
       message: error instanceof Error ? error.message : String(error),
-      stack: error instanceof Error ? error.stack : undefined,
-      modelConfig
+      stack: error instanceof Error ? error.stack : undefined
     });
 
     // Handle different types of errors

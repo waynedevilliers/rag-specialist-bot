@@ -16,8 +16,8 @@ export async function POST(req: NextRequest) {
     });
 
     const messages = [
-      { role: 'system', content: 'You are a helpful fashion design assistant.' },
-      { role: 'user', content: message }
+      { role: 'system' as const, content: 'You are a helpful fashion design assistant.' },
+      { role: 'user' as const, content: message }
     ];
 
     console.log('Calling ModelService...');
