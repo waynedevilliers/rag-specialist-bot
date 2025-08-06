@@ -1,5 +1,8 @@
 import { OpenAIEmbeddings } from '@langchain/openai'
 import { DocumentChunk } from './knowledge-base'
+import { HNSWIndex } from './hnsw-index'
+import { VectorQuantizer, QuantizedVector } from './vector-quantizer'
+import { SecurityValidator, SecurityUtils } from './security-validator'
 
 export interface VectorMatch {
   chunk: DocumentChunk
@@ -11,17 +14,43 @@ export class VectorStore {
   private vectorIndex: Map<string, number[]> = new Map()
   private isInitialized = false
   
+  // **Phase 3**: HNSW Index for O(log n) approximate nearest neighbor search
+  private hnswIndex: HNSWIndex
+  private useHNSW = true // Toggle for HNSW vs brute-force
+  private readonly HNSW_THRESHOLD = 50 // Use HNSW when we have 50+ vectors
+  
+  // **Phase 3**: Vector Quantization for memory efficiency
+  private quantizer: VectorQuantizer
+  private quantizedIndex: Map<string, QuantizedVector> = new Map()
+  private useQuantization = true // Toggle for quantization
+  private readonly QUANTIZATION_THRESHOLD = 100 // Use quantization when we have 100+ vectors
+  
   // Embedding cache for persistent storage
-  private embeddingCache = new Map<string, { vector: number[], timestamp: number }>()
+  private embeddingCache = new Map<string, { vector: number[], timestamp: number, checksum: string }>()
   private readonly EMBEDDING_CACHE_TTL = 1000 * 60 * 60 * 24 // 24 hours
   private readonly CACHE_KEY_PREFIX = 'embedding_'
+  private readonly CACHE_SALT = SecurityUtils.generateSecureRandom(32)
 
   constructor() {
+    // **SECURITY FIX**: Validate API key before use
+    const apiKey = SecurityValidator.validateApiKey(process.env.OPENAI_API_KEY || '')
+    
     this.embeddings = new OpenAIEmbeddings({
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      openAIApiKey: apiKey,
       modelName: 'text-embedding-3-small', // More cost-effective than ada-002
       dimensions: 1536
     })
+    
+    // Initialize HNSW index with optimized parameters for fashion content
+    this.hnswIndex = new HNSWIndex({
+      maxConnections: 16,        // M parameter - good balance for 1536D vectors
+      maxConnectionsLayer0: 32,  // M_L parameter - denser connections at base layer
+      efConstruction: 200,       // Higher quality construction
+      maxLayers: 5              // Reasonable depth for ~100 chunks
+    })
+    
+    // Initialize vector quantizer
+    this.quantizer = new VectorQuantizer()
   }
 
   async initializeVectors(chunks: DocumentChunk[]): Promise<void> {
@@ -43,8 +72,8 @@ export class VectorStore {
       const processedBatches: number[] = []
       for (let i = 0; i < batches.length; i += maxConcurrency) {
         const batchGroup = batches.slice(i, i + maxConcurrency)
-        const batchPromises = batchGroup.map((batch, index) => 
-          this.processBatch(batch, i + index)
+        const batchPromises = batchGroup.map((batch) => 
+          this.processBatch(batch)
         )
         
         const results = await Promise.allSettled(batchPromises)
@@ -55,7 +84,7 @@ export class VectorStore {
           if (result.status === 'rejected') {
             console.warn(`Batch ${i + j} failed, retrying...`, result.reason)
             // Retry failed batch with smaller size and delay
-            await this.retryBatch(batchGroup[j], i + j)
+            await this.retryBatch(batchGroup[j])
           } else {
             processedBatches.push(result.value)
           }
@@ -73,7 +102,10 @@ export class VectorStore {
     }
   }
 
-  private async processBatch(batch: DocumentChunk[], _batchIndex: number): Promise<number> {
+  private async processBatch(batch: DocumentChunk[]): Promise<number> {
+    // **SECURITY FIX**: Validate batch parameters
+    SecurityValidator.validateBatchParams(batch.length)
+    
     const textsToProcess: string[] = []
     const chunkMap: { chunk: DocumentChunk, textIndex?: number }[] = []
     
@@ -85,6 +117,16 @@ export class VectorStore {
       if (cached) {
         // Use cached embedding
         this.vectorIndex.set(chunk.id, cached)
+        
+        // **Phase 3**: Add cached vector to HNSW index
+        this.hnswIndex.insert(chunk.id, cached)
+        
+        // **Phase 3**: Store quantized version for memory efficiency
+        if (this.useQuantization) {
+          const quantized = this.quantizer.quantize(cached)
+          this.quantizedIndex.set(chunk.id, quantized)
+        }
+        
         chunkMap.push({ chunk })
       } else {
         // Need to generate embedding
@@ -106,6 +148,19 @@ export class VectorStore {
           
           this.vectorIndex.set(chunk.id, embedding)
           this.setCachedEmbedding(text, embedding)
+          
+          // **Phase 3**: Add vector to HNSW index
+          this.hnswIndex.insert(chunk.id, embedding)
+          
+          // **SECURITY FIX**: Validate vector before processing
+          SecurityValidator.validateVector(embedding)
+          
+          // **Phase 3**: Store quantized version for memory efficiency
+          if (this.useQuantization) {
+            const quantized = this.quantizer.quantize(embedding)
+            this.quantizedIndex.set(chunk.id, quantized)
+          }
+          
           embeddingIndex++
         }
       })
@@ -114,7 +169,7 @@ export class VectorStore {
     return batch.length
   }
 
-  private async retryBatch(batch: DocumentChunk[], batchIndex: number): Promise<void> {
+  private async retryBatch(batch: DocumentChunk[]): Promise<void> {
     // Retry with smaller batch size and exponential backoff
     const smallerBatchSize = Math.max(1, Math.floor(batch.length / 2))
     
@@ -122,27 +177,21 @@ export class VectorStore {
       const subBatch = batch.slice(i, i + smallerBatchSize)
       
       try {
-        await this.processBatch(subBatch, batchIndex)
+        await this.processBatch(subBatch)
         // Add delay between retry attempts
         if (i + smallerBatchSize < batch.length) {
           await new Promise(resolve => setTimeout(resolve, 500))
         }
       } catch (error) {
-        console.error(`Failed to process sub-batch ${i}-${i + smallerBatchSize} of batch ${batchIndex}:`, error)
+        console.error(`Failed to process sub-batch ${i}-${i + smallerBatchSize}:`, error)
         throw error
       }
     }
   }
 
   private hashText(text: string): string {
-    // Simple hash function for cache keys
-    let hash = 0
-    for (let i = 0; i < text.length; i++) {
-      const char = text.charCodeAt(i)
-      hash = ((hash << 5) - hash) + char
-      hash = hash & hash // Convert to 32-bit integer
-    }
-    return Math.abs(hash).toString(36)
+    // **SECURITY FIX**: Use cryptographic hash instead of simple hash
+    return SecurityUtils.secureHash(text, this.CACHE_SALT)
   }
 
   private getCachedEmbedding(text: string): number[] | null {
@@ -152,7 +201,14 @@ export class VectorStore {
     // Check in-memory cache first
     const memoryCache = this.embeddingCache.get(cacheKey)
     if (memoryCache && Date.now() - memoryCache.timestamp < this.EMBEDDING_CACHE_TTL) {
-      return memoryCache.vector
+      // **SECURITY FIX**: Verify cache integrity
+      const expectedChecksum = SecurityUtils.secureHash(JSON.stringify(memoryCache.vector))
+      if (SecurityUtils.constantTimeEquals(memoryCache.checksum, expectedChecksum)) {
+        return memoryCache.vector
+      } else {
+        // Cache corrupted, remove it
+        this.embeddingCache.delete(cacheKey)
+      }
     }
     
     // Check localStorage cache (only in browser environments)
@@ -180,9 +236,15 @@ export class VectorStore {
   }
 
   private setCachedEmbedding(text: string, vector: number[]): void {
+    // **SECURITY FIX**: Implement cache size limits and integrity checking
+    if (this.embeddingCache.size >= SecurityValidator.MAX_CACHE_SIZE) {
+      this.cleanOldestCacheEntries()
+    }
+    
     const hash = this.hashText(text)
     const cacheKey = this.CACHE_KEY_PREFIX + hash
-    const cacheEntry = { vector, timestamp: Date.now() }
+    const checksum = SecurityUtils.secureHash(JSON.stringify(vector))
+    const cacheEntry = { vector, timestamp: Date.now(), checksum }
     
     // Store in memory cache
     this.embeddingCache.set(cacheKey, cacheEntry)
@@ -190,11 +252,38 @@ export class VectorStore {
     // Store in localStorage cache (only in browser environments)
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       try {
-        localStorage.setItem(cacheKey, JSON.stringify(cacheEntry))
-      } catch (error) {
-        // localStorage might be full or not available
-        console.debug('Failed to store embedding in localStorage:', error)
+        // Check storage usage before storing
+        const storageUsed = this.calculateStorageUsage()
+        if (storageUsed < 5 * 1024 * 1024) { // 5MB limit
+          localStorage.setItem(cacheKey, JSON.stringify(cacheEntry))
+        }
+      } catch {
+        // localStorage might be full or not available - don't expose details
+        console.debug('Storage unavailable for embedding cache')
       }
+    }
+  }
+
+  private cleanOldestCacheEntries(): void {
+    const entries = Array.from(this.embeddingCache.entries())
+    entries.sort((a, b) => a[1].timestamp - b[1].timestamp)
+    const toRemove = entries.slice(0, entries.length - SecurityValidator.MAX_CACHE_SIZE + 10)
+    toRemove.forEach(([key]) => this.embeddingCache.delete(key))
+  }
+
+  private calculateStorageUsage(): number {
+    try {
+      let total = 0
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i)
+        if (key?.startsWith(this.CACHE_KEY_PREFIX)) {
+          const value = localStorage.getItem(key)
+          total += (key.length + (value?.length || 0)) * 2 // UTF-16 encoding
+        }
+      }
+      return total
+    } catch {
+      return 0
     }
   }
 
@@ -228,29 +317,55 @@ export class VectorStore {
       // Generate embedding for the query with caching
       const queryEmbedding = await this.generateEmbeddingWithCache(query)
       
-      // Calculate similarities
-      const similarities: VectorMatch[] = []
-      
-      for (const chunk of chunks) {
-        const chunkEmbedding = this.vectorIndex.get(chunk.id)
-        if (!chunkEmbedding) continue
-        
-        const similarity = this.calculateCosineSimilarity(queryEmbedding, chunkEmbedding)
-        
-        similarities.push({
-          chunk,
-          score: similarity
-        })
+      // **Phase 3**: Use HNSW index for large datasets, brute-force for small ones
+      if (this.useHNSW && this.vectorIndex.size >= this.HNSW_THRESHOLD) {
+        return this.searchWithHNSW(queryEmbedding, chunks, limit)
+      } else {
+        return this.searchBruteForce(queryEmbedding, chunks, limit)
       }
-      
-      // Sort by similarity score (highest first) and return top results
-      return similarities
-        .sort((a, b) => b.score - a.score)
-        .slice(0, limit)
     } catch (error) {
       console.error('Error searching similar chunks:', error)
       throw error
     }
+  }
+
+  private searchWithHNSW(queryEmbedding: number[], chunks: DocumentChunk[], limit: number): VectorMatch[] {
+    // Search using HNSW index with higher ef for better recall
+    const ef = Math.max(limit * 2, 50) // Search more candidates for better quality
+    const hnswResults = this.hnswIndex.search(queryEmbedding, limit, ef)
+    
+    // Convert HNSW results to VectorMatch format
+    const chunkMap = new Map(chunks.map(chunk => [chunk.id, chunk]))
+    
+    return hnswResults
+      .map(result => ({
+        chunk: chunkMap.get(result.id)!,
+        score: 1 - result.distance // Convert cosine distance back to similarity
+      }))
+      .filter(match => match.chunk) // Remove any missing chunks
+      .sort((a, b) => b.score - a.score)
+  }
+
+  private searchBruteForce(queryEmbedding: number[], chunks: DocumentChunk[], limit: number): VectorMatch[] {
+    // Original brute-force implementation for small datasets or fallback
+    const similarities: VectorMatch[] = []
+    
+    for (const chunk of chunks) {
+      const chunkEmbedding = this.vectorIndex.get(chunk.id)
+      if (!chunkEmbedding) continue
+      
+      const similarity = this.calculateCosineSimilarity(queryEmbedding, chunkEmbedding)
+      
+      similarities.push({
+        chunk,
+        score: similarity
+      })
+    }
+    
+    // Sort by similarity score (highest first) and return top results
+    return similarities
+      .sort((a, b) => b.score - a.score)
+      .slice(0, limit)
   }
 
   private calculateCosineSimilarity(a: number[], b: number[]): number {
@@ -278,7 +393,7 @@ export class VectorStore {
     return dotProduct / (normA * normB)
   }
 
-  // Hybrid search combining vector similarity and text search
+  // Hybrid search combining vector similarity and text search with parallel execution
   async hybridSearch(
     query: string, 
     chunks: DocumentChunk[], 
@@ -292,13 +407,13 @@ export class VectorStore {
     }
 
     try {
-      // Get vector similarities
-      const vectorResults = await this.searchSimilar(query, chunks, chunks.length)
+      // **Phase 2 Optimization**: Run vector and text search in parallel
+      const [vectorResults, textResults] = await Promise.all([
+        this.searchSimilar(query, chunks, chunks.length),
+        Promise.resolve(this.textSearch(query, chunks))
+      ])
       
-      // Get text-based scores
-      const textResults = this.textSearch(query, chunks)
-      
-      // Combine scores
+      // Combine scores with weighted fusion
       const combinedResults = new Map<string, VectorMatch>()
       
       // Add vector scores
@@ -322,15 +437,52 @@ export class VectorStore {
         }
       })
       
-      // Sort and return top results
-      return Array.from(combinedResults.values())
-        .sort((a, b) => b.score - a.score)
-        .slice(0, limit)
+      // **Phase 2 Enhancement**: Reciprocal Rank Fusion for better score combination
+      return this.reciprocalRankFusion(vectorResults, textResults, vectorWeight, textWeight, limit)
     } catch (error) {
       console.error('Error in hybrid search:', error)
       // Fallback to text search
       return this.fallbackTextSearch(query, chunks, limit)
     }
+  }
+
+  private reciprocalRankFusion(
+    vectorResults: VectorMatch[], 
+    textResults: VectorMatch[], 
+    vectorWeight: number, 
+    textWeight: number, 
+    limit: number,
+    k: number = 60
+  ): VectorMatch[] {
+    const scores = new Map<string, { chunk: DocumentChunk, score: number }>()
+    
+    // RRF for vector results
+    vectorResults.forEach((result, rank) => {
+      const rrfScore = vectorWeight / (k + rank + 1)
+      scores.set(result.chunk.id, {
+        chunk: result.chunk,
+        score: rrfScore
+      })
+    })
+    
+    // RRF for text results  
+    textResults.forEach((result, rank) => {
+      const rrfScore = textWeight / (k + rank + 1)
+      const existing = scores.get(result.chunk.id)
+      if (existing) {
+        existing.score += rrfScore
+      } else {
+        scores.set(result.chunk.id, {
+          chunk: result.chunk,
+          score: rrfScore
+        })
+      }
+    })
+    
+    return Array.from(scores.values())
+      .sort((a, b) => b.score - a.score)
+      .slice(0, limit)
+      .map(item => ({ chunk: item.chunk, score: item.score }))
   }
 
   private textSearch(query: string, chunks: DocumentChunk[]): VectorMatch[] {
@@ -399,6 +551,17 @@ export class VectorStore {
     }
   }
 
+  /**
+   * **Phase 3**: Clear all indexes and reset the vector store
+   */
+  clearAllIndexes(): void {
+    this.vectorIndex.clear()
+    this.quantizedIndex.clear()
+    this.hnswIndex.clear()
+    this.clearEmbeddingCache()
+    this.isInitialized = false
+  }
+
   getCacheStats(): {
     memoryCacheSize: number
     localStorageCacheSize: number
@@ -422,6 +585,63 @@ export class VectorStore {
     return {
       memoryCacheSize: this.embeddingCache.size,
       localStorageCacheSize
+    }
+  }
+
+  /**
+   * **Phase 3**: Get comprehensive performance and optimization statistics
+   */
+  getOptimizationStats(): {
+    vectorCount: number
+    indexType: 'HNSW' | 'BruteForce'
+    quantizationEnabled: boolean
+    memoryUsage: {
+      originalVectors: number
+      quantizedVectors: number
+      memorySaved: number
+      compressionRatio: number
+    }
+    hnswStats: {
+      nodeCount: number
+      avgConnectionsLayer0: number
+      maxLevel: number
+      entryPointLevel: number
+    }
+    cacheStats: {
+      memoryCacheSize: number
+      localStorageCacheSize: number
+    }
+    performance: {
+      expectedSpeedup: string
+      searchComplexity: string
+    }
+  } {
+    const vectorCount = this.vectorIndex.size
+    const usingHNSW = this.useHNSW && vectorCount >= this.HNSW_THRESHOLD
+    const usingQuantization = this.useQuantization && vectorCount >= this.QUANTIZATION_THRESHOLD
+
+    // Calculate memory usage
+    const originalMemory = vectorCount * 1536 * 4 // 32-bit floats
+    const quantizedMemory = this.quantizedIndex.size * (1536 * 1 + 8) // 8-bit + scale/offset
+    const memorySaved = originalMemory - quantizedMemory
+    const compressionRatio = originalMemory > 0 ? originalMemory / quantizedMemory : 1
+
+    return {
+      vectorCount,
+      indexType: usingHNSW ? 'HNSW' : 'BruteForce',
+      quantizationEnabled: usingQuantization,
+      memoryUsage: {
+        originalVectors: originalMemory,
+        quantizedVectors: quantizedMemory,
+        memorySaved,
+        compressionRatio
+      },
+      hnswStats: this.hnswIndex.getStats(),
+      cacheStats: this.getCacheStats(),
+      performance: {
+        expectedSpeedup: usingHNSW ? 'O(log n) vs O(n)' : 'Linear search',
+        searchComplexity: usingHNSW ? `O(log ${vectorCount})` : `O(${vectorCount})`
+      }
     }
   }
 

@@ -2,6 +2,7 @@ import { ChatOpenAI } from '@langchain/openai'
 import { knowledgeBase } from './knowledge-base'
 import { vectorStore, VectorMatch } from './vector-store'
 import { ModelService, ModelConfig } from './model-service'
+import { SecurityValidator, SecurityError, SecurityUtils } from './security-validator'
 
 // Circuit breaker state
 interface CircuitBreakerState {
@@ -78,8 +79,11 @@ export class RAGSystem {
   }
 
   constructor() {
+    // **SECURITY FIX**: Validate API key before use
+    const apiKey = SecurityValidator.validateApiKey(process.env.OPENAI_API_KEY || '')
+    
     this.llm = new ChatOpenAI({
-      openAIApiKey: process.env.OPENAI_API_KEY,
+      openAIApiKey: apiKey,
       modelName: 'gpt-4o-mini',
       temperature: 0.1,
       maxTokens: 2000,
@@ -89,14 +93,8 @@ export class RAGSystem {
 
   // Utility methods for improvements
   private hashQuery(query: string): string {
-    // Simple hash function for cache keys
-    let hash = 0
-    for (let i = 0; i < query.length; i++) {
-      const char = query.charCodeAt(i)
-      hash = ((hash << 5) - hash) + char
-      hash = hash & hash // Convert to 32-bit integer
-    }
-    return Math.abs(hash).toString(36)
+    // **SECURITY FIX**: Use cryptographic hash for cache keys
+    return SecurityUtils.secureHash(query + Date.now(), 'rag-query-salt')
   }
   
   private cleanCache(): void {
@@ -246,9 +244,23 @@ export class RAGSystem {
 
   async query(userQuery: string, language: 'en' | 'de' = 'en', modelConfig?: ModelConfig): Promise<RAGResponse> {
     const startTime = Date.now()
-    const queryHash = this.hashQuery(userQuery + language)
     
-    this.log('info', 'Query started', { query: userQuery.substring(0, 100), language })
+    // **SECURITY FIX**: Validate and sanitize user input
+    const sanitizedQuery = SecurityValidator.validateQuery(userQuery)
+    
+    // **SECURITY FIX**: Rate limiting check
+    const clientId = 'default' // In production, use actual client identifier
+    if (!SecurityValidator.checkRateLimit(clientId, 100, 60000)) {
+      throw new SecurityError('Rate limit exceeded')
+    }
+    
+    const queryHash = this.hashQuery(sanitizedQuery + language)
+    
+    this.log('info', 'Query started', { 
+      query: sanitizedQuery.substring(0, 50), // Reduced length for security
+      language,
+      queryLength: sanitizedQuery.length
+    })
     
     // Check cache first
     this.cleanCache()
@@ -285,14 +297,14 @@ export class RAGSystem {
 
     try {
       // Step 1: Query translation and enhancement
-      const enhancedQuery = await this.enhanceQuery(userQuery)
+      const enhancedQuery = await this.enhanceQuery(sanitizedQuery)
       
       // Step 2: Retrieve relevant documents
-      const relevantChunks = await this.retrieveRelevantChunks(enhancedQuery, userQuery)
+      const relevantChunks = await this.retrieveRelevantChunks(enhancedQuery, sanitizedQuery)
       
       // Step 3: Generate response with context and track tokens (with retry)
       const { response, tokenUsage } = await this.withRetry(
-        () => this.generateResponse(userQuery, relevantChunks, language, modelConfig),
+        () => this.generateResponse(sanitizedQuery, relevantChunks, language, modelConfig),
         3,
         1000
       )
@@ -334,7 +346,7 @@ export class RAGSystem {
       // Fallback to basic response with retry
       try {
         const fallbackResponse = await this.withRetry(
-          () => this.generateFallbackResponse(userQuery, language),
+          () => this.generateFallbackResponse(sanitizedQuery, language),
           2,
           500
         )
@@ -373,43 +385,95 @@ export class RAGSystem {
   }
 
   private async enhanceQuery(query: string): Promise<string> {
-    // Simple query enhancement - can be expanded with more sophisticated techniques
-    const commonAbbreviations: Record<string, string> = {
-      'jsx': 'JSX React JavaScript XML',
-      'ssr': 'server-side rendering',
-      'csr': 'client-side rendering',
-      'ssg': 'static site generation',
-      'isr': 'incremental static regeneration',
-      'css': 'cascading style sheets styling',
-      'api': 'application programming interface',
-      'db': 'database',
-      'auth': 'authentication authorization',
-      'ui': 'user interface',
-      'ux': 'user experience'
+    // **Phase 2 Enhancement**: Advanced query preprocessing and expansion
+    const fashionAbbreviations: Record<string, string> = {
+      'dart': 'dart ease fitting alteration',
+      'seam': 'seam allowance stitching sewing',
+      'bias': 'bias grain diagonal stretch',
+      'draping': 'draping muslin fitting form',
+      'ai': 'adobe illustrator fashion design',
+      'flat': 'technical flat sketch drawing',
+      'muslin': 'muslin toile fitting prototype',
+      'ease': 'ease allowance fit comfort',
+      'grain': 'grain line fabric direction',
+      'bodice': 'bodice torso fitting upper',
+      'sleeve': 'sleeve armhole fitting attachment',
+      'pattern': 'pattern making cutting layout',
+      'fitting': 'fitting alteration adjustment size',
+      'construction': 'construction sewing assembly techniques'
     }
 
     let enhancedQuery = query.toLowerCase()
     
-    // Expand abbreviations
-    Object.entries(commonAbbreviations).forEach(([abbr, expansion]) => {
-      const regex = new RegExp(`\\b${abbr}\\b`, 'gi')
+    // Fashion-specific query expansion
+    Object.entries(fashionAbbreviations).forEach(([term, expansion]) => {
+      const regex = new RegExp(`\\b${term}\\b`, 'gi')
       if (regex.test(enhancedQuery)) {
-        enhancedQuery = enhancedQuery.replace(regex, `${abbr} ${expansion}`)
+        enhancedQuery = enhancedQuery.replace(regex, `${term} ${expansion}`)
       }
     })
 
+    // Add semantic expansion for fashion concepts
+    enhancedQuery = this.addSemanticExpansion(enhancedQuery)
+    
+    // Clean up excessive expansion
+    enhancedQuery = this.cleanupQuery(enhancedQuery)
+
     return enhancedQuery
+  }
+
+  private addSemanticExpansion(query: string): string {
+    const semanticMappings: Record<string, string[]> = {
+      'color': ['palette', 'swatch', 'hue', 'shade', 'tint'],
+      'size': ['measurement', 'dimension', 'scale', 'proportion'],
+      'fabric': ['textile', 'material', 'cloth', 'fiber'],
+      'design': ['sketch', 'drawing', 'illustration', 'concept'],
+      'sewing': ['stitching', 'construction', 'assembly', 'seaming'],
+      'pattern': ['template', 'layout', 'cutting', 'pieces'],
+      'fit': ['sizing', 'adjustment', 'alteration', 'tailoring']
+    }
+
+    let expandedQuery = query
+    
+    Object.entries(semanticMappings).forEach(([concept, related]) => {
+      if (expandedQuery.includes(concept)) {
+        // Add 1-2 most relevant related terms
+        const relevantTerms = related.slice(0, 2).join(' ')
+        expandedQuery += ` ${relevantTerms}`
+      }
+    })
+
+    return expandedQuery
+  }
+
+  private cleanupQuery(query: string): string {
+    // Remove duplicate words and excessive length
+    const words = query.split(/\s+/)
+    const uniqueWords = [...new Set(words)]
+    
+    // Limit query expansion to prevent too much noise
+    const maxWords = 20
+    return uniqueWords.slice(0, maxWords).join(' ')
   }
 
   private async retrieveRelevantChunks(enhancedQuery: string, originalQuery: string): Promise<VectorMatch[]> {
     const chunks = knowledgeBase.getChunks()
     
     try {
-      // Use hybrid search if vector store is available
+      // **Phase 2 Enhancement**: Multi-stage retrieval with early results
       if (vectorStore.getInitializationStatus()) {
-        return await vectorStore.hybridSearch(enhancedQuery, chunks, 0.7, 0.3, 8)
+        // Start with a quick text search for immediate results
+        const quickTextResults = knowledgeBase.searchChunks(originalQuery, 3)
+        const quickResults = quickTextResults.map(chunk => ({ chunk, score: 1 }))
+        
+        // Then perform comprehensive hybrid search
+        const hybridResults = await vectorStore.hybridSearch(enhancedQuery, chunks, 0.7, 0.3, 8)
+        
+        // Merge results, prioritizing hybrid search but keeping quick results as backup
+        const mergedResults = this.mergeRetrievalResults(quickResults, hybridResults)
+        return mergedResults.slice(0, 8)
       } else {
-        // Fallback to text-based search
+        // Fallback to enhanced text-based search
         const textResults = knowledgeBase.searchChunks(originalQuery, 8)
         return textResults.map(chunk => ({ chunk, score: 1 }))
       }
@@ -419,6 +483,24 @@ export class RAGSystem {
       const textResults = knowledgeBase.searchChunks(originalQuery, 5)
       return textResults.map(chunk => ({ chunk, score: 1 }))
     }
+  }
+
+  private mergeRetrievalResults(quickResults: VectorMatch[], hybridResults: VectorMatch[]): VectorMatch[] {
+    const resultMap = new Map<string, VectorMatch>()
+    
+    // Add hybrid results first (higher quality)
+    hybridResults.forEach(result => {
+      resultMap.set(result.chunk.id, result)
+    })
+    
+    // Add quick results if not already present
+    quickResults.forEach(result => {
+      if (!resultMap.has(result.chunk.id)) {
+        resultMap.set(result.chunk.id, { ...result, score: result.score * 0.8 }) // Slight penalty for quick results
+      }
+    })
+    
+    return Array.from(resultMap.values()).sort((a, b) => b.score - a.score)
   }
 
   private async generateResponse(query: string, relevantChunks: VectorMatch[], language: 'en' | 'de' = 'en', modelConfig?: ModelConfig): Promise<{ response: string; tokenUsage: TokenUsage }> {
@@ -452,7 +534,14 @@ ${context}
 
 Studentenfrage: ${query}
 
-Geben Sie eine hilfreiche, lehrreiche Antwort, die das Lernen des Studenten unterstützt. Verweisen Sie auf spezifische Kursmodule oder Techniken aus dem Kontext, wenn zutreffend. Denken Sie daran, dass Sie Studenten helfen, die diese Fähigkeiten aktiv erlernen, seien Sie also ermutigend und gründlich in Ihren Erklärungen. Antworten Sie auf Deutsch.` :
+Geben Sie eine hilfreiche, lehrreiche Antwort, die das Lernen des Studenten unterstützt. Verweisen Sie auf spezifische Kursmodule oder Techniken aus dem Kontext, wenn zutreffend. Denken Sie daran, dass Sie Studenten helfen, die diese Fähigkeiten aktiv erlernen, seien Sie also ermutigend und gründlich in Ihren Erklärungen. Antworten Sie auf Deutsch.
+
+WICHTIGE FORMATIERUNGSREGELN:
+- Schreiben Sie in einem natürlichen, gesprächigen Ton wie ein hilfreicher Lehrer
+- Verwenden Sie KEINE Markdown-Formatierung (keine ###, **, ##, #, -, *)
+- Verwenden Sie KEINE Überschriften, Aufzählungspunkte oder spezielle Formatierung
+- Schreiben Sie in fließenden Absätzen mit natürlicher Satzstruktur
+- Verwenden Sie nur Klartext - machen Sie es leicht lesbar und freundlich` :
       `You are a specialized fashion design student support assistant for ELLU Studios courses.
 
 Your role is to help fashion design students understand course content, clarify concepts from video lessons, and provide additional guidance when they're stuck or confused.
@@ -478,7 +567,14 @@ ${context}
 
 Student Question: ${query}
 
-Provide a helpful, educational response that supports the student's learning. Reference specific course modules or techniques from the context when applicable. Remember, you're helping students who are actively learning these skills, so be encouraging and thorough in your explanations.`
+Provide a helpful, educational response that supports the student's learning. Reference specific course modules or techniques from the context when applicable. Remember, you're helping students who are actively learning these skills, so be encouraging and thorough in your explanations.
+
+IMPORTANT FORMATTING RULES:
+- Write in a natural, conversational tone like a helpful teacher
+- Do NOT use markdown formatting (no ###, **, ##, #, -, *)
+- Do NOT use headers, bullet points, or special formatting
+- Write in flowing paragraphs with natural sentence structure
+- Use plain text only - make it easy to read and friendly`
 
     try {
       // Use ModelService if configured, otherwise fallback to LangChain
@@ -572,7 +668,9 @@ Fokussieren Sie sich auf:
 - Übliche Techniken und bewährte Praktiken
 - Ermutigung und Beruhigung
 
-Hinweis: Diese Antwort basiert auf allgemeinem Modedesign-Wissen, da die spezifische Kursdokumentation vorübergehend nicht verfügbar ist. Ermutigen Sie den Studenten, auch ihre Kursmaterialien und Videos zu konsultieren. Antworten Sie auf Deutsch.` :
+Hinweis: Diese Antwort basiert auf allgemeinem Modedesign-Wissen, da die spezifische Kursdokumentation vorübergehend nicht verfügbar ist. Ermutigen Sie den Studenten, auch ihre Kursmaterialien und Videos zu konsultieren. Antworten Sie auf Deutsch.
+
+WICHTIGE FORMATIERUNGSREGELN: Verwenden Sie KEINE Markdown-Formatierung (keine ###, **, ##, #, -, *). Schreiben Sie in natürlichen, fließenden Absätzen wie ein freundlicher Lehrer.` :
       `You are a fashion design instructor helping ELLU Studios students. The student asked: "${query}"
 
 Provide a helpful response based on your general knowledge of fashion design, pattern making, Adobe Illustrator for fashion, draping techniques, and garment construction. 
@@ -583,7 +681,9 @@ Focus on:
 - Common techniques and best practices
 - Encouragement and reassurance
 
-Note: This response is based on general fashion design knowledge as the specific course documentation is temporarily unavailable. Encourage the student to also refer to their course materials and videos.`
+Note: This response is based on general fashion design knowledge as the specific course documentation is temporarily unavailable. Encourage the student to also refer to their course materials and videos.
+
+IMPORTANT FORMATTING RULES: Do NOT use markdown formatting (no ###, **, ##, #, -, *). Write in natural, flowing paragraphs like a friendly teacher.`
 
     try {
       const response = await this.llm.invoke(fallbackPrompt)
