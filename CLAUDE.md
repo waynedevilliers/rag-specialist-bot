@@ -61,6 +61,7 @@ npm run deploy:preview # Deploy preview
 - Greeting detection for efficient responses
 - Natural language formatting (no markdown)
 - LangSmith tracing and observability
+- Enhanced chat interface with auto-scroll and collapsible sources
 
 ### Recent Major Improvements (2025-08-06)
 - **Performance Enhancements**: 33% total performance improvement through HNSW indexing, vector quantization, and parallel processing
@@ -69,6 +70,7 @@ npm run deploy:preview # Deploy preview
 - **Natural Formatting**: Removed markdown formatting for conversational responses
 - **Expanded Knowledge Base**: Added German technical drawing course content
 - **LangSmith Integration**: Complete tracing and observability for RAG operations
+- **UI/UX Improvements**: Auto-scroll to bot responses, collapsible source citations, vertical chat borders
 
 ## Performance & Optimization Features
 - **HNSW Indexing**: O(log n) vector search complexity vs O(n) brute force
