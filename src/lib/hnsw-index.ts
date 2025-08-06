@@ -324,6 +324,57 @@ export class HNSWIndex {
     this.entryPoint = null
   }
 
+  /**
+   * Remove a node from the index
+   */
+  remove(id: string): boolean {
+    const node = this.nodes.get(id)
+    if (!node) {
+      return false // Node doesn't exist
+    }
+
+    try {
+      // Remove connections from this node to other nodes
+      for (const [layer, connections] of node.connections.entries()) {
+        for (const connId of connections) {
+          const connectedNode = this.nodes.get(connId)
+          if (connectedNode) {
+            // Remove reverse connection
+            const reverseConnections = connectedNode.connections.get(layer)
+            if (reverseConnections) {
+              reverseConnections.delete(id)
+            }
+          }
+        }
+      }
+
+      // Remove the node itself
+      this.nodes.delete(id)
+
+      // Update entry point if necessary
+      if (this.entryPoint === id) {
+        // Find a new entry point (node with highest level)
+        let newEntryPoint: string | null = null
+        let maxLevel = -1
+
+        for (const [nodeId, node] of this.nodes.entries()) {
+          const nodeLevel = Math.max(...Array.from(node.connections.keys()))
+          if (nodeLevel > maxLevel) {
+            maxLevel = nodeLevel
+            newEntryPoint = nodeId
+          }
+        }
+
+        this.entryPoint = newEntryPoint
+      }
+
+      return true
+    } catch (error) {
+      console.error(`Error removing node ${id} from HNSW index:`, error)
+      return false
+    }
+  }
+
   getStats(): {
     nodeCount: number
     avgConnectionsLayer0: number

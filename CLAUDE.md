@@ -3,14 +3,14 @@
 ## Project Context
 - **Name**: RAG Specialist Bot - ELLU Studios Fashion Assistant
 - **Type**: Next.js 15 Full-Stack Application
-- **Tech Stack**: React 19, TypeScript, Tailwind CSS, LangChain, OpenAI API
+- **Tech Stack**: React 19, TypeScript, Tailwind CSS, LangChain, OpenAI API, LangSmith
 - **Current Phase**: Production-Ready with Performance & Security Optimizations
 
 ## Session Startup Protocol
 1. Run: `git status` and review recent commits
 2. Check: Current branch and any pending work  
 3. Review: Development priorities and active features
-4. Confirm: OpenAI API key is configured in `.env.local`
+4. Confirm: OpenAI API key and LangSmith tracing are configured in `.env.local`
 
 ## Standard Commands
 ```bash
@@ -60,6 +60,7 @@ npm run deploy:preview # Deploy preview
 - Comprehensive security framework
 - Greeting detection for efficient responses
 - Natural language formatting (no markdown)
+- LangSmith tracing and observability
 
 ### Recent Major Improvements (2025-08-06)
 - **Performance Enhancements**: 33% total performance improvement through HNSW indexing, vector quantization, and parallel processing
@@ -67,6 +68,7 @@ npm run deploy:preview # Deploy preview
 - **Smart Response Handling**: Greeting detection to avoid unnecessary RAG calls
 - **Natural Formatting**: Removed markdown formatting for conversational responses
 - **Expanded Knowledge Base**: Added German technical drawing course content
+- **LangSmith Integration**: Complete tracing and observability for RAG operations
 
 ## Performance & Optimization Features
 - **HNSW Indexing**: O(log n) vector search complexity vs O(n) brute force
