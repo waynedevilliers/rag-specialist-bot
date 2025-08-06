@@ -6,6 +6,7 @@ A sophisticated AI-powered fashion design student assistant built with Next.js, 
 ![React](https://img.shields.io/badge/React-19.1.0-blue?logo=react)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)
 ![LangChain](https://img.shields.io/badge/LangChain-0.3.30-green)
+![LangSmith](https://img.shields.io/badge/LangSmith-Latest-orange)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.0-38bdf8?logo=tailwind-css)
 
 ## Key Features
@@ -45,6 +46,7 @@ A sophisticated AI-powered fashion design student assistant built with Next.js, 
 - **Framework**: Next.js 15 with App Router
 - **Frontend**: React 19, TypeScript, Tailwind CSS  
 - **AI/ML**: LangChain, OpenAI API, Vector Embeddings
+- **Observability**: LangSmith tracing and monitoring
 - **Search**: HNSW indexing, Vector quantization, Semantic search
 - **Security**: Custom validation framework with comprehensive protections
 - **Testing**: Jest with 30+ tests including security validation
@@ -67,7 +69,12 @@ cd rag-specialist-bot
 npm install
 
 # Set up environment variables
-echo "OPENAI_API_KEY=your_openai_api_key_here" > .env.local
+cat > .env.local << EOF
+OPENAI_API_KEY=your_openai_api_key_here
+LANGSMITH_API_KEY=your_langsmith_api_key_here
+LANGSMITH_PROJECT=your_project_name
+LANGSMITH_TRACING=true
+EOF
 
 # Run development server
 npm run dev
