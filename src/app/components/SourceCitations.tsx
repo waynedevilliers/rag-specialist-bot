@@ -13,15 +13,15 @@ export default function SourceCitations({ sources }: SourceCitationsProps) {
   const getTypeIcon = (type: string) => {
     switch (type) {
       case 'pattern-making':
-        return '📐'
+        return 'P'
       case 'illustrator-fashion':
-        return '🎨'
+        return 'I'
       case 'draping':
-        return '🧵'
+        return 'D'
       case 'construction':
-        return '✂️'
+        return 'C'
       default:
-        return '📚'
+        return 'M'
     }
   }
 
