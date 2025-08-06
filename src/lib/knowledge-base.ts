@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs'
-import { join } from 'path'
+import { join, resolve } from 'path'
+import { SecurityValidator, SecurityError } from './security-validator'
 
 export interface DocumentChunk {
   id: string
@@ -22,25 +23,49 @@ export class KnowledgeBase {
   async loadDocuments(): Promise<void> {
     if (this.isLoaded) return
 
-    const dataPath = join(process.cwd(), 'src', 'data')
+    // **SECURITY FIX**: Validate and secure file paths
+    const dataPath = resolve(process.cwd(), 'src', 'data')
     
-    // Load Pattern Making Fundamentals (Course 101)
-    const patternMakingContent = readFileSync(join(dataPath, 'pattern-making-fundamentals.md'), 'utf-8')
-    const patternMakingChunks = this.chunkDocument(patternMakingContent, 'pattern-making-fundamentals.md', 'Pattern Making Fundamentals - Course 101', 'pattern-making', '101')
+    // Whitelist of allowed files
+    const allowedFiles = [
+      'pattern-making-fundamentals.md',
+      'illustrator-fashion-design.md', 
+      'draping-techniques.md',
+      'fashion-construction-methods.md',
+      'technische-modezeichnung.md'
+    ]
     
-    // Load Illustrator for Fashion Design (Course 201)
-    const illustratorContent = readFileSync(join(dataPath, 'illustrator-fashion-design.md'), 'utf-8')
-    const illustratorChunks = this.chunkDocument(illustratorContent, 'illustrator-fashion-design.md', 'Adobe Illustrator for Fashion Design - Course 201', 'illustrator-fashion', '201')
+    const courseConfigs = [
+      { file: 'pattern-making-fundamentals.md', title: 'Pattern Making Fundamentals - Course 101', type: 'pattern-making' as const, courseNumber: '101' },
+      { file: 'illustrator-fashion-design.md', title: 'Adobe Illustrator for Fashion Design - Course 201', type: 'illustrator-fashion' as const, courseNumber: '201' },
+      { file: 'draping-techniques.md', title: 'Draping Techniques - Course 301', type: 'draping' as const, courseNumber: '301' },
+      { file: 'fashion-construction-methods.md', title: 'Fashion Construction Methods - Course 401', type: 'construction' as const, courseNumber: '401' },
+      { file: 'technische-modezeichnung.md', title: 'Technische Modezeichnung mit Adobe Illustrator - Course 202', type: 'illustrator-fashion' as const, courseNumber: '202' }
+    ]
     
-    // Load Draping Techniques (Course 301)
-    const drapingContent = readFileSync(join(dataPath, 'draping-techniques.md'), 'utf-8')
-    const drapingChunks = this.chunkDocument(drapingContent, 'draping-techniques.md', 'Draping Techniques - Course 301', 'draping', '301')
+    const allChunks: DocumentChunk[] = []
     
-    // Load Fashion Construction Methods (Course 401)
-    const constructionContent = readFileSync(join(dataPath, 'fashion-construction-methods.md'), 'utf-8')
-    const constructionChunks = this.chunkDocument(constructionContent, 'fashion-construction-methods.md', 'Fashion Construction Methods - Course 401', 'construction', '401')
+    for (const config of courseConfigs) {
+      try {
+        // Validate file path security
+        const filePath = join(dataPath, config.file)
+        SecurityValidator.validateFilePath(filePath, dataPath)
+        
+        if (!allowedFiles.includes(config.file)) {
+          throw new SecurityError(`File not in whitelist: ${config.file}`)
+        }
+        
+        const content = readFileSync(filePath, 'utf-8')
+        const chunks = this.chunkDocument(content, config.file, config.title, config.type, config.courseNumber)
+        allChunks.push(...chunks)
+        
+      } catch (error) {
+        console.error(`Failed to load ${config.file}:`, error instanceof SecurityError ? error.message : 'Unknown error')
+        // Continue loading other files
+      }
+    }
     
-    this.chunks = [...patternMakingChunks, ...illustratorChunks, ...drapingChunks, ...constructionChunks]
+    this.chunks = allChunks
     this.isLoaded = true
     
     console.log(`Loaded ${this.chunks.length} fashion course document chunks`)
@@ -48,8 +73,6 @@ export class KnowledgeBase {
 
   private chunkDocument(content: string, source: string, title: string, type: DocumentChunk['metadata']['type'], courseNumber: string): DocumentChunk[] {
     const chunks: DocumentChunk[] = []
-    const chunkSize = 1000
-    const overlap = 200
     
     // Split by sections (headers)
     const sections = content.split(/(?=^#{1,3}\s)/gm).filter(section => section.trim())
@@ -59,11 +82,13 @@ export class KnowledgeBase {
       const moduleNumber = this.extractModuleNumber(section)
       const sectionContent = section.trim()
       
-      if (sectionContent.length <= chunkSize) {
-        // Section fits in one chunk
+      // Use semantic-aware chunking with dynamic sizing
+      const sectionChunks = this.semanticChunking(sectionContent, sectionTitle, type)
+      
+      sectionChunks.forEach((chunk, chunkIndex) => {
         chunks.push({
-          id: `${source}-${sectionIndex}-0`,
-          content: sectionContent,
+          id: `${source}-${sectionIndex}-${chunkIndex}`,
+          content: chunk,
           source,
           section: sectionTitle,
           metadata: {
@@ -71,28 +96,10 @@ export class KnowledgeBase {
             type,
             courseNumber,
             moduleNumber,
-            length: sectionContent.length
+            length: chunk.length
           }
         })
-      } else {
-        // Split large sections into smaller chunks
-        const sectionChunks = this.splitTextIntoChunks(sectionContent, chunkSize, overlap)
-        sectionChunks.forEach((chunk, chunkIndex) => {
-          chunks.push({
-            id: `${source}-${sectionIndex}-${chunkIndex}`,
-            content: chunk,
-            source,
-            section: sectionTitle,
-            metadata: {
-              title,
-              type,
-              courseNumber,
-              moduleNumber,
-              length: chunk.length
-            }
-          })
-        })
-      }
+      })
     })
     
     return chunks
@@ -111,6 +118,175 @@ export class KnowledgeBase {
     // If no module found in title, check content for module references
     const contentMatch = section.match(/Module\s+(\d+\.\d+)/m)
     return contentMatch ? contentMatch[1] : 'General'
+  }
+
+  private semanticChunking(content: string, sectionTitle: string, type: DocumentChunk['metadata']['type']): string[] {
+    // Calculate optimal chunk size based on content characteristics
+    const optimalChunkSize = this.calculateOptimalChunkSize(content, type)
+    const minChunkSize = Math.floor(optimalChunkSize * 0.6)
+    const maxChunkSize = Math.floor(optimalChunkSize * 1.4)
+    
+    // Extract semantic sections (subsections, lists, paragraphs)
+    const semanticSections = this.extractSemanticSections(content)
+    
+    const chunks: string[] = []
+    let currentChunk = ''
+    let currentChunkSize = 0
+    
+    for (const section of semanticSections) {
+      const sectionSize = section.content.length
+      
+      // If section fits in current chunk
+      if (currentChunkSize + sectionSize <= maxChunkSize && currentChunk) {
+        currentChunk += (currentChunk ? '\n\n' : '') + section.content
+        currentChunkSize += sectionSize + (currentChunk ? 2 : 0)
+      }
+      // If current chunk is large enough, finalize it
+      else if (currentChunkSize >= minChunkSize) {
+        if (currentChunk) {
+          chunks.push(currentChunk.trim())
+        }
+        currentChunk = section.content
+        currentChunkSize = sectionSize
+      }
+      // If section is too large, split it intelligently
+      else if (sectionSize > maxChunkSize) {
+        if (currentChunk) {
+          chunks.push(currentChunk.trim())
+          currentChunk = ''
+          currentChunkSize = 0
+        }
+        
+        const splitSections = this.splitLargeSection(section.content, optimalChunkSize)
+        chunks.push(...splitSections)
+      }
+      // Start new chunk with this section
+      else {
+        if (currentChunk) {
+          chunks.push(currentChunk.trim())
+        }
+        currentChunk = section.content
+        currentChunkSize = sectionSize
+      }
+    }
+    
+    // Add final chunk
+    if (currentChunk) {
+      chunks.push(currentChunk.trim())
+    }
+    
+    // Ensure we have at least one chunk
+    if (chunks.length === 0) {
+      chunks.push(content.trim())
+    }
+    
+    return chunks
+  }
+
+  private calculateOptimalChunkSize(content: string, type: DocumentChunk['metadata']['type']): number {
+    const sentences = content.split(/[.!?]+/).filter(s => s.trim().length > 0)
+    const averageSentenceLength = sentences.reduce((sum, s) => sum + s.length, 0) / sentences.length
+    
+    // Calculate content complexity
+    const complexity = this.calculateContentComplexity(content)
+    
+    // Base chunk size based on content type
+    let baseSize = 1000
+    switch (type) {
+      case 'pattern-making':
+        baseSize = 1200 // More technical content, larger chunks
+        break
+      case 'illustrator-fashion':
+        baseSize = 800  // Visual content, smaller chunks
+        break
+      case 'draping':
+        baseSize = 1000 // Hands-on content, medium chunks
+        break  
+      case 'construction':
+        baseSize = 1100 // Step-by-step content, slightly larger chunks
+        break
+    }
+    
+    // Adjust based on sentence length and complexity
+    const sizeAdjustment = Math.min(1.5, Math.max(0.7, averageSentenceLength / 50))
+    const complexityAdjustment = Math.min(1.3, Math.max(0.8, complexity))
+    
+    return Math.round(baseSize * sizeAdjustment * complexityAdjustment)
+  }
+
+  private calculateContentComplexity(content: string): number {
+    const words = content.split(/\s+/)
+    const uniqueWords = new Set(words.map(w => w.toLowerCase())).size
+    const totalWords = words.length
+    
+    // Vocabulary diversity
+    const diversity = uniqueWords / totalWords
+    
+    // Technical term density
+    const technicalTerms = words.filter(word => this.isFashionTechniqueTerm(word)).length
+    const technicalDensity = technicalTerms / totalWords
+    
+    // List and structure indicators
+    const listItems = (content.match(/^\s*[-*+]\s/gm) || []).length
+    const structureScore = Math.min(1, listItems / 10)
+    
+    // Combine factors (0.5 to 1.5 range)
+    return 0.5 + (diversity * 0.3) + (technicalDensity * 0.4) + (structureScore * 0.3)
+  }
+
+  private extractSemanticSections(content: string): Array<{ type: string, content: string }> {
+    const sections: Array<{ type: string, content: string }> = []
+    
+    // Split content into logical units
+    const parts = content.split(/\n\s*\n/).filter(part => part.trim())
+    
+    for (const part of parts) {
+      const trimmed = part.trim()
+      if (!trimmed) continue
+      
+      // Classify section type
+      let sectionType = 'paragraph'
+      
+      if (trimmed.match(/^#{1,6}\s/)) {
+        sectionType = 'header'
+      } else if (trimmed.match(/^\s*[-*+]\s/m)) {
+        sectionType = 'list'
+      } else if (trimmed.match(/^\s*\d+\.\s/m)) {
+        sectionType = 'numbered_list'
+      } else if (trimmed.includes('```') || trimmed.includes('`')) {
+        sectionType = 'code'
+      } else if (trimmed.split('\n').length === 1 && trimmed.length < 200) {
+        sectionType = 'short_paragraph'
+      }
+      
+      sections.push({ type: sectionType, content: trimmed })
+    }
+    
+    return sections
+  }
+
+  private splitLargeSection(content: string, targetSize: number): string[] {
+    const chunks: string[] = []
+    const sentences = content.split(/(?<=[.!?])\s+/).filter(s => s.trim())
+    
+    let currentChunk = ''
+    
+    for (const sentence of sentences) {
+      if (currentChunk.length + sentence.length + 1 <= targetSize * 1.2) {
+        currentChunk += (currentChunk ? ' ' : '') + sentence
+      } else {
+        if (currentChunk) {
+          chunks.push(currentChunk.trim())
+        }
+        currentChunk = sentence
+      }
+    }
+    
+    if (currentChunk) {
+      chunks.push(currentChunk.trim())
+    }
+    
+    return chunks
   }
 
   private splitTextIntoChunks(text: string, chunkSize: number, overlap: number): string[] {

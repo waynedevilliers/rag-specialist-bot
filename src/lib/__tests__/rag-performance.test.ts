@@ -1,3 +1,6 @@
+// Mock environment variables for testing - must be set before imports
+process.env.OPENAI_API_KEY = 'sk-test-api-key-for-testing-purposes-only-1234567890abcdef';
+
 // RAG System Performance Baseline Tests
 import { ragSystem } from '../rag-system';
 

@@ -1,6 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ragSystem } from "@/lib/rag-system";
 
+// Helper function to detect simple greetings
+function isSimpleGreeting(message: string): boolean {
+  const normalizedMessage = message.toLowerCase().trim();
+  
+  const greetingPatterns = [
+    // English greetings
+    /^(hi|hello|hey|good\s+morning|good\s+afternoon|good\s+evening)$/,
+    /^(hi|hello|hey)\s*!*$/,
+    /^good\s+(morning|afternoon|evening|day)\s*!*$/,
+    
+    // German greetings
+    /^(hallo|hi|hey|guten\s+morgen|guten\s+tag|guten\s+abend)$/,
+    /^(hallo|hi|hey)\s*!*$/,
+    /^guten\s+(morgen|tag|abend)\s*!*$/,
+    
+    // Common variations
+    /^(howdy|greetings|salutations)\s*!*$/,
+    /^(moin|servus|ciao)\s*!*$/,
+  ];
+  
+  return greetingPatterns.some(pattern => pattern.test(normalizedMessage));
+}
+
+// Helper function to generate appropriate greeting responses
+function generateGreetingResponse(language: 'en' | 'de'): string {
+  const responses = {
+    en: [
+      "Good morning! I'm your ELLU Studios fashion design assistant. I'm here to help with any questions about pattern making, Adobe Illustrator, draping techniques, or fashion construction. What would you like to learn about today?",
+      "Hello! Ready to dive into fashion design? I can help you with course content, clarify concepts, or guide you through any challenges you're facing. What's on your mind?",
+      "Hi there! I'm excited to help you with your fashion design journey at ELLU Studios. Whether you need help with a specific technique or have questions about course materials, just let me know!"
+    ],
+    de: [
+      "Guten Morgen! Ich bin Ihr ELLU Studios Modedesign-Assistent. Ich helfe gerne bei Fragen zu Schnittmuster-Erstellung, Adobe Illustrator, Drapier-Techniken oder Mode-Konstruktion. Womit kann ich Ihnen heute helfen?",
+      "Hallo! Bereit für Modedesign? Ich kann Ihnen bei Kursinhalten helfen, Konzepte erklären oder Sie durch Herausforderungen führen. Was beschäftigt Sie?",
+      "Hi! Ich freue mich darauf, Ihnen bei Ihrer Modedesign-Reise bei ELLU Studios zu helfen. Ob Sie Hilfe bei einer bestimmten Technik brauchen oder Fragen zu Kursmaterialien haben - lassen Sie es mich wissen!"
+    ]
+  };
+  
+  const responseList = responses[language];
+  return responseList[Math.floor(Math.random() * responseList.length)];
+}
+
 export async function POST(req: NextRequest) {
   try {
     // Parse request body
@@ -35,6 +77,25 @@ export async function POST(req: NextRequest) {
         { error: "OpenAI API key not configured" },
         { status: 401 }
       );
+    }
+
+    // Check for simple greetings and respond without RAG
+    const isGreeting = isSimpleGreeting(message);
+    if (isGreeting) {
+      const greetingResponse = generateGreetingResponse(language);
+      return NextResponse.json({
+        content: greetingResponse,
+        sources: [],
+        timestamp: new Date().toISOString(),
+        processingTime: 5, // Minimal processing time
+        tokenUsage: {
+          promptTokens: 0,
+          completionTokens: 0,
+          totalTokens: 0,
+          embeddingTokens: 0,
+          cost: { promptCost: 0, completionCost: 0, embeddingCost: 0, totalCost: 0 }
+        },
+      });
     }
 
     // Use RAG system for enhanced responses
