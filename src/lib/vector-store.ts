@@ -3,6 +3,7 @@ import { DocumentChunk } from './knowledge-base'
 import { HNSWIndex } from './hnsw-index'
 import { VectorQuantizer, QuantizedVector } from './vector-quantizer'
 import { SecurityValidator, SecurityUtils } from './security-validator'
+import { connectionPool } from './connection-pool'
 
 export interface VectorMatch {
   chunk: DocumentChunk
@@ -38,7 +39,12 @@ export class VectorStore {
     this.embeddings = new OpenAIEmbeddings({
       openAIApiKey: apiKey,
       modelName: 'text-embedding-3-small', // More cost-effective than ada-002
-      dimensions: 1536
+      dimensions: 1536,
+      // Use connection pooling for better performance
+      // configuration: {
+      //   httpAgent: connectionPool.getHttpAgent(false),  // HTTP agent
+      //   httpsAgent: connectionPool.getHttpAgent(true), // HTTPS agent
+      // }
     })
     
     // Initialize HNSW index with optimized parameters for fashion content
@@ -137,7 +143,10 @@ export class VectorStore {
     
     // Generate embeddings only for uncached texts
     if (textsToProcess.length > 0) {
-      const embeddings = await this.embeddings.embedDocuments(textsToProcess)
+      // Use connection pool with automatic retry and rate limiting
+      const embeddings = await connectionPool.queueRequest('openai', async () => {
+        return await this.embeddings.embedDocuments(textsToProcess)
+      }, 3)
       
       // Store embeddings and cache them
       let embeddingIndex = 0
@@ -294,8 +303,10 @@ export class VectorStore {
       return cached
     }
     
-    // Generate new embedding
-    const embedding = await this.embeddings.embedQuery(text)
+    // Generate new embedding with connection pooling
+    const embedding = await connectionPool.queueRequest('openai', async () => {
+      return await this.embeddings.embedQuery(text)
+    }, 3)
     
     // Cache the result
     this.setCachedEmbedding(text, embedding)
@@ -675,6 +686,170 @@ export class VectorStore {
       } catch (error) {
         console.debug('Failed to clean localStorage cache:', error)
       }
+    }
+  }
+
+  /**
+   * Add new chunks to the vector store incrementally
+   */
+  async addChunks(chunks: DocumentChunk[]): Promise<void> {
+    if (chunks.length === 0) return
+
+    console.log(`Adding ${chunks.length} chunks to vector store...`)
+
+    try {
+      // Process in batches for efficiency
+      const batchSize = 20
+      for (let i = 0; i < chunks.length; i += batchSize) {
+        const batch = chunks.slice(i, i + batchSize)
+        await this.processBatch(batch)
+      }
+
+      console.log(`Successfully added ${chunks.length} chunks to vector store`)
+    } catch (error) {
+      console.error('Error adding chunks to vector store:', error)
+      throw error
+    }
+  }
+
+  /**
+   * Remove chunks from the vector store
+   */
+  async removeChunks(chunkIds: string[]): Promise<void> {
+    if (chunkIds.length === 0) return
+
+    console.log(`Removing ${chunkIds.length} chunks from vector store...`)
+
+    try {
+      for (const chunkId of chunkIds) {
+        // Remove from vector index
+        this.vectorIndex.delete(chunkId)
+        
+        // Remove from quantized index
+        this.quantizedIndex.delete(chunkId)
+        
+        // Remove from HNSW index
+        this.hnswIndex.remove(chunkId)
+      }
+
+      console.log(`Successfully removed ${chunkIds.length} chunks from vector store`)
+    } catch (error) {
+      console.error('Error removing chunks from vector store:', error)
+      throw error
+    }
+  }
+
+  /**
+   * Update existing chunks in the vector store
+   */
+  async updateChunks(chunks: DocumentChunk[]): Promise<void> {
+    if (chunks.length === 0) return
+
+    console.log(`Updating ${chunks.length} chunks in vector store...`)
+
+    try {
+      // Remove old versions first
+      const chunkIds = chunks.map(chunk => chunk.id)
+      await this.removeChunks(chunkIds)
+      
+      // Add new versions
+      await this.addChunks(chunks)
+
+      console.log(`Successfully updated ${chunks.length} chunks in vector store`)
+    } catch (error) {
+      console.error('Error updating chunks in vector store:', error)
+      throw error
+    }
+  }
+
+  /**
+   * Check if chunk exists in vector store
+   */
+  hasChunk(chunkId: string): boolean {
+    return this.vectorIndex.has(chunkId)
+  }
+
+  /**
+   * Get chunk IDs currently in the vector store
+   */
+  getChunkIds(): string[] {
+    return Array.from(this.vectorIndex.keys())
+  }
+
+  /**
+   * Synchronize vector store with provided chunks
+   */
+  async synchronizeWithChunks(targetChunks: DocumentChunk[]): Promise<{
+    added: number
+    updated: number
+    removed: number
+  }> {
+    const currentIds = new Set(this.getChunkIds())
+    const targetIds = new Set(targetChunks.map(chunk => chunk.id))
+    
+    // Find chunks to add (in target but not in current)
+    const chunksToAdd = targetChunks.filter(chunk => !currentIds.has(chunk.id))
+    
+    // Find chunks to remove (in current but not in target)
+    const idsToRemove = Array.from(currentIds).filter(id => !targetIds.has(id))
+    
+    // Find chunks to update (in both, but we'll update to ensure consistency)
+    const chunksToUpdate = targetChunks.filter(chunk => currentIds.has(chunk.id))
+
+    try {
+      // Perform operations
+      if (idsToRemove.length > 0) {
+        await this.removeChunks(idsToRemove)
+      }
+      
+      if (chunksToAdd.length > 0) {
+        await this.addChunks(chunksToAdd)
+      }
+      
+      if (chunksToUpdate.length > 0) {
+        await this.updateChunks(chunksToUpdate)
+      }
+
+      return {
+        added: chunksToAdd.length,
+        updated: chunksToUpdate.length,
+        removed: idsToRemove.length
+      }
+    } catch (error) {
+      console.error('Error synchronizing vector store:', error)
+      throw error
+    }
+  }
+
+  /**
+   * Rebuild vector store indices for optimization
+   */
+  async rebuildIndices(): Promise<void> {
+    console.log('Rebuilding vector store indices...')
+    
+    try {
+      // Get all current vectors
+      const vectors = Array.from(this.vectorIndex.entries())
+      
+      // Clear indices
+      this.hnswIndex.clear()
+      this.quantizedIndex.clear()
+      
+      // Rebuild HNSW index
+      for (const [chunkId, vector] of vectors) {
+        this.hnswIndex.insert(chunkId, vector)
+        
+        // Rebuild quantized index
+        if (this.useQuantization && vectors.length >= this.QUANTIZATION_THRESHOLD) {
+          const quantized = this.quantizer.quantize(vector)
+          this.quantizedIndex.set(chunkId, quantized)
+        }
+      }
+      
+      console.log('Successfully rebuilt vector store indices')
+    } catch (error) {
+      console.error('Error rebuilding indices:', error)
+      throw error
     }
   }
 }

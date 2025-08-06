@@ -20,6 +20,7 @@
     "html2canvas": "1.4.1",
     "jspdf": "3.0.1",
     "langchain": "0.3.30",
+    "langsmith": "0.3.52",
     "lucide-react": "0.528.0",
     "next": "15.4.4",
     "openai": "5.10.2",

@@ -1,8 +1,10 @@
 import { ChatOpenAI } from '@langchain/openai'
 import { knowledgeBase } from './knowledge-base'
 import { vectorStore, VectorMatch } from './vector-store'
-import { ModelService, ModelConfig } from './model-service'
+import { ModelService, type ModelConfig } from './model-service'
 import { SecurityValidator, SecurityError, SecurityUtils } from './security-validator'
+import { Client } from 'langsmith'
+import { traceable } from 'langsmith/traceable'
 
 // Circuit breaker state
 interface CircuitBreakerState {
@@ -52,6 +54,7 @@ export class RAGSystem {
   private llm: ChatOpenAI
   private modelService: ModelService | null = null
   private isInitialized = false
+  private langsmithClient: Client
   
   // Response cache
   private responseCache = new Map<string, CacheEntry>()
@@ -87,8 +90,29 @@ export class RAGSystem {
       modelName: 'gpt-4o-mini',
       temperature: 0.1,
       maxTokens: 2000,
-      timeout: 30000 // 30 second timeout
+      timeout: 30000, // 30 second timeout
+      callbacks: [
+        {
+          handleLLMStart: (llm, messages) => {
+            console.log('[LangSmith] LLM Start:', { llm: llm.id, messages: messages.map(m => m.length) })
+          },
+          handleLLMEnd: (output) => {
+            console.log('[LangSmith] LLM End:', { tokens: output.llmOutput?.tokenUsage })
+          }
+        }
+      ]
     })
+
+    // Initialize LangSmith client
+    this.langsmithClient = new Client({
+      apiUrl: process.env.LANGSMITH_ENDPOINT || 'https://api.smith.langchain.com',
+      apiKey: process.env.LANGSMITH_API_KEY
+    })
+    
+    // Set LangSmith project from environment
+    if (process.env.LANGSMITH_PROJECT) {
+      process.env.LANGCHAIN_PROJECT = process.env.LANGSMITH_PROJECT
+    }
   }
 
   // Utility methods for improvements
@@ -242,6 +266,13 @@ export class RAGSystem {
     }
   }
 
+  @traceable({ 
+    name: 'rag_query',
+    metadata: {
+      component: 'RAGSystem',
+      version: '2.0.0'
+    }
+  })
   async query(userQuery: string, language: 'en' | 'de' = 'en', modelConfig?: ModelConfig): Promise<RAGResponse> {
     const startTime = Date.now()
     
@@ -261,6 +292,21 @@ export class RAGSystem {
       language,
       queryLength: sanitizedQuery.length
     })
+
+    // Add LangSmith tracing metadata (for potential future use)
+    // const traceData = {
+    //   input: {
+    //     query: sanitizedQuery.substring(0, 100),
+    //     language,
+    //     modelProvider: modelConfig?.provider || 'openai'
+    //   },
+    //   metadata: {
+    //     startTime,
+    //     queryLength: sanitizedQuery.length,
+    //     cacheSize: this.responseCache.size,
+    //     circuitBreakerState: this.circuitBreaker.state
+    //   }
+    // }
     
     // Check cache first
     this.cleanCache()
@@ -334,6 +380,19 @@ export class RAGSystem {
         tokenUsage: tokenUsage.totalTokens,
         cost: tokenUsage.cost.totalCost
       })
+
+      // Add LangSmith output tracing (for potential future use)
+      // const outputTraceData = {
+      //   output: {
+      //     contentLength: response.length,
+      //     sourceCount: sources.length,
+      //     processingTime,
+      //     tokenUsage: {
+      //       total: tokenUsage.totalTokens,
+      //       cost: tokenUsage.cost.totalCost
+      //     }
+      //   }
+      // }
       
       return result
     } catch (error) {
@@ -384,6 +443,7 @@ export class RAGSystem {
     }
   }
 
+  @traceable({ name: 'enhance_query' })
   private async enhanceQuery(query: string): Promise<string> {
     // **Phase 2 Enhancement**: Advanced query preprocessing and expansion
     const fashionAbbreviations: Record<string, string> = {
@@ -456,6 +516,7 @@ export class RAGSystem {
     return uniqueWords.slice(0, maxWords).join(' ')
   }
 
+  @traceable({ name: 'retrieve_chunks' })
   private async retrieveRelevantChunks(enhancedQuery: string, originalQuery: string): Promise<VectorMatch[]> {
     const chunks = knowledgeBase.getChunks()
     
@@ -503,6 +564,7 @@ export class RAGSystem {
     return Array.from(resultMap.values()).sort((a, b) => b.score - a.score)
   }
 
+  @traceable({ name: 'generate_response' })
   private async generateResponse(query: string, relevantChunks: VectorMatch[], language: 'en' | 'de' = 'en', modelConfig?: ModelConfig): Promise<{ response: string; tokenUsage: TokenUsage }> {
     const context = relevantChunks
       .map((match, index) => `[${index + 1}] ${match.chunk.section}: ${match.chunk.content}`)

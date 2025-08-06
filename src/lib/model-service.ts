@@ -1,5 +1,6 @@
 // Multi-model service for supporting different LLM providers
 import { OpenAI } from "openai";
+import { connectionPool } from './connection-pool';
 
 export type ModelProvider = 'openai' | 'anthropic' | 'gemini';
 
@@ -33,9 +34,11 @@ export class ModelService {
   constructor(config: ModelConfig) {
     this.config = config;
     
-    // Initialize OpenAI (always available)
+    // Initialize OpenAI with connection pooling
     this.openai = new OpenAI({
       apiKey: process.env.OPENAI_API_KEY,
+      // httpAgent: connectionPool.getHttpAgent(false),  // HTTP agent
+      // httpsAgent: connectionPool.getHttpAgent(true),  // HTTPS agent
     });
   }
 
@@ -53,36 +56,39 @@ export class ModelService {
   }
 
   private async generateOpenAIResponse(messages: ChatMessage[]): Promise<ModelResponse> {
-    try {
-      const completion = await this.openai.chat.completions.create({
-        model: this.config.model || 'gpt-4o-mini',
-        messages: messages.map(msg => ({
-          role: msg.role,
-          content: msg.content,
-        })),
-        temperature: this.config.temperature || 0.7,
-        max_tokens: this.config.maxTokens || 2000,
-      });
+    // Use connection pool with automatic retry and rate limiting
+    return connectionPool.queueRequest('openai', async () => {
+      try {
+        const completion = await this.openai.chat.completions.create({
+          model: this.config.model || 'gpt-4o-mini',
+          messages: messages.map(msg => ({
+            role: msg.role,
+            content: msg.content,
+          })),
+          temperature: this.config.temperature || 0.7,
+          max_tokens: this.config.maxTokens || 2000,
+        });
 
-      const choice = completion.choices[0];
-      if (!choice?.message?.content) {
-        throw new Error('No response generated');
+        const choice = completion.choices[0];
+        if (!choice?.message?.content) {
+          throw new Error('No response generated');
+        }
+
+        return {
+          content: choice.message.content,
+          usage: {
+            promptTokens: completion.usage?.prompt_tokens || 0,
+            completionTokens: completion.usage?.completion_tokens || 0,
+            totalTokens: completion.usage?.total_tokens || 0,
+          },
+          model: completion.model,
+          provider: 'openai',
+        };
+      } catch (error) {
+        console.error('OpenAI API error:', error);
+        throw new Error(`Failed to generate OpenAI response: ${error instanceof Error ? error.message : String(error)}`);
       }
-
-      return {
-        content: choice.message.content,
-        usage: {
-          promptTokens: completion.usage?.prompt_tokens || 0,
-          completionTokens: completion.usage?.completion_tokens || 0,
-          totalTokens: completion.usage?.total_tokens || 0,
-        },
-        model: completion.model,
-        provider: 'openai',
-      };
-    } catch (error) {
-      console.error('OpenAI API error:', error);
-      throw new Error('Failed to generate OpenAI response');
-    }
+    }, 3); // Max 3 retries
   }
 
   private async generateAnthropicResponse(messages: ChatMessage[]): Promise<ModelResponse> {
