@@ -89,6 +89,15 @@ export default function ChatInterface() {
     maxTokens: 2000
   });
 
+  const scrollToLatestMessage = () => {
+    // Find the latest assistant message and scroll to it
+    const messageElements = document.querySelectorAll('[data-message-id]');
+    if (messageElements.length > 0) {
+      const latestMessage = messageElements[messageElements.length - 1];
+      latestMessage.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  };
+
   const sendMessage = async () => {
     if (!input.trim()) return;
 
@@ -128,6 +137,9 @@ export default function ChatInterface() {
       };
 
       setMessages(prev => [...prev, assistantMessage]);
+      
+      // Scroll to latest bot message
+      setTimeout(() => scrollToLatestMessage(), 100);
       
       // Update session stats
       if (data.tokenUsage) {
@@ -243,6 +255,13 @@ export default function ChatInterface() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showExportMenu]);
 
+  // Scroll to latest message when messages change
+  useEffect(() => {
+    if (messages.length > 1) { // Skip initial welcome message
+      scrollToLatestMessage();
+    }
+  }, [messages]);
+
   // Update welcome message when language changes
   useEffect(() => {
     if (isClient) {
@@ -348,7 +367,7 @@ export default function ChatInterface() {
         language={language}
       />
       
-      <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white">
+      <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white border-l-4 border-r-4 border-rose-300">
       {/* Header */}
       <div className="border-b-2 border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50 p-4">
         <div className="flex items-center justify-between">
@@ -476,6 +495,7 @@ export default function ChatInterface() {
         {messages.map(message => (
           <div
             key={message.id}
+            data-message-id={message.id}
             className={`flex gap-3 ${message.type === "user" ? "justify-end" : "justify-start"}`}
           >
             {message.type === "assistant" && (
@@ -539,7 +559,7 @@ export default function ChatInterface() {
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
+            onKeyDown={handleKeyPress}
             placeholder={t('inputPlaceholder', language)}
             className="flex-1 p-3 border-2 border-rose-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 resize-none bg-white shadow-sm"
             rows={1}

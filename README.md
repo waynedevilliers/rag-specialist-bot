@@ -30,16 +30,18 @@ A sophisticated AI-powered fashion design student assistant built with Next.js, 
 
 ### Advanced AI Capabilities
 - **Multi-Model Support**: OpenAI, Anthropic Claude, Google Gemini with intelligent fallbacks
-- **Advanced RAG System**: Hybrid vector + text search with source citations
+- **Advanced RAG System**: Hybrid vector + text search with collapsible source citations
 - **Natural Language Processing**: Conversational responses without technical formatting
 - **Greeting Detection**: Bypasses expensive RAG for simple interactions
 - **Multilingual Support**: English and German language processing
+- **Smart UI**: Auto-scroll to responses, collapsible sources, vertical borders
 
 ### Fashion Education Specialization
 - **5 Complete Courses**: Pattern making, Adobe Illustrator, draping, construction, technical drawing
-- **Course-Aware Citations**: Specific module and lesson references
+- **Course-Aware Citations**: Specific module and lesson references with collapsible interface
 - **Educational Context**: Student-focused explanations and guidance
 - **Function Calling**: Specialized tools for measurements, techniques, and tutorials
+- **Intuitive Interface**: Clean chat design with auto-scroll and source management
 
 ## Tech Stack
 

@@ -4,7 +4,6 @@ import { vectorStore, VectorMatch } from './vector-store'
 import { ModelService, type ModelConfig } from './model-service'
 import { SecurityValidator, SecurityError, SecurityUtils } from './security-validator'
 import { Client } from 'langsmith'
-import { traceable } from 'langsmith/traceable'
 
 // Circuit breaker state
 interface CircuitBreakerState {
@@ -112,6 +111,33 @@ export class RAGSystem {
     // Set LangSmith project from environment
     if (process.env.LANGSMITH_PROJECT) {
       process.env.LANGCHAIN_PROJECT = process.env.LANGSMITH_PROJECT
+    }
+  }
+
+  private async createTrace(name: string, inputs: Record<string, any>, operation: () => Promise<any>): Promise<any> {
+    if (!process.env.LANGSMITH_API_KEY) {
+      return await operation();
+    }
+
+    const startTime = Date.now();
+    try {
+      const result = await operation();
+      
+      // Log trace info to console (LangSmith will pick up via LangChain integration)
+      this.log('info', `[LangSmith] ${name} completed`, {
+        inputs: Object.keys(inputs).reduce((acc, key) => ({ ...acc, [key]: typeof inputs[key] === 'string' ? inputs[key].substring(0, 100) : inputs[key] }), {}),
+        duration: Date.now() - startTime,
+        success: true
+      });
+      
+      return result;
+    } catch (error) {
+      this.log('error', `[LangSmith] ${name} failed`, {
+        inputs: Object.keys(inputs).reduce((acc, key) => ({ ...acc, [key]: typeof inputs[key] === 'string' ? inputs[key].substring(0, 100) : inputs[key] }), {}),
+        duration: Date.now() - startTime,
+        error: error instanceof Error ? error.message : String(error)
+      });
+      throw error;
     }
   }
 
@@ -266,18 +292,12 @@ export class RAGSystem {
     }
   }
 
-  @traceable({ 
-    name: 'rag_query',
-    metadata: {
-      component: 'RAGSystem',
-      version: '2.0.0'
-    }
-  })
   async query(userQuery: string, language: 'en' | 'de' = 'en', modelConfig?: ModelConfig): Promise<RAGResponse> {
-    const startTime = Date.now()
-    
-    // **SECURITY FIX**: Validate and sanitize user input
-    const sanitizedQuery = SecurityValidator.validateQuery(userQuery)
+    return this.createTrace('rag_query', { query: userQuery, language, modelProvider: modelConfig?.provider }, async () => {
+      const startTime = Date.now()
+      
+      // **SECURITY FIX**: Validate and sanitize user input
+      const sanitizedQuery = SecurityValidator.validateQuery(userQuery)
     
     // **SECURITY FIX**: Rate limiting check
     const clientId = 'default' // In production, use actual client identifier
@@ -441,9 +461,9 @@ export class RAGSystem {
         }
       }
     }
+    }); // Close the createTrace wrapper
   }
 
-  @traceable({ name: 'enhance_query' })
   private async enhanceQuery(query: string): Promise<string> {
     // **Phase 2 Enhancement**: Advanced query preprocessing and expansion
     const fashionAbbreviations: Record<string, string> = {
@@ -516,7 +536,6 @@ export class RAGSystem {
     return uniqueWords.slice(0, maxWords).join(' ')
   }
 
-  @traceable({ name: 'retrieve_chunks' })
   private async retrieveRelevantChunks(enhancedQuery: string, originalQuery: string): Promise<VectorMatch[]> {
     const chunks = knowledgeBase.getChunks()
     
@@ -564,7 +583,6 @@ export class RAGSystem {
     return Array.from(resultMap.values()).sort((a, b) => b.score - a.score)
   }
 
-  @traceable({ name: 'generate_response' })
   private async generateResponse(query: string, relevantChunks: VectorMatch[], language: 'en' | 'de' = 'en', modelConfig?: ModelConfig): Promise<{ response: string; tokenUsage: TokenUsage }> {
     const context = relevantChunks
       .map((match, index) => `[${index + 1}] ${match.chunk.section}: ${match.chunk.content}`)
