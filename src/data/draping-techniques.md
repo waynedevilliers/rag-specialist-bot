@@ -1,4 +1,4 @@
-# Draping Techniques - Course 301
+# Draping Techniques - Course 201
 *Enhanced with ELLU Studios Professional Methods*
 
 ## Course Introduction: Professional Draping in Fashion Design
@@ -15,7 +15,7 @@ Draping (German: Drapieren) is the professional fashion industry technique of de
 **Professional Context:**
 This technique represents the traditional Parisian atelier approach to pattern development, rarely accessible outside of professional fashion design programs. It combines artistic creativity with technical precision, making it the preferred method for high-end fashion development.
 
-## Module 3.1: Preparing for Draping
+## Module 2.1: Preparing for Draping
 
 ### Understanding Draping Fundamentals
 
@@ -85,7 +85,7 @@ Draping is the process of positioning and pinning fabric on a dress form or live
 - Sleeve: Cut with length grain running down the arm
 - Skirt: Cut according to desired style and fullness
 
-## Module 3.2: Basic Bodice Draping
+## Module 2.2: Basic Bodice Draping
 
 ### Front Bodice Draping Process
 
@@ -150,7 +150,7 @@ Draping is the process of positioning and pinning fabric on a dress form or live
 - Mark final neckline with clear, smooth curve
 - Consider neckline style (crew, scoop, V-neck, etc.)
 
-## Module 3.3: Sleeve Draping Methods
+## Module 2.3: Sleeve Draping Methods
 
 ### Understanding Sleeve Types
 
@@ -207,7 +207,7 @@ Draping is the process of positioning and pinning fabric on a dress form or live
 - Underarm areas: 15% of total ease
 - No ease at shoulder point or underarm seams
 
-## Module 3.4: Advanced Draping Techniques
+## Module 2.4: Advanced Draping Techniques
 
 ### Bias Draping Fundamentals
 
@@ -280,7 +280,7 @@ Create a complete draped bodice with:
 - Transfer to final pattern with all markings
 - Construct test garment to verify fit
 
-## Module 3.5: Professional Skirt Draping - ELLU Studios Method
+## Module 2.5: Professional Skirt Draping - ELLU Studios Method
 
 ### Professional Skirt Draping Approach
 *Based on 20+ Years of Parisian Atelier Experience*
