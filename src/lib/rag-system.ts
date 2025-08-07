@@ -81,11 +81,9 @@ export class RAGSystem {
   }
 
   constructor() {
-    // **SECURITY FIX**: Validate API key before use
-    const apiKey = SecurityValidator.validateApiKey(process.env.OPENAI_API_KEY || '')
-    
+    // Note: API key validation deferred to first usage to prevent build-time errors
     this.llm = new ChatOpenAI({
-      openAIApiKey: apiKey,
+      openAIApiKey: process.env.OPENAI_API_KEY || '',
       modelName: 'gpt-4o-mini',
       temperature: 0.1,
       maxTokens: 2000,
@@ -295,6 +293,9 @@ export class RAGSystem {
   async query(userQuery: string, language: 'en' | 'de' = 'en', modelConfig?: ModelConfig): Promise<RAGResponse> {
     return this.createTrace('rag_query', { query: userQuery, language, modelProvider: modelConfig?.provider }, async () => {
       const startTime = Date.now()
+      
+      // **SECURITY FIX**: Validate API key at runtime
+      SecurityValidator.validateApiKey(process.env.OPENAI_API_KEY || '')
       
       // **SECURITY FIX**: Validate and sanitize user input
       const sanitizedQuery = SecurityValidator.validateQuery(userQuery)

@@ -33,11 +33,9 @@ export class VectorStore {
   private readonly CACHE_SALT = SecurityUtils.generateSecureRandom(32)
 
   constructor() {
-    // **SECURITY FIX**: Validate API key before use
-    const apiKey = SecurityValidator.validateApiKey(process.env.OPENAI_API_KEY || '')
-    
+    // Note: API key validation deferred to first usage to prevent build-time errors
     this.embeddings = new OpenAIEmbeddings({
-      openAIApiKey: apiKey,
+      openAIApiKey: process.env.OPENAI_API_KEY || '',
       modelName: 'text-embedding-3-small', // More cost-effective than ada-002
       dimensions: 1536,
       // Use connection pooling for better performance
@@ -61,6 +59,9 @@ export class VectorStore {
 
   async initializeVectors(chunks: DocumentChunk[]): Promise<void> {
     if (this.isInitialized) return
+
+    // **SECURITY FIX**: Validate API key at runtime
+    SecurityValidator.validateApiKey(process.env.OPENAI_API_KEY || '')
 
     console.log(`Generating embeddings for ${chunks.length} chunks...`)
     
@@ -323,6 +324,9 @@ export class VectorStore {
     if (!this.isInitialized) {
       throw new Error('Vector store not initialized')
     }
+
+    // **SECURITY FIX**: Validate API key at runtime
+    SecurityValidator.validateApiKey(process.env.OPENAI_API_KEY || '')
 
     try {
       // Generate embedding for the query with caching
