@@ -38,7 +38,6 @@ export interface Translations {
   course101: string;
   course201: string;
   course301: string;
-  course401: string;
   
   // Language toggle
   language: string;
@@ -74,10 +73,9 @@ export const translations: Record<Language, Translations> = {
     // Welcome message
     welcomeMessage: `Hi! I'm your ELLU Studios fashion design assistant. I'm here to help you with your course content:
 
-• Pattern Making Fundamentals (Course 101)
-• Adobe Illustrator for Fashion Design (Course 201)
-• Draping Techniques (Course 301)
-• Fashion Construction Methods (Course 401)
+• Classical Pattern Construction (Course 101)
+• Draping Techniques (Course 201)
+• Adobe Illustrator for Fashion Design (Course 301)
 
 Whether you're confused about a video lesson, need step-by-step guidance, or want to clarify concepts, I'm here to support your learning. What can I help you with today?`,
     
@@ -107,10 +105,9 @@ Whether you're confused about a video lesson, need step-by-step guidance, or wan
     tryAgain: "Please try again.",
     
     // Course names
-    course101: "Pattern Making Fundamentals (Course 101)",
-    course201: "Adobe Illustrator for Fashion Design (Course 201)",
-    course301: "Draping Techniques (Course 301)",
-    course401: "Fashion Construction Methods (Course 401)",
+    course101: "Classical Pattern Construction (Course 101)",
+    course201: "Draping Techniques (Course 201)",
+    course301: "Adobe Illustrator for Fashion Design (Course 301)",
     
     // Language toggle
     language: "Language",
@@ -145,10 +142,9 @@ Whether you're confused about a video lesson, need step-by-step guidance, or wan
     // Welcome message
     welcomeMessage: `Hallo! Ich bin Ihr ELLU Studios Modedesign-Assistent. Ich helfe Ihnen bei Ihren Kursinhalten:
 
-• Schnittmuster-Grundlagen (Kurs 101)
-• Adobe Illustrator für Modedesign (Kurs 201)
-• Drapier-Techniken (Kurs 301)
-• Mode-Konstruktionsmethoden (Kurs 401)
+• Klassische Schnittmuster-Konstruktion (Kurs 101)
+• Drapier-Techniken (Kurs 201)
+• Adobe Illustrator für Modedesign (Kurs 301)
 
 Ob Sie bei einer Videolektion verwirrt sind, schrittweise Anleitung benötigen oder Konzepte klären möchten - ich unterstütze Ihr Lernen. Womit kann ich Ihnen heute helfen?`,
     
@@ -178,10 +174,9 @@ Ob Sie bei einer Videolektion verwirrt sind, schrittweise Anleitung benötigen o
     tryAgain: "Bitte versuchen Sie es erneut.",
     
     // Course names
-    course101: "Schnittmuster-Grundlagen (Kurs 101)",
-    course201: "Adobe Illustrator für Modedesign (Kurs 201)",
-    course301: "Drapier-Techniken (Kurs 301)",
-    course401: "Mode-Konstruktionsmethoden (Kurs 401)",
+    course101: "Klassische Schnittmuster-Konstruktion (Kurs 101)",
+    course201: "Drapier-Techniken (Kurs 201)",
+    course301: "Adobe Illustrator für Modedesign (Kurs 301)",
     
     // Language toggle
     language: "Sprache",
