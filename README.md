@@ -184,12 +184,10 @@ npm test -- fashion-functions.test.ts # Educational tools
 
 ## Knowledge Base
 
-### Fashion Courses (5 Complete Programs)
-1. **Course 101**: Pattern Making Fundamentals - Measurements, ease, seam allowances
-2. **Course 201**: Adobe Illustrator for Fashion Design - Technical flats, color palettes
-3. **Course 202**: Technische Modezeichnung (German) - Technical fashion drawing
-4. **Course 301**: Draping Techniques - Muslin preparation, bodice draping, bias work
-5. **Course 401**: Fashion Construction Methods - Professional sewing, fitting, finishing
+### Fashion Courses (3 Complete ELLU Studios Programs)
+1. **Course 101**: Classical Pattern Construction - ELLU Studios professional methods, traditional European techniques
+2. **Course 201**: Draping Techniques - ELLU Studios professional skirt draping, Parisian atelier experience  
+3. **Course 301**: Adobe Illustrator for Fashion Design - Technical fashion drawing with professional templates
 
 ### Content Processing
 - **Semantic Chunking**: Content-aware document segmentation vs fixed-size
