@@ -149,7 +149,7 @@ Whether you're confused about a video lesson, need step-by-step guidance, or wan
 Ob Sie bei einer Videolektion verwirrt sind, schrittweise Anleitung benötigen oder Konzepte klären möchten - ich unterstütze Ihr Lernen. Womit kann ich Ihnen heute helfen?`,
     
     // Chat interface
-    inputPlaceholder: "Fragen Sie nach Schnittmustern, Drapieren, Illustrator-Techniken oder anderen Kursinhalten...",
+    inputPlaceholder: "Fragen Sie nach klassischer Schnittmuster-Konstruktion, Drapieren, Illustrator-Techniken oder anderen Kursinhalten...",
     sendButton: "Senden",
     keyboardHint: "Enter zum Senden, Shift+Enter für neue Zeile",
     processing: "Durchsuche Dokumentation und generiere Antwort...",
