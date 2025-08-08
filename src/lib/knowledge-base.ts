@@ -30,15 +30,13 @@ export class KnowledgeBase {
     const allowedFiles = [
       'pattern-making-fundamentals.md',
       'draping-techniques.md',
-      'illustrator-fashion-design.md',
-      'technische-modezeichnung.md'
+      'illustrator-fashion-design.md'
     ]
     
     const courseConfigs = [
       { file: 'pattern-making-fundamentals.md', title: 'Classical Pattern Construction - Course 101', type: 'pattern-making' as const, courseNumber: '101' },
       { file: 'draping-techniques.md', title: 'Draping Techniques - Course 201', type: 'draping' as const, courseNumber: '201' },
-      { file: 'illustrator-fashion-design.md', title: 'Adobe Illustrator for Fashion Design - Course 301', type: 'illustrator-fashion' as const, courseNumber: '301' },
-      { file: 'technische-modezeichnung.md', title: 'Technische Modezeichnung mit Adobe Illustrator - Course 202', type: 'illustrator-fashion' as const, courseNumber: '202' }
+      { file: 'illustrator-fashion-design.md', title: 'Adobe Illustrator for Fashion Design - Course 301', type: 'illustrator-fashion' as const, courseNumber: '301' }
     ]
     
     const allChunks: DocumentChunk[] = []
