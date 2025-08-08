@@ -24,3 +24,50 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Mobile-only optimizations - don't interfere with desktop */
+@media (max-width: 640px) {
+  /* Fix input text color and sizing for mobile */
+  textarea, input {
+    font-size: 16px !important; /* Prevent iOS zoom */
+    color: #000 !important; /* Ensure text is visible */
+  }
+  
+  /* Touch-friendly input heights */
+  textarea {
+    min-height: 48px !important;
+  }
+  
+  /* Touch-friendly button sizes */
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Container adjustments for mobile */
+  .mobile-container {
+    max-width: 100%;
+    border-left: none !important;
+    border-right: none !important;
+  }
+  
+  /* Header adjustments for mobile */
+  .mobile-header {
+    padding: 12px !important;
+  }
+  
+  /* Message area adjustments */
+  .mobile-messages {
+    padding: 12px !important;
+  }
+  
+  /* Input area adjustments */
+  .mobile-input {
+    padding: 12px !important;
+  }
+}
