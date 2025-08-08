@@ -93,10 +93,15 @@ npm run build           # Build for production
 npm run start           # Start production server
 
 # Quality Assurance  
-npm test                # Run comprehensive test suite (30+ tests)
-npm run test:watch      # Run tests in watch mode
-npm run test:coverage   # Generate coverage report
-npm run lint            # Run ESLint code quality checks
+npm test                      # Run comprehensive test suite (30+ tests)
+npm run test:watch            # Run tests in watch mode
+npm run test:coverage         # Generate coverage report
+npm run lint                  # Run ESLint code quality checks
+
+# Course Structure Validation
+npm run test:course-structure # Test course organization and structure
+npm run test:integration      # Test API integration with all models  
+npm run test:validate-courses # Complete validation suite + manual guide
 
 # Deployment
 npm run deploy          # Deploy to production (Vercel)
