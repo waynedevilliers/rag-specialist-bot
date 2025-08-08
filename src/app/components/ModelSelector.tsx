@@ -50,31 +50,31 @@ export default function ModelSelector({ currentConfig, onConfigChange }: ModelSe
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+        className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm min-h-[44px] touch-manipulation"
       >
         {currentProvider?.icon}
         <span className={currentProvider?.color}>
           {ModelService.getProviderDisplayName(currentConfig.provider)}
         </span>
-        <span className="text-gray-500">•</span>
-        <span className="text-gray-700">
+        <span className="text-gray-500 hidden sm:inline">•</span>
+        <span className="text-gray-700 hidden sm:inline">
           {ModelService.getModelDisplayName(currentConfig.provider, currentConfig.model)}
         </span>
         <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-80 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+        <div className="absolute top-full left-0 mt-1 w-full sm:w-80 max-w-sm bg-white border border-gray-200 rounded-md shadow-lg z-50">
           <div className="p-2">
             <div className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">
               Provider
             </div>
-            <div className="grid grid-cols-3 gap-1 mb-4">
+            <div className="grid grid-cols-3 gap-2 mb-4">
               {providers.map(({ provider, icon, color }) => (
                 <button
                   key={provider}
                   onClick={() => handleProviderChange(provider)}
-                  className={`flex flex-col items-center gap-1 p-2 rounded-md text-xs transition-colors ${
+                  className={`flex flex-col items-center gap-1 p-3 rounded-md text-xs transition-colors min-h-[60px] touch-manipulation ${
                     currentConfig.provider === provider
                       ? 'bg-blue-50 border border-blue-200'
                       : 'hover:bg-gray-50 border border-transparent'
@@ -99,7 +99,7 @@ export default function ModelSelector({ currentConfig, onConfigChange }: ModelSe
                     handleModelChange(model);
                     setIsOpen(false);
                   }}
-                  className={`w-full text-left px-3 py-2 text-sm rounded-md transition-colors ${
+                  className={`w-full text-left px-3 py-3 text-sm rounded-md transition-colors min-h-[44px] touch-manipulation ${
                     currentConfig.model === model
                       ? 'bg-blue-50 text-blue-700 font-medium'
                       : 'hover:bg-gray-50 text-gray-700'
@@ -132,7 +132,7 @@ export default function ModelSelector({ currentConfig, onConfigChange }: ModelSe
                       ...currentConfig,
                       temperature: parseFloat(e.target.value)
                     })}
-                    className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider touch-manipulation"
                   />
                 </div>
                 <div>
@@ -149,7 +149,7 @@ export default function ModelSelector({ currentConfig, onConfigChange }: ModelSe
                       ...currentConfig,
                       maxTokens: parseInt(e.target.value)
                     })}
-                    className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
+                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider touch-manipulation"
                   />
                 </div>
               </div>

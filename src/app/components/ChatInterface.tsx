@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Send, Bot, User, Loader2, Download, FileText, FileSpreadsheet, FileImage, Zap, DollarSign, Globe, History } from "lucide-react";
+import { Send, Bot, User, Loader2, Download, FileText, FileSpreadsheet, FileImage, Zap, DollarSign, Globe, History, Menu, X } from "lucide-react";
 import SourceCitations from "./SourceCitations";
 import ConversationHistory from "./ConversationHistory";
 import ModelSelector from "./ModelSelector";
@@ -46,8 +46,8 @@ interface Message {
 function TokenUsageDisplay({ tokenUsage, language }: { tokenUsage: TokenUsage; language: Language }) {
   
   return (
-    <div className="mt-2 p-2 bg-gradient-to-r from-rose-25 to-pink-25 border border-rose-100 rounded-md text-xs space-y-1">
-      <div className="flex items-center gap-4 text-rose-700">
+    <div className="mt-2 p-2 sm:p-3 bg-gradient-to-r from-rose-25 to-pink-25 border border-rose-100 rounded-md text-xs sm:text-sm space-y-1 sm:space-y-2">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-rose-700">
         <div className="flex items-center gap-1">
           <Zap className="w-3 h-3 text-rose-500" />
           <span>{t('tokens', language)}: {tokenUsage.totalTokens.toLocaleString()}</span>
@@ -57,7 +57,7 @@ function TokenUsageDisplay({ tokenUsage, language }: { tokenUsage: TokenUsage; l
           <span>{t('cost', language)}: ${tokenUsage.cost.totalCost.toFixed(5)}</span>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-2 text-rose-600">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1 sm:gap-2 text-rose-600 text-xs">
         <div>{t('prompt', language)}: {tokenUsage.promptTokens.toLocaleString()}</div>
         <div>{t('completion', language)}: {tokenUsage.completionTokens.toLocaleString()}</div>
         <div>{t('embedding', language)}: {tokenUsage.embeddingTokens?.toLocaleString() || '0'}</div>
@@ -88,6 +88,7 @@ export default function ChatInterface() {
     temperature: 0.7,
     maxTokens: 2000
   });
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const scrollToLatestMessage = () => {
     // Find the latest assistant message and scroll to it
@@ -242,18 +243,34 @@ export default function ChatInterface() {
   }, [currentSession, messages]);
 
 
-  // Close export menu when clicking outside
+  // Close menus when clicking outside or on mobile touch
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       const target = event.target as Element;
+      
+      // Close export menu
       if (showExportMenu && !target.closest('.export-menu-container')) {
         setShowExportMenu(false);
+      }
+      
+      // Close language menu
+      if (showLanguageMenu && !target.closest('.language-menu-container')) {
+        setShowLanguageMenu(false);
+      }
+      
+      // Close mobile menu
+      if (showMobileMenu && !target.closest('.mobile-menu-container')) {
+        setShowMobileMenu(false);
       }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [showExportMenu]);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [showExportMenu, showLanguageMenu, showMobileMenu]);
 
   // Scroll to latest message when messages change
   useEffect(() => {
@@ -367,17 +384,17 @@ export default function ChatInterface() {
         language={language}
       />
       
-      <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white border-l-4 border-r-4 border-rose-300">
+      <div className="flex flex-col h-screen w-full sm:max-w-4xl mx-auto bg-white sm:border-l-4 sm:border-r-4 border-rose-300">
       {/* Header */}
-      <div className="border-b-2 border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50 p-4">
+      <div className="border-b-2 border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50 p-3 sm:p-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-gradient-to-br from-rose-100 to-pink-100 rounded-lg border-2 border-rose-200 shadow-sm">
-              <Bot className="w-6 h-6 text-rose-600" />
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
+            <div className="p-1.5 sm:p-2 bg-gradient-to-br from-rose-100 to-pink-100 rounded-lg border-2 border-rose-200 shadow-sm flex-shrink-0">
+              <Bot className="w-5 h-5 sm:w-6 sm:h-6 text-rose-600" />
             </div>
-            <div>
-              <h1 className="text-xl font-semibold text-gray-900">{t('appTitle', language)}</h1>
-              <p className="text-sm text-gray-500">{t('appDescription', language)}</p>
+            <div className="min-w-0 flex-1">
+              <h1 className="text-lg sm:text-xl font-semibold text-gray-900 truncate">{t('appTitle', language)}</h1>
+              <p className="text-xs sm:text-sm text-gray-500">{t('appDescription', language)}</p>
               {sessionStats.totalMessages > 0 && (
                 <p className="text-xs text-gray-400 mt-1">
                   {t('sessionStats', language, {
@@ -390,14 +407,12 @@ export default function ChatInterface() {
             </div>
           </div>
           
-          <div className="flex items-center gap-2">
-            {/* Model Selector */}
+          <div className="hidden md:flex items-center gap-2">
             <ModelSelector
               currentConfig={modelConfig}
               onConfigChange={setModelConfig}
             />
             
-            {/* History Panel Toggle */}
             <button
               onClick={() => setShowHistoryPanel(true)}
               className="flex items-center gap-2 px-3 py-2 text-sm bg-white hover:bg-rose-50 border border-rose-200 hover:border-rose-300 rounded-lg transition-colors shadow-sm"
@@ -406,8 +421,7 @@ export default function ChatInterface() {
               {t('conversationHistory', language)}
             </button>
             
-            {/* Language Toggle */}
-            <div className="relative">
+            <div className="relative language-menu-container">
               <button
                 onClick={() => setShowLanguageMenu(!showLanguageMenu)}
                 className="flex items-center gap-2 px-3 py-2 text-sm bg-white hover:bg-rose-50 border border-rose-200 hover:border-rose-300 rounded-lg transition-colors shadow-sm"
@@ -440,7 +454,6 @@ export default function ChatInterface() {
               )}
             </div>
             
-            {/* Export Menu */}
             <div className="relative export-menu-container">
             <button
               onClick={() => setShowExportMenu(!showExportMenu)}
@@ -487,24 +500,158 @@ export default function ChatInterface() {
             )}
           </div>
           </div>
+          
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center gap-2">
+            <div className="relative language-menu-container">
+              <button
+                onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+                className="p-2 bg-white hover:bg-rose-50 border border-rose-200 hover:border-rose-300 rounded-lg transition-colors shadow-sm min-h-[44px] min-w-[44px] touch-manipulation"
+              >
+                <Globe className="w-5 h-5 text-rose-600" />
+              </button>
+            </div>
+            
+            <div className="relative mobile-menu-container">
+              <button
+                onClick={() => setShowMobileMenu(!showMobileMenu)}
+                className="p-2 bg-white hover:bg-rose-50 border border-rose-200 hover:border-rose-300 rounded-lg transition-colors shadow-sm min-h-[44px] min-w-[44px] touch-manipulation"
+              >
+                {showMobileMenu ? (
+                  <X className="w-5 h-5 text-rose-600" />
+                ) : (
+                  <Menu className="w-5 h-5 text-rose-600" />
+                )}
+              </button>
+            </div>
+          </div>
+          
+          {/* Mobile Language Menu */}
+          {showLanguageMenu && (
+            <div className="absolute left-4 top-full mt-2 w-32 bg-white border-2 border-rose-200 rounded-lg shadow-lg z-20 md:hidden">
+              <div className="p-2">
+                <button
+                  onClick={() => switchLanguage('en')}
+                  className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md ${
+                    language === 'en' ? 'bg-rose-100 text-rose-700 border border-rose-200' : 'hover:bg-rose-50'
+                  }`}
+                >
+                  English
+                </button>
+                <button
+                  onClick={() => switchLanguage('de')}
+                  className={`w-full flex items-center gap-2 px-3 py-2 text-sm rounded-md ${
+                    language === 'de' ? 'bg-rose-100 text-rose-700 border border-rose-200' : 'hover:bg-rose-50'
+                  }`}
+                >
+                  Deutsch
+                </button>
+              </div>
+            </div>
+          )}
+          </div>
         </div>
+        
+        {/* Mobile Menu Panel */}
+        {showMobileMenu && (
+          <div className="md:hidden border-t border-rose-200 bg-white mobile-menu-container">
+            <div className="p-3 space-y-3">
+              <div className="space-y-2">
+                <label className="text-xs font-medium text-rose-700 uppercase tracking-wide">Model</label>
+                <ModelSelector
+                  currentConfig={modelConfig}
+                  onConfigChange={setModelConfig}
+                />
+              </div>
+              
+              <button
+                onClick={() => {
+                  setShowHistoryPanel(true);
+                  setShowMobileMenu(false);
+                }}
+                className="w-full flex items-center gap-3 px-3 py-3 text-sm bg-rose-50 hover:bg-rose-100 border border-rose-200 hover:border-rose-300 rounded-lg transition-colors shadow-sm"
+              >
+                <History className="w-5 h-5 text-rose-600" />
+                {t('conversationHistory', language)}
+              </button>
+              
+              <button
+                onClick={() => {
+                  setShowExportMenu(!showExportMenu);
+                }}
+                className="w-full flex items-center gap-3 px-3 py-3 text-sm bg-rose-50 hover:bg-rose-100 border border-rose-200 hover:border-rose-300 rounded-lg transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={messages.length <= 1}
+              >
+                <Download className="w-5 h-5 text-rose-600" />
+                {t('exportButton', language)}
+              </button>
+              
+              {showExportMenu && (
+                <div className="mt-2 p-2 bg-rose-25 border border-rose-100 rounded-lg">
+                  <div className="space-y-1">
+                    <button
+                      onClick={() => {
+                        exportAsJSON();
+                        setShowMobileMenu(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-white rounded-md"
+                    >
+                      <FileText className="w-4 h-4 text-rose-600" />
+                      {t('exportAsJSON', language)}
+                    </button>
+                    <button
+                      onClick={() => {
+                        exportAsCSV();
+                        setShowMobileMenu(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-white rounded-md"
+                    >
+                      <FileSpreadsheet className="w-4 h-4 text-rose-600" />
+                      {t('exportAsCSV', language)}
+                    </button>
+                    <button
+                      onClick={() => {
+                        exportAsPDF();
+                        setShowMobileMenu(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-3 py-2 text-sm hover:bg-white rounded-md"
+                    >
+                      <FileImage className="w-4 h-4 text-rose-600" />
+                      {t('exportAsPDF', language)}
+                    </button>
+                    <hr className="my-2" />
+                    <button
+                      onClick={() => {
+                        clearConversation();
+                        setShowMobileMenu(false);
+                      }}
+                      className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-md"
+                    >
+                      {t('clearConversation', language)}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Messages */}
-      <div id="messages-container" className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div id="messages-container" className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 sm:space-y-4">
         {messages.map(message => (
           <div
             key={message.id}
             data-message-id={message.id}
-            className={`flex gap-3 ${message.type === "user" ? "justify-end" : "justify-start"}`}
+            className={`flex gap-2 sm:gap-3 ${message.type === "user" ? "justify-end" : "justify-start"}`}
           >
             {message.type === "assistant" && (
-              <div className="w-8 h-8 bg-gradient-to-br from-rose-100 to-pink-100 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-rose-200 shadow-sm">
-                <Bot className="w-4 h-4 text-rose-600" />
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-rose-100 to-pink-100 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-rose-200 shadow-sm">
+                <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-600" />
               </div>
             )}
             
-            <div className={`${message.type === "user" ? "max-w-[70%]" : "max-w-[85%]"}`}>
+            <div className={`${message.type === "user" ? "max-w-[85%] sm:max-w-[70%]" : "max-w-[90%] sm:max-w-[85%]"}`}>
               <div
                 className={`rounded-lg p-3 ${
                   message.type === "user"
@@ -533,51 +680,50 @@ export default function ChatInterface() {
             </div>
             
             {message.type === "user" && (
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
-                <User className="w-4 h-4 text-white" />
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+                <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" />
               </div>
             )}
           </div>
         ))}
         
         {isLoading && (
-          <div className="flex gap-3 justify-start">
-            <div className="w-8 h-8 bg-gradient-to-br from-rose-100 to-pink-100 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-rose-200 shadow-sm">
-              <Bot className="w-4 h-4 text-rose-600" />
+          <div className="flex gap-2 sm:gap-3 justify-start">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-gradient-to-br from-rose-100 to-pink-100 rounded-full flex items-center justify-center flex-shrink-0 border-2 border-rose-200 shadow-sm">
+              <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-rose-600" />
             </div>
             <div className="bg-gradient-to-br from-rose-50 to-pink-50 text-gray-900 border-2 border-rose-200 rounded-lg p-3 flex items-center gap-2 shadow-sm">
               <Loader2 className="w-4 h-4 animate-spin text-rose-500" />
-              <span>{t('processing', language)}</span>
+              <span className="text-sm sm:text-base">{t('processing', language)}</span>
             </div>
           </div>
         )}
       </div>
 
       {/* Input */}
-      <div className="border-t-2 border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50 p-4">
-        <div className="flex gap-2">
+      <div className="border-t-2 border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50 p-3 sm:p-4 pb-safe">
+        <div className="flex gap-2 sm:gap-3">
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyPress}
             placeholder={t('inputPlaceholder', language)}
-            className="flex-1 p-3 border-2 border-rose-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 resize-none bg-white shadow-sm"
+            className="flex-1 p-3 sm:p-4 border-2 border-rose-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-400 focus:border-rose-400 resize-none bg-white shadow-sm text-base min-h-[48px] sm:min-h-[52px]"
             rows={1}
             disabled={isLoading}
           />
           <button
             onClick={sendMessage}
             disabled={isLoading || !input.trim()}
-            className="px-4 py-3 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-lg hover:from-rose-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-sm border border-rose-300 transition-all duration-200"
+            className="px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-rose-500 to-pink-500 text-white rounded-lg hover:from-rose-600 hover:to-pink-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 shadow-sm border border-rose-300 transition-all duration-200 min-h-[48px] sm:min-h-[52px] touch-manipulation"
           >
-            <Send className="w-4 h-4" />
+            <Send className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
         </div>
-        <div className="text-xs text-rose-600 mt-2">
+        <div className="text-xs sm:text-sm text-rose-600 mt-2 hidden sm:block">
           {t('keyboardHint', language)}
         </div>
       </div>
-    </div>
     </>
   );
 }
