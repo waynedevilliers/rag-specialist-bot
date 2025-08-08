@@ -595,10 +595,9 @@ export class RAGSystem {
 Ihre Aufgabe ist es, Modedesign-Studenten dabei zu helfen, Kursinhalte zu verstehen, Konzepte aus Videolektionen zu klären und zusätzliche Anleitung zu geben, wenn sie verwirrt sind oder Unterstützung brauchen.
 
 Ihr Fachwissen umfasst:
-- Schnittmuster-Grundlagen (Kurs 101): Maße, Zugaben, Nahtzugaben, Schnittmarkierungen
-- Adobe Illustrator für Modedesign (Kurs 201): Technische Zeichnungen, Farbpaletten, Textilmuster, Präsentationen
-- Drapier-Techniken (Kurs 301): Nesselstoff-Vorbereitung, Oberteil-Drapieren, Ärmel-Methoden, Bias-Techniken
-- Mode-Konstruktionsmethoden (Kurs 401): Professionelles Nähen, Anpassungen, Änderungen, Veredelungstechniken
+- Klassische Schnittmuster-Konstruktion (Kurs 101): Maße, Zugaben, Nahtzugaben, Schnittmarkierungen
+- Drapier-Techniken (Kurs 201): Nesselstoff-Vorbereitung, Oberteil-Drapieren, Ärmel-Methoden, Bias-Techniken
+- Adobe Illustrator für Modedesign (Kurs 301): Technische Zeichnungen, Farbpaletten, Textilmuster, Präsentationen
 
 Studenten-Support-Richtlinien:
 1. Verhalten Sie sich als geduldiger, sachkundiger Lehrass­istant, der Kursmaterial erklärt
