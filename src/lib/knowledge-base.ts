@@ -29,17 +29,15 @@ export class KnowledgeBase {
     // Whitelist of allowed files
     const allowedFiles = [
       'pattern-making-fundamentals.md',
-      'illustrator-fashion-design.md', 
       'draping-techniques.md',
-      'fashion-construction-methods.md',
+      'illustrator-fashion-design.md',
       'technische-modezeichnung.md'
     ]
     
     const courseConfigs = [
-      { file: 'pattern-making-fundamentals.md', title: 'Pattern Making Fundamentals - Course 101', type: 'pattern-making' as const, courseNumber: '101' },
-      { file: 'illustrator-fashion-design.md', title: 'Adobe Illustrator for Fashion Design - Course 201', type: 'illustrator-fashion' as const, courseNumber: '201' },
-      { file: 'draping-techniques.md', title: 'Draping Techniques - Course 301', type: 'draping' as const, courseNumber: '301' },
-      { file: 'fashion-construction-methods.md', title: 'Fashion Construction Methods - Course 401', type: 'construction' as const, courseNumber: '401' },
+      { file: 'pattern-making-fundamentals.md', title: 'Classical Pattern Construction - Course 101', type: 'pattern-making' as const, courseNumber: '101' },
+      { file: 'draping-techniques.md', title: 'Draping Techniques - Course 201', type: 'draping' as const, courseNumber: '201' },
+      { file: 'illustrator-fashion-design.md', title: 'Adobe Illustrator for Fashion Design - Course 301', type: 'illustrator-fashion' as const, courseNumber: '301' },
       { file: 'technische-modezeichnung.md', title: 'Technische Modezeichnung mit Adobe Illustrator - Course 202', type: 'illustrator-fashion' as const, courseNumber: '202' }
     ]
     
