@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   --background: #ffffff;
@@ -33,7 +32,7 @@ body {
     font-size: 16px !important;
   }
   
-  /* Better touch targets */
+  /* Better touch targets for mobile only */
   button, [role="button"], .clickable {
     min-height: 44px;
     min-width: 44px;
@@ -48,6 +47,25 @@ body {
   /* Prevent horizontal scroll on mobile */
   body {
     overflow-x: hidden;
+  }
+}
+
+/* Desktop-specific styles to ensure proper styling */
+@media (min-width: 769px) {
+  /* Reset any mobile overrides for desktop */
+  input, textarea, select {
+    font-size: initial;
+  }
+  
+  /* Standard desktop button sizes */
+  button, [role="button"], .clickable {
+    min-height: auto;
+    min-width: auto;
+  }
+  
+  /* Standard desktop scrolling */
+  body {
+    overflow-x: auto;
   }
 }
 
