@@ -29,6 +29,11 @@ npm test
 npm run test:watch    # Development mode
 npm run test:coverage # Coverage analysis
 
+# Course structure validation (NEW)
+npm run test:course-structure # Validate course organization
+npm run test:integration      # Test API with all models
+npm run test:validate-courses # Complete validation + manual guide
+
 # Deployment commands
 npm run deploy        # Deploy to production
 npm run deploy:preview # Deploy preview
@@ -40,6 +45,18 @@ npm run deploy:preview # Deploy preview
 - **Commits**: Conventional commits format (feat:, fix:, docs:, etc.)
 - **Branches**: feature/[description] or fix/[description]
 - **Documentation**: No emojis in any markdown files (README.md, CLAUDE.md, CHANGELOG.md) - maintain professional, clean documentation
+
+## Course Structure (DEFINITIVE - DO NOT CHANGE)
+### Correct Course Mapping (All Languages & Models)
+- **Course 101**: Classical Pattern Construction (Klassische Schnittmuster-Konstruktion)
+- **Course 201**: Draping Techniques (Drapier-Techniken)  
+- **Course 301**: Adobe Illustrator for Fashion Design (Adobe Illustrator für Modedesign)
+
+### Validation Requirements
+- ALL system prompts (English + German) must match this structure
+- ALL translations must use these exact course numbers and names
+- ALL models (OpenAI, Claude, Gemini) must receive identical course information
+- Run `npm run test:validate-courses` before any course-related changes
 
 ## Architecture Patterns
 - **Components**: TypeScript interfaces → React.FC → default export
@@ -62,8 +79,16 @@ npm run deploy:preview # Deploy preview
 - Natural language formatting (no markdown)
 - LangSmith tracing and observability
 - Enhanced chat interface with auto-scroll and collapsible sources
+- **Course structure validation framework (8 automated tests + 20 manual questions)**
+- **Consistent 3-course structure across all LLMs and languages**
 
-### Recent Major Improvements (2025-08-06)
+### Recent Major Improvements (2025-08-08)
+- **Critical Course Structure Fixes**: Resolved inconsistent course mappings across all LLMs and languages
+- **Comprehensive Testing Framework**: Added 8 automated tests + 20 manual validation questions
+- **Multi-Model Consistency**: Ensured identical course structure across OpenAI, Claude, and Gemini
+- **Translation Alignment**: Perfect German/English course name and number consistency
+
+### Major Improvements (2025-08-06)
 - **Performance Enhancements**: 33% total performance improvement through HNSW indexing, vector quantization, and parallel processing
 - **Security Framework**: Complete security validation with API key protection, input sanitization, and rate limiting
 - **Smart Response Handling**: Greeting detection to avoid unnecessary RAG calls

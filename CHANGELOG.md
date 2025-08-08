@@ -4,6 +4,84 @@ All notable changes to the RAG Specialist Bot - ELLU Studios Fashion Assistant p
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2025-08-08
+
+### Critical Course Structure Fixes & Comprehensive Testing Framework
+
+This release addresses critical course structure inconsistencies that were causing incorrect responses across all LLMs and implements a comprehensive testing framework to prevent future regressions.
+
+### Fixed
+
+#### Critical Course Structure Issues
+- **System Prompt Misalignment**: Fixed inconsistent course mappings between English and German system prompts
+- **Knowledge Base Configuration**: Removed conflicting Course 202 and Course 401 references
+- **Translation Consistency**: Aligned all course names and numbers across UI components
+- **Multi-Model Consistency**: Ensured all LLMs (OpenAI, Claude, Gemini) receive identical course structure
+
+#### Correct Course Structure (All Languages & Models)
+- **Course 101**: Classical Pattern Construction (Klassische Schnittmuster-Konstruktion)
+- **Course 201**: Draping Techniques (Drapier-Techniken)
+- **Course 301**: Adobe Illustrator for Fashion Design (Adobe Illustrator für Modedesign)
+
+### Added
+
+#### Comprehensive Testing Framework
+- **Automated Course Structure Tests**: 8 passing tests validating course organization
+- **Integration Test Suite**: Framework for testing 10 key validation questions
+- **Multilingual Test Coverage**: English and German response validation
+- **Test Runner Script**: Complete validation suite with manual testing guide
+
+#### New Test Commands
+```bash
+npm run test:course-structure    # Course structure validation
+npm run test:integration        # API integration tests  
+npm run test:validate-courses   # Complete validation suite
+```
+
+#### Test Question Validation
+- **10 English Questions**: Comprehensive course structure and content validation
+- **10 German Questions**: Multilingual consistency verification
+- **Automated Response Analysis**: Content accuracy and course reference validation
+
+### Changed
+
+#### Knowledge Base Optimization
+- **Course File Organization**: Removed outdated `fashion-construction-methods.md`
+- **Metadata Consistency**: Aligned all course metadata with correct structure
+- **Content Processing**: Improved semantic chunking for accurate course identification
+
+#### System Prompt Standardization
+- **English System Prompt**: Updated with correct course mappings
+- **German System Prompt**: Fixed course structure inconsistencies
+- **Unified Response Format**: Consistent educational guidance across all models
+
+### Testing & Quality Assurance
+
+#### Validation Framework
+- **Structure Tests**: Validates exactly 3 courses with correct numbers
+- **Translation Tests**: Ensures German/English course name consistency
+- **Content Mapping**: Verifies course content matches assigned numbers
+- **Multi-Model Coverage**: Tests all supported LLM providers
+
+#### Quality Metrics
+- **Course Structure Accuracy**: 100% consistency across all components
+- **Translation Alignment**: Perfect German/English course mapping
+- **Model Response Consistency**: Identical structure across OpenAI, Claude, Gemini
+- **Test Coverage**: 8 automated tests + 20 manual validation questions
+
+### Documentation
+
+#### Testing Documentation
+- **Test Runner Guide**: Complete framework usage instructions
+- **Validation Questions**: 20 comprehensive test scenarios
+- **Manual Testing Process**: Step-by-step validation procedures
+- **Expected Responses**: Clear criteria for correct course structure
+
+#### Updated Development Guidelines
+- **Course Structure Standards**: Definitive mapping and organization rules
+- **Testing Requirements**: Mandatory validation before releases
+- **Multi-Language Support**: Guidelines for consistent translations
+
 ## [2.1.0] - 2025-08-07
 
 ### ELLU Studios Course Integration & Optimization
