@@ -11,6 +11,14 @@ A sophisticated AI-powered fashion design student assistant built with Next.js, 
 
 ## Key Features
 
+### Mobile-First Responsive Design
+- **Touch-Optimized Interface**: 44px minimum touch targets meeting accessibility standards
+- **Collapsible Mobile Menu**: Hamburger navigation for small screens with full desktop controls
+- **Responsive Breakpoints**: Tailored experiences for mobile (`<640px`) and desktop (`≥640px`)
+- **Mobile-Friendly Interactions**: Touch-optimized scrolling, input handling, and menu closures
+- **Cross-Device Consistency**: Seamless experience across phones, tablets, and desktops
+- **PWA Ready**: Progressive web app features with proper viewport configuration
+
 ### Performance Optimizations (33% Total Improvement)
 - **HNSW Vector Indexing**: O(log n) search complexity vs O(n) brute force (10x faster)
 - **Vector Quantization**: 8-bit compression for 50% memory reduction
@@ -35,6 +43,7 @@ A sophisticated AI-powered fashion design student assistant built with Next.js, 
 - **Greeting Detection**: Bypasses expensive RAG for simple interactions
 - **Multilingual Support**: English and German language processing
 - **Smart UI**: Auto-scroll to responses, collapsible sources, vertical borders
+- **Mobile Responsive**: Touch-optimized interface with collapsible navigation
 
 ### Fashion Education Specialization
 - **5 Complete Courses**: Pattern making, Adobe Illustrator, draping, construction, technical drawing
@@ -42,11 +51,13 @@ A sophisticated AI-powered fashion design student assistant built with Next.js, 
 - **Educational Context**: Student-focused explanations and guidance
 - **Function Calling**: Specialized tools for measurements, techniques, and tutorials
 - **Intuitive Interface**: Clean chat design with auto-scroll and source management
+- **Cross-Platform Access**: Full functionality on desktop, tablet, and mobile devices
 
 ## Tech Stack
 
 - **Framework**: Next.js 15 with App Router
-- **Frontend**: React 19, TypeScript, Tailwind CSS  
+- **Frontend**: React 19, TypeScript, Tailwind CSS with responsive design
+- **Mobile**: Touch-optimized components with PWA capabilities
 - **AI/ML**: LangChain, OpenAI API, Vector Embeddings
 - **Observability**: LangSmith tracing and monitoring
 - **Search**: HNSW indexing, Vector quantization, Semantic search
