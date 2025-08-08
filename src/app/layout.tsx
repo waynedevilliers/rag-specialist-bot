@@ -17,13 +17,6 @@ export const metadata: Metadata = {
   description: "AI-powered chatbot specialized in fashion design and pattern construction",
 };
 
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,14 +24,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <meta name="theme-color" content="#f43f5e" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="mobile-web-app-capable" content="yes" />
-      </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans touch-manipulation`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
       </body>
