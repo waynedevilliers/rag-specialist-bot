@@ -12,7 +12,7 @@
     "test:coverage": "jest --coverage",
     "test:course-structure": "jest course-structure.test.ts",
     "test:integration": "jest course-integration.test.ts",
-    "test:validate-courses": "node test-runner.js",
+    "test:validate-courses": "node scripts/test-runner.js",
     "deploy": "vercel --prod",
     "deploy:preview": "vercel"
   },
