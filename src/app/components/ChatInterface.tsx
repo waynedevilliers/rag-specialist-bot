@@ -528,13 +528,13 @@ export default function ChatInterface() {
               
               <button
                 onClick={() => {
-                  setShowLanguageMenu(!showLanguageMenu);
+                  switchLanguage(language === 'en' ? 'de' : 'en');
                   setShowMobileMenu(false);
                 }}
                 className="w-full flex items-center gap-2 px-3 py-2 text-sm bg-white hover:bg-rose-50 border border-rose-200 rounded-lg"
               >
                 <Globe className="w-4 h-4 text-rose-600" />
-                {language === 'en' ? 'English' : 'Deutsch'}
+                {language === 'en' ? 'Switch to Deutsch' : 'Switch to English'}
               </button>
               
               <button
