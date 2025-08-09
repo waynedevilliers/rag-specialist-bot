@@ -229,6 +229,5 @@ export default function ConversationHistory({
           </div>
         </div>
       </div>
-    </>
   );
 }
