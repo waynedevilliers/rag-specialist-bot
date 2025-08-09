@@ -75,8 +75,7 @@ export default function ConversationHistory({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex">
-      <div className="bg-white w-80 h-full shadow-2xl overflow-hidden flex flex-col">
+      <div className={`fixed left-0 top-0 h-full bg-white w-full md:w-80 shadow-2xl z-50 transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} flex flex-col`}>
         {/* Header */}
         <div className="p-4 border-b border-gray-200 bg-gray-50">
           <div className="flex items-center justify-between">
@@ -230,9 +229,6 @@ export default function ConversationHistory({
           </div>
         </div>
       </div>
-      
-      {/* Backdrop */}
-      <div className="flex-1" onClick={onClose} />
-    </div>
+    </>
   );
 }
