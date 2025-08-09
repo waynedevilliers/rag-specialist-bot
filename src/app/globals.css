@@ -27,6 +27,32 @@ body {
 
 /* Mobile-only optimizations - don't interfere with desktop */
 @media (max-width: 640px) {
+  /* Fix mobile height and eliminate white space */
+  html, body {
+    height: 100vh !important;
+    height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* Main app container */
+  body > div, #__next {
+    height: 100vh !important;
+    height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  
+  /* Chat container - fill full height */
+  .flex.flex-col.h-screen {
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-width: 100% !important;
+    border-left: none !important;
+    border-right: none !important;
+  }
+  
   /* Fix input text color and sizing for mobile */
   textarea, input {
     font-size: 16px !important; /* Prevent iOS zoom */
@@ -44,30 +70,23 @@ body {
     min-width: 44px;
   }
   
-  /* Prevent horizontal scroll */
-  body {
-    overflow-x: hidden;
-  }
-  
-  /* Container adjustments for mobile */
-  .mobile-container {
-    max-width: 100%;
-    border-left: none !important;
-    border-right: none !important;
-  }
-  
   /* Header adjustments for mobile */
   .mobile-header {
     padding: 12px !important;
+    flex-shrink: 0 !important;
   }
   
-  /* Message area adjustments */
+  /* Messages area - let it grow but not overflow */
   .mobile-messages {
     padding: 12px !important;
+    flex: 1 !important;
+    overflow-y: auto !important;
   }
   
-  /* Input area adjustments */
+  /* Input area - stick to bottom */
   .mobile-input {
     padding: 12px !important;
+    flex-shrink: 0 !important;
+    background: linear-gradient(to right, #fdf2f8, #fce7f3) !important;
   }
 }
