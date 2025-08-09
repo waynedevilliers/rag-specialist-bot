@@ -88,6 +88,7 @@ export default function ChatInterface() {
     temperature: 0.7,
     maxTokens: 2000
   });
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const scrollToLatestMessage = () => {
     // Find the latest assistant message and scroll to it
@@ -242,18 +243,28 @@ export default function ChatInterface() {
   }, [currentSession, messages]);
 
 
-  // Close export menu when clicking outside
+  // Close menus when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent | TouchEvent) => {
       const target = event.target as Element;
       if (showExportMenu && !target.closest('.export-menu-container')) {
         setShowExportMenu(false);
       }
+      if (showLanguageMenu && !target.closest('.language-menu-container')) {
+        setShowLanguageMenu(false);
+      }
+      if (showMobileMenu && !target.closest('.mobile-menu-container')) {
+        setShowMobileMenu(false);
+      }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [showExportMenu]);
+    document.addEventListener('touchstart', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [showExportMenu, showLanguageMenu, showMobileMenu]);
 
   // Scroll to latest message when messages change
   useEffect(() => {
@@ -367,7 +378,7 @@ export default function ChatInterface() {
         language={language}
       />
       
-      <div className="flex flex-col h-screen max-w-4xl mx-auto bg-white border-l-4 border-r-4 border-rose-300 mobile-container">
+      <div className="flex flex-col h-screen md:h-screen max-w-4xl mx-auto bg-white md:border-l-4 md:border-r-4 border-rose-300" style={{ height: '100dvh' }}>
       {/* Header */}
       <div className="border-b-2 border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50 p-4 mobile-header">
         <div className="flex items-center justify-between">
@@ -391,7 +402,10 @@ export default function ChatInterface() {
           </div>
           
           {/* Mobile menu button */}
-          <button className="md:hidden p-2 text-rose-600">
+          <button 
+            onClick={() => setShowMobileMenu(!showMobileMenu)}
+            className="md:hidden p-2 text-rose-600 hover:bg-rose-100 rounded-lg transition-colors"
+          >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
             </svg>
@@ -496,6 +510,47 @@ export default function ChatInterface() {
           </div>
           </div>
         </div>
+        
+        {/* Mobile menu dropdown */}
+        {showMobileMenu && (
+          <div className="md:hidden border-t border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50 p-3 mobile-menu-container">
+            <div className="space-y-2">
+              <button
+                onClick={() => {
+                  setShowHistoryPanel(true);
+                  setShowMobileMenu(false);
+                }}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm bg-white hover:bg-rose-50 border border-rose-200 rounded-lg"
+              >
+                <History className="w-4 h-4 text-rose-600" />
+                {t('conversationHistory', language)}
+              </button>
+              
+              <button
+                onClick={() => {
+                  setShowLanguageMenu(!showLanguageMenu);
+                  setShowMobileMenu(false);
+                }}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm bg-white hover:bg-rose-50 border border-rose-200 rounded-lg"
+              >
+                <Globe className="w-4 h-4 text-rose-600" />
+                {language === 'en' ? 'English' : 'Deutsch'}
+              </button>
+              
+              <button
+                onClick={() => {
+                  setShowExportMenu(!showExportMenu);
+                  setShowMobileMenu(false);
+                }}
+                className="w-full flex items-center gap-2 px-3 py-2 text-sm bg-white hover:bg-rose-50 border border-rose-200 rounded-lg disabled:opacity-50"
+                disabled={messages.length <= 1}
+              >
+                <Download className="w-4 h-4 text-rose-600" />
+                {t('exportButton', language)}
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Messages */}
