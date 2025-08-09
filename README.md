@@ -160,20 +160,35 @@ src/
 
 ## Testing & Quality
 
-### Comprehensive Test Suite (30+ Tests)
+### Comprehensive Test Suite (100+ Tests)
 ```bash
-# Run specific test categories
-npm test -- greeting.test.ts      # Greeting detection & response
-npm test -- security.test.ts      # Security validation framework  
-npm test -- rag-performance.test.ts # Performance benchmarks
-npm test -- fashion-functions.test.ts # Educational tools
+# Run all tests
+npm test                          # Complete test suite
+
+# Run specific test categories  
+npm test -- ChatInterface.test.tsx     # UI component interactions, language switching, mobile UX
+npm test -- ConversationHistory.test.tsx # Session management, export functionality, stats
+npm test -- conversation-manager.test.ts # Session persistence, storage management
+npm test -- export-functionality.test.ts # JSON, CSV, PDF export with error handling
+npm test -- security.test.ts           # Security validation framework  
+npm test -- rag-performance.test.ts    # Performance benchmarks
+npm test -- course-structure.test.ts   # Course organization validation
+
+# Specialized test suites
+npm run test:course-structure    # Course structure validation
+npm run test:integration        # API integration tests  
+npm run test:validate-courses   # Complete validation suite
 ```
 
-### Test Coverage
-- **Unit Tests**: Individual component and function validation
-- **Integration Tests**: API endpoints with realistic scenarios
-- **Security Tests**: Input validation, injection protection, rate limiting
-- **Performance Tests**: Response times, memory usage, token optimization
+### Test Coverage Areas
+- **UI Components**: Language switching, model selection, mobile responsiveness
+- **Session Management**: Creation, persistence, export, deletion workflows
+- **Export Functionality**: JSON, CSV, PDF generation with content validation
+- **Error Handling**: Network failures, API errors, graceful degradation
+- **Mobile UX**: Touch interactions, responsive layouts, menu functionality
+- **Security**: Input validation, injection protection, rate limiting
+- **Performance**: Response times, memory usage, token optimization
+- **Accessibility**: ARIA labels, keyboard navigation, screen reader support
 
 ### Quality Metrics
 - **Response Times**: <10ms greetings, <3s educational queries
