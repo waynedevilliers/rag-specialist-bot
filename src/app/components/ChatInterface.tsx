@@ -218,6 +218,10 @@ export default function ChatInterface() {
     setMessages([]);
     setSessionStats({ totalTokens: 0, totalCost: 0, totalMessages: 0 });
     ConversationManager.setCurrentSession(newSession.id);
+    
+    // Save the session immediately so it appears in history
+    const sessions = ConversationManager.getSessions();
+    ConversationManager.saveSessions([...sessions, newSession]);
   };
   
   const calculateSessionStats = (msgs: Message[]) => {
@@ -429,7 +433,7 @@ export default function ChatInterface() {
             </button>
             
             {/* Language Toggle */}
-            <div className="relative">
+            <div className="relative language-menu-container">
               <button
                 onClick={() => setShowLanguageMenu(!showLanguageMenu)}
                 className="flex items-center gap-2 px-3 py-2 text-sm bg-white hover:bg-rose-50 border border-rose-200 hover:border-rose-300 rounded-lg transition-colors shadow-sm"
