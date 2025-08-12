@@ -67,7 +67,8 @@ function TokenUsageDisplay({ tokenUsage, language }: { tokenUsage: TokenUsage; l
   );
 }
 
-export default function ChatInterface() {
+export default function 
+ChatInterface() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
