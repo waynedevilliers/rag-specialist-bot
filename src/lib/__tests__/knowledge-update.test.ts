@@ -51,7 +51,13 @@ describe('KnowledgeUpdateService', () => {
 
       const source: UpdateSource = {
         type: 'text',
-        content: 'Pattern making is a fundamental skill in fashion design. It involves creating templates for garments using measurements and design specifications. Key concepts include dart placement, seam allowances, and grain lines.',
+        content: `Pattern making is a fundamental skill in fashion design that involves creating templates for garments using precise measurements and design specifications. Learn the essential techniques for professional pattern construction.
+
+Key concepts include dart placement for fit, seam allowances for construction, and proper grain line alignment for fabric drape. Understanding these pattern making fundamentals is crucial for fashion designers.
+
+When working with patterns, consider the ease requirements - the difference between body measurements and finished garment measurements. Different garment types require different amounts of ease for proper fit and comfort.
+
+This technique involves using interfacing for structure, notches for construction alignment, and proper finishing methods. Pattern making is the foundation of all garment construction in fashion design.`,
         metadata: {
           title: 'Introduction to Pattern Making',
           courseType: 'pattern-making',
