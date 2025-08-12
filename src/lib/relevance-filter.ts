@@ -14,7 +14,8 @@ const FASHION_KEYWORDS = {
   // Core fashion terms
   CORE: [
     'fashion', 'design', 'garment', 'clothing', 'apparel', 'textile', 'fabric',
-    'pattern', 'sewing', 'tailoring', 'dressmaking', 'couture', 'ready-to-wear'
+    'pattern', 'sewing', 'tailoring', 'dressmaking', 'couture', 'ready-to-wear',
+    'course', 'lesson', 'module', 'ellu', 'studios', 'tutorial', 'learning'
   ],
   
   // Construction techniques
@@ -26,9 +27,10 @@ const FASHION_KEYWORDS = {
   
   // Adobe Illustrator terms
   ILLUSTRATOR: [
-    'illustrator', 'adobe', 'vector', 'pen tool', 'pathfinder', 'brush',
-    'technical flat', 'fashion illustration', 'color palette', 'swatches',
-    'artboard', 'layers', 'bezier', 'anchor point'
+    'illustrator', 'adobe', 'vector', 'pen', 'tool', 'pathfinder', 'brush',
+    'technical', 'flat', 'fashion', 'illustration', 'color', 'palette', 'swatches',
+    'artboard', 'layers', 'layer', 'bezier', 'anchor', 'point', 'line', 'weight', 'weights', 'stroke',
+    'fill', 'croquis', 'template', 'annotation', 'workflow'
   ],
   
   // Garment types
@@ -138,17 +140,28 @@ const FASHION_QUESTION_PATTERNS = [
   /(illustrator|adobe).*fashion/i,
   /(technical\s+flat|fashion\s+illustration)/i,
   /fabric\s+(choice|selection|properties)/i,
-  /pattern\s+(making|drafting|adjustment)/i
+  /pattern\s+(making|drafting|adjustment)/i,
+  /(course|lesson|module)\s*\d+/i,
+  /what\s+(courses?|lessons?|modules?)/i,
+  /tell\s+me\s+about\s+(course|lesson|module)/i,
+  /ellu\s+studios/i,
+  /what\s+(are|is)\s+(layers?|line\s*weights?)/i,
+  /tell\s+me\s+(more\s+)?about\s+(layers?|line\s*weights?)/i,
+  /layers?\s+(in|for|organization)/i,
+  /pen\s+tool/i,
+  /technical\s+(drawing|flat)/i,
+  /croquis/i,
+  /workflow/i
 ] as const
 
 /**
  * Relevance scoring thresholds
  */
 const THRESHOLDS = {
-  HIGH_RELEVANCE: 0.7,    // Definitely fashion-related
-  LOW_RELEVANCE: 0.3,     // Probably not fashion-related
-  KEYWORD_WEIGHT: 0.6,    // Weight of keyword matching
-  PATTERN_WEIGHT: 0.4     // Weight of pattern matching
+  HIGH_RELEVANCE: 0.2,    // Definitely fashion-related (very low)
+  LOW_RELEVANCE: 0.1,     // Probably not fashion-related (very low) 
+  KEYWORD_WEIGHT: 0.4,    // Weight of keyword matching
+  PATTERN_WEIGHT: 0.6     // Weight of pattern matching (higher)
 } as const
 
 /**
@@ -169,83 +182,40 @@ export class RelevanceFilter {
   
   /**
    * Determine if a query is relevant to fashion design
+   * Simplified to only handle greetings - let RAG system handle everything else
    */
   static analyzeRelevance(query: string): RelevanceResult {
     try {
       // Validate and clean the query
       const cleanQuery = ValidationUtils.validateQuery(query).toLowerCase()
       
-      // Check for prompt injection attempts first
-      if (this.isPromptInjection(cleanQuery)) {
-        return {
-          isRelevant: false,
-          confidence: 1.0,
-          reasoning: 'Prompt injection or role-playing attempt detected',
-          suggestedResponse: 'I\'m a fashion design assistant and can only help with topics related to garment construction, pattern making, and Adobe Illustrator for fashion. Please ask me about fashion design instead.',
-          shouldUseRAG: false
-        }
-      }
-      
-      // Check for greetings 
+      // Check for greetings - provide quick response without RAG
       if (this.isGreeting(cleanQuery)) {
         return {
-          isRelevant: true, // Greetings are relevant for user experience
+          isRelevant: true,
           confidence: 1.0,
           reasoning: 'Simple greeting detected',
           suggestedResponse: this.getGreetingResponse(),
-          shouldUseRAG: false // But don't use expensive RAG for greetings
-        }
-      }
-      
-      // Check for obvious non-fashion content
-      const nonFashionScore = this.calculateNonFashionScore(cleanQuery)
-      if (nonFashionScore > THRESHOLDS.HIGH_RELEVANCE) {
-        return {
-          isRelevant: false,
-          confidence: nonFashionScore,
-          reasoning: 'Query appears to be unrelated to fashion design',
-          suggestedResponse: 'I specialize in fashion design and Adobe Illustrator. Could you ask me about garment construction, pattern making, or fashion illustration instead?',
           shouldUseRAG: false
         }
       }
       
-      // Calculate fashion relevance score
-      const fashionScore = this.calculateFashionScore(cleanQuery)
-      
-      if (fashionScore >= THRESHOLDS.HIGH_RELEVANCE) {
-        return {
-          isRelevant: true,
-          confidence: fashionScore,
-          reasoning: 'High fashion design relevance detected',
-          shouldUseRAG: true
-        }
-      }
-      
-      if (fashionScore <= THRESHOLDS.LOW_RELEVANCE) {
-        return {
-          isRelevant: false,
-          confidence: 1 - fashionScore,
-          reasoning: 'Low fashion design relevance',
-          suggestedResponse: 'I can help with fashion design, garment construction, pattern making, and Adobe Illustrator for fashion. What would you like to learn about?',
-          shouldUseRAG: false
-        }
-      }
-      
-      // Borderline case - use RAG but with lower confidence
+      // For everything else, let RAG system handle it
+      // RAG system has proper role boundaries and will redirect non-fashion questions
       return {
         isRelevant: true,
-        confidence: fashionScore,
-        reasoning: 'Moderate fashion design relevance - proceeding with caution',
+        confidence: 0.8,
+        reasoning: 'Allowing RAG system to handle query and enforce role boundaries',
         shouldUseRAG: true
       }
       
     } catch (error) {
-      // If validation fails, treat as potentially relevant but with low confidence
+      // If validation fails, still let RAG handle it
       return {
         isRelevant: true,
-        confidence: 0.1,
-        reasoning: 'Query validation failed - proceeding with minimal confidence',
-        shouldUseRAG: false
+        confidence: 0.5,
+        reasoning: 'Query validation failed - letting RAG system handle',
+        shouldUseRAG: true
       }
     }
   }
@@ -353,6 +323,23 @@ export class RelevanceFilter {
       .filter(word => !this.isStopWord(word))
   }
   
+  /**
+   * Check for explicit fashion terms that should always be considered relevant
+   */
+  private static containsExplicitFashionTerms(query: string): boolean {
+    const explicitTerms = [
+      'layers', 'layer', 'line weights', 'line weight', 'weights', 'weight',
+      'pen tool', 'adobe illustrator', 'illustrator', 'technical flat',
+      'fashion illustration', 'croquis', 'template', 'workflow',
+      'dart', 'seam', 'bias', 'ease', 'draping', 'pattern', 'sewing',
+      'bodice', 'sleeve', 'collar', 'hem', 'zipper', 'fitting',
+      'course 101', 'course 201', 'course 301', 'ellu studios'
+    ]
+    
+    const lowerQuery = query.toLowerCase()
+    return explicitTerms.some(term => lowerQuery.includes(term))
+  }
+
   /**
    * Check if word is a common stop word
    */
