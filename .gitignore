@@ -43,12 +43,8 @@ Thumbs.db
 logs
 *.log
 
-# Claude Code and AI Assistant Files (local settings only)
-.claude/settings.local.json
-.claude/settings.json
-.claude/config.local.*
-.claude/cache/
-.claude/logs/
+# Claude Code and AI Assistant Files (keep entire directory local)
+.claude/
 CLAUDE.md
 
 # Local Development Documentation (keep these local)
