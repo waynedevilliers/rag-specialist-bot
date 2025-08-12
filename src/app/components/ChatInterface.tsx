@@ -54,14 +54,14 @@ function TokenUsageDisplay({ tokenUsage, language }: { tokenUsage: TokenUsage; l
         </div>
         <div className="flex items-center gap-1">
           <DollarSign className="w-3 h-3 text-rose-500" />
-          <span>{t('cost', language)}: ${tokenUsage.cost.totalCost.toFixed(5)}</span>
+          <span>{t('cost', language)}: ${(tokenUsage.cost?.totalCost || 0).toFixed(5)}</span>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-2 text-rose-600">
         <div>{t('prompt', language)}: {tokenUsage.promptTokens.toLocaleString()}</div>
         <div>{t('completion', language)}: {tokenUsage.completionTokens.toLocaleString()}</div>
         <div>{t('embedding', language)}: {tokenUsage.embeddingTokens?.toLocaleString() || '0'}</div>
-        <div>{t('totalCost', language)}: ${tokenUsage.cost.totalCost.toFixed(5)}</div>
+        <div>{t('totalCost', language)}: ${(tokenUsage.cost?.totalCost || 0).toFixed(5)}</div>
       </div>
     </div>
   );
@@ -146,8 +146,8 @@ ChatInterface() {
       // Update session stats
       if (data.tokenUsage) {
         setSessionStats(prev => ({
-          totalTokens: prev.totalTokens + data.tokenUsage.totalTokens,
-          totalCost: prev.totalCost + data.tokenUsage.cost.totalCost,
+          totalTokens: prev.totalTokens + (data.tokenUsage.totalTokens || 0),
+          totalCost: prev.totalCost + (data.tokenUsage.cost?.totalCost || 0),
           totalMessages: prev.totalMessages + 1
         }));
       }
@@ -229,8 +229,8 @@ ChatInterface() {
     const stats = msgs.reduce((acc, msg) => {
       if (msg.type === 'assistant' && msg.tokenUsage) {
         return {
-          totalTokens: acc.totalTokens + msg.tokenUsage.totalTokens,
-          totalCost: acc.totalCost + msg.tokenUsage.cost.totalCost,
+          totalTokens: acc.totalTokens + (msg.tokenUsage.totalTokens || 0),
+          totalCost: acc.totalCost + (msg.tokenUsage.cost?.totalCost || 0),
           totalMessages: acc.totalMessages + 1
         };
       }

@@ -117,8 +117,8 @@ export class ConversationManager {
       const stats = messages.reduce((acc, msg) => {
         if (msg.type === 'assistant' && msg.tokenUsage) {
           return {
-            totalTokens: acc.totalTokens + msg.tokenUsage.totalTokens,
-            totalCost: acc.totalCost + msg.tokenUsage.cost.totalCost
+            totalTokens: acc.totalTokens + (msg.tokenUsage.totalTokens || 0),
+            totalCost: acc.totalCost + (msg.tokenUsage.cost?.totalCost || 0)
           };
         }
         return acc;
@@ -431,8 +431,8 @@ export class ConversationManager {
       const stats = messages.reduce((acc: { totalTokens: number; totalCost: number }, msg: Message) => {
         if (msg.type === 'assistant' && msg.tokenUsage) {
           return {
-            totalTokens: acc.totalTokens + msg.tokenUsage.totalTokens,
-            totalCost: acc.totalCost + msg.tokenUsage.cost.totalCost
+            totalTokens: acc.totalTokens + (msg.tokenUsage.totalTokens || 0),
+            totalCost: acc.totalCost + (msg.tokenUsage.cost?.totalCost || 0)
           };
         }
         return acc;
