@@ -1,5 +1,6 @@
 // Conversation session management utilities
 import { DocumentSource } from './rag-system';
+import { DateUtils, ContextualDateFormatter } from './date-utils';
 
 export interface TokenUsage {
   promptTokens: number;
@@ -77,7 +78,7 @@ export class ConversationManager {
     try {
       // Limit the number of sessions stored
       const limitedSessions = sessions
-        .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
+        .sort((a, b) => DateUtils.diffInMs(a.updatedAt, b.updatedAt))
         .slice(0, MAX_SESSIONS);
       
       localStorage.setItem(STORAGE_KEY, JSON.stringify(limitedSessions));
@@ -90,7 +91,7 @@ export class ConversationManager {
   static createSession(language: 'en' | 'de' = 'en'): ConversationSession {
     const now = new Date();
     const session: ConversationSession = {
-      id: `session_${now.getTime()}`,
+      id: DateUtils.createSessionId(),
       title: `Conversation ${now.toLocaleDateString()}`,
       createdAt: now,
       updatedAt: now,
@@ -233,7 +234,7 @@ export class ConversationManager {
     const session = this.getSession(sessionId);
     if (!session) return;
 
-    const timestamp = new Date().toISOString().split('T')[0];
+    const timestamp = DateUtils.nowDateString();
     const filename = `ellu-fashion-assistant-${session.id}-${timestamp}`;
 
     if (format === 'json') {
@@ -241,8 +242,8 @@ export class ConversationManager {
         session: {
           id: session.id,
           title: session.title,
-          createdAt: session.createdAt.toISOString(),
-          updatedAt: session.updatedAt.toISOString(),
+          createdAt: ContextualDateFormatter.forAPI(session.createdAt),
+          updatedAt: ContextualDateFormatter.forAPI(session.updatedAt),
           language: session.language
         },
         stats: {
@@ -254,7 +255,7 @@ export class ConversationManager {
           id: msg.id,
           type: msg.type,
           content: msg.content,
-          timestamp: msg.timestamp.toISOString(),
+          timestamp: ContextualDateFormatter.forAPI(msg.timestamp),
           sources: msg.sources,
           processingTime: msg.processingTime,
           tokenUsage: msg.tokenUsage
@@ -275,7 +276,7 @@ export class ConversationManager {
         const tokens = msg.tokenUsage?.totalTokens || 0;
         const cost = msg.tokenUsage?.cost.totalCost || 0;
         
-        return `${msg.timestamp.toISOString()},${msg.type},${content},${sources},${processingTime},${tokens},${cost.toFixed(4)}`;
+        return `${ContextualDateFormatter.forAPI(msg.timestamp)},${msg.type},${content},${sources},${processingTime},${tokens},${cost.toFixed(4)}`;
       }).join('\n');
 
       const csvContent = csvHeader + csvRows;

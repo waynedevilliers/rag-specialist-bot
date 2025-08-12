@@ -5,14 +5,18 @@
  * All user inputs and external data must be validated through this framework.
  */
 
+import crypto from 'crypto'
+import { ValidationUtils, QuerySchema } from './validation-schemas'
+import { CONFIG } from './config'
+
 export class SecurityValidator {
   // Security limits
   static readonly MAX_VECTOR_DIMENSIONS = 2048
   static readonly MAX_VECTOR_VALUE = 1e6
-  static readonly MAX_QUERY_LENGTH = 1000
-  static readonly MAX_BATCH_SIZE = 100
-  static readonly MAX_CACHE_SIZE = 1000
-  static readonly MAX_NODES = 100000
+  static readonly MAX_QUERY_LENGTH = CONFIG.LIMIT.MAX_QUERY_LENGTH
+  static readonly MAX_BATCH_SIZE = CONFIG.PERFORMANCE.DEFAULT_BATCH_SIZE
+  static readonly MAX_CACHE_SIZE = CONFIG.LIMIT.MAX_CACHE_SIZE
+  static readonly MAX_NODES = CONFIG.LIMIT.MAX_NODES
   static readonly MIN_API_KEY_LENGTH = 20
 
   /**
@@ -35,14 +39,14 @@ export class SecurityValidator {
   /**
    * Validate and sanitize user queries for prompt injection protection
    */
-  static validateQuery(query: string): string {
-    if (typeof query !== 'string' || query.length === 0) {
-      throw new SecurityError('Invalid query format')
+  static validateQuery(query: unknown): string {
+    // Use Zod for validation instead of manual type checks
+    const validationResult = ValidationUtils.safeParseQuery(query)
+    if (!validationResult.success) {
+      throw new SecurityError(`Query validation failed: ${validationResult.error}`)
     }
     
-    if (query.length > this.MAX_QUERY_LENGTH) {
-      throw new SecurityError(`Query exceeds maximum length: ${query.length} > ${this.MAX_QUERY_LENGTH}`)
-    }
+    const validatedQuery = validationResult.data
     
     // Check for prompt injection patterns
     const dangerousPatterns = [
@@ -60,24 +64,22 @@ export class SecurityValidator {
     ]
     
     for (const pattern of dangerousPatterns) {
-      if (pattern.test(query)) {
+      if (pattern.test(validatedQuery)) {
         throw new SecurityError('Potentially malicious query detected')
       }
     }
     
-    // Additional sanitization
-    return query
-      .trim()
+    // Additional sanitization (validatedQuery is already trimmed by Zod)
+    return validatedQuery
       .replace(/[{}]/g, '') // Remove template literals
       .replace(/<[^>]*>/g, '') // Remove HTML-like tags
-      .substring(0, this.MAX_QUERY_LENGTH)
   }
 
   /**
    * Validate API keys before use
    */
-  static validateApiKey(key: string): string {
-    if (!key || typeof key !== 'string') {
+  static validateApiKey(key: unknown): string {
+    if (!ValidationUtils.isValidString(key) || !key) {
       throw new SecurityError('API key is required')
     }
     
@@ -96,8 +98,8 @@ export class SecurityValidator {
   /**
    * Validate file paths to prevent traversal attacks
    */
-  static validateFilePath(filePath: string, allowedBasePath: string): void {
-    if (!filePath || typeof filePath !== 'string') {
+  static validateFilePath(filePath: unknown, allowedBasePath: string): void {
+    if (!ValidationUtils.isValidString(filePath) || !filePath) {
       throw new SecurityError('Invalid file path')
     }
     
@@ -207,7 +209,7 @@ export class SecurityValidator {
    * Sanitize data for logging (remove sensitive information)
    */
   static sanitizeForLogging(data: unknown): unknown {
-    if (typeof data !== 'object' || data === null) {
+    if (!ValidationUtils.isValidObject(data)) {
       return data
     }
     

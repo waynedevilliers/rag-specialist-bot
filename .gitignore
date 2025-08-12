@@ -42,3 +42,68 @@ Thumbs.db
 # Logs
 logs
 *.log
+
+# Claude Code and AI Assistant Files (local settings only)
+.claude/settings.local.json
+.claude/settings.json
+.claude/config.local.*
+.claude/cache/
+.claude/logs/
+CLAUDE.md
+
+# Local Development Documentation (keep these local)
+questionsAndAnswers.md
+adobe-illustrator-301-bilingual-knowledge-base.md
+adobe-illustrator-301-knowledge-base.md
+
+# Temporary/Test Files
+test-*.js
+*.temp
+*.tmp
+
+# Local Configuration
+.env.local.example
+config.local.*
+
+# Development Notes and Scratch Files
+notes.md
+TODO.md
+SCRATCH.md
+dev-notes.md
+
+# Security Reports and Logs
+security-reports/
+audit-logs/
+*.security.log
+
+# Backup Files
+*.backup
+*.bak
+backup_*
+
+# Local Cache and Temp Data
+.cache/
+temp/
+tmp/
+
+# AI Assistant Generated Files (keep local)
+*-generated.md
+*-output.md
+*-analysis.md
+*-report.md
+ai-*.md
+
+# Personal Notes and Experiments
+personal-notes.md
+experiments/
+playground/
+
+# Development Artifacts
+*.draft
+*.sketch
+*.wip
+
+# Knowledge Base Exports
+knowledge-export-*
+export-*
+session-export-*

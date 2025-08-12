@@ -4,6 +4,8 @@ import { vectorStore, VectorMatch } from './vector-store'
 import { ModelService, type ModelConfig } from './model-service'
 import { SecurityValidator, SecurityError, SecurityUtils } from './security-validator'
 import { Client } from 'langsmith'
+import { CONFIG } from './config'
+import { RelevanceFilter, type RelevanceResult } from './relevance-filter'
 
 // Circuit breaker state
 interface CircuitBreakerState {
@@ -57,8 +59,8 @@ export class RAGSystem {
   
   // Response cache
   private responseCache = new Map<string, CacheEntry>()
-  private readonly CACHE_TTL = 1000 * 60 * 30 // 30 minutes
-  private readonly MAX_CACHE_SIZE = 100
+  private readonly CACHE_TTL = CONFIG.CACHE.RAG_CACHE_TTL
+  private readonly MAX_CACHE_SIZE = CONFIG.LIMIT.MAX_CACHE_SIZE
   
   // Circuit breaker for API calls
   private circuitBreaker: CircuitBreakerState = {
@@ -67,18 +69,10 @@ export class RAGSystem {
     state: 'closed'
   }
   private readonly MAX_FAILURES = 5
-  private readonly CIRCUIT_BREAKER_TIMEOUT = 1000 * 60 * 5 // 5 minutes
+  private readonly CIRCUIT_BREAKER_TIMEOUT = CONFIG.TIMEOUT.CIRCUIT_BREAKER_TIMEOUT
   
   // OpenAI pricing (as of 2024/2025) per 1K tokens
-  private readonly PRICING = {
-    'gpt-4o-mini': {
-      input: 0.00015,   // $0.15 per 1M tokens
-      output: 0.0006    // $0.60 per 1M tokens
-    },
-    'text-embedding-3-small': {
-      input: 0.00002    // $0.02 per 1M tokens
-    }
-  }
+  private readonly PRICING = CONFIG.MODEL.PRICING
 
   constructor() {
     // Note: API key validation deferred to first usage to prevent build-time errors
@@ -86,8 +80,8 @@ export class RAGSystem {
       openAIApiKey: process.env.OPENAI_API_KEY || '',
       modelName: 'gpt-4o-mini',
       temperature: 0.1,
-      maxTokens: 2000,
-      timeout: 30000, // 30 second timeout
+      maxTokens: CONFIG.LIMIT.DEFAULT_MAX_TOKENS,
+      timeout: CONFIG.TIMEOUT.DEFAULT_API_TIMEOUT,
       callbacks: [
         {
           handleLLMStart: (llm, messages) => {
@@ -141,8 +135,8 @@ export class RAGSystem {
 
   // Utility methods for improvements
   private hashQuery(query: string): string {
-    // **SECURITY FIX**: Use cryptographic hash for cache keys
-    return SecurityUtils.secureHash(query + Date.now(), 'rag-query-salt')
+    // **CACHING FIX**: Use stable hash for cache keys (removed Date.now())
+    return SecurityUtils.secureHash(query.trim().toLowerCase(), 'rag-query-salt')
   }
   
   private cleanCache(): void {
@@ -194,7 +188,7 @@ export class RAGSystem {
   private async withRetry<T>(
     fn: () => Promise<T>,
     maxRetries: number = 3,
-    baseDelay: number = 1000
+    baseDelay: number = CONFIG.RETRY.BASE_RETRY_DELAY
   ): Promise<T> {
     let lastError: Error
     
@@ -300,9 +294,26 @@ export class RAGSystem {
       // **SECURITY FIX**: Validate and sanitize user input
       const sanitizedQuery = SecurityValidator.validateQuery(userQuery)
     
+      // **RELEVANCE FIX**: Check if query is relevant to fashion design
+      const relevanceResult = RelevanceFilter.analyzeRelevance(sanitizedQuery)
+      
+      // Handle greetings and irrelevant queries efficiently
+      if (!relevanceResult.shouldUseRAG) {
+        const quickResponse = relevanceResult.suggestedResponse || this.generateSimpleResponse(sanitizedQuery, language)
+        return {
+          response: quickResponse,
+          sources: [],
+          tokenUsage: { promptTokens: 0, completionTokens: 0, totalTokens: 0 },
+          cost: { promptCost: 0, completionCost: 0, embeddingCost: 0, totalCost: 0 },
+          processingTime: Date.now() - startTime,
+          cached: false,
+          model: 'relevance-filter'
+        }
+      }
+    
     // **SECURITY FIX**: Rate limiting check
     const clientId = 'default' // In production, use actual client identifier
-    if (!SecurityValidator.checkRateLimit(clientId, 100, 60000)) {
+    if (!SecurityValidator.checkRateLimit(clientId, CONFIG.LIMIT.DEFAULT_RATE_LIMIT, CONFIG.TIMEOUT.RATE_LIMIT_WINDOW)) {
       throw new SecurityError('Rate limit exceeded')
     }
     
@@ -372,8 +383,8 @@ export class RAGSystem {
       // Step 3: Generate response with context and track tokens (with retry)
       const { response, tokenUsage } = await this.withRetry(
         () => this.generateResponse(sanitizedQuery, relevantChunks, language, modelConfig),
-        3,
-        1000
+        CONFIG.RETRY.MAX_RETRY_ATTEMPTS,
+        CONFIG.RETRY.BASE_RETRY_DELAY
       )
       
       // Step 4: Prepare sources
@@ -733,6 +744,25 @@ IMPORTANT FORMATTING RULES:
       console.error('Error generating LLM response:', error)
       throw error
     }
+  }
+
+  private generateSimpleResponse(query: string, language: 'en' | 'de' = 'en'): string {
+    // Simple responses for greetings and basic interactions
+    const greetingResponses = {
+      en: [
+        "Hello! I'm your fashion design assistant. I can help you with garment construction, pattern making, and Adobe Illustrator techniques. What would you like to learn today?",
+        "Hi there! I specialize in fashion design education. Feel free to ask me about sewing techniques, pattern drafting, or fashion illustration.",
+        "Welcome! I'm here to help with fashion design questions, from basic construction to advanced Adobe Illustrator techniques. How can I assist you?"
+      ],
+      de: [
+        "Hallo! Ich bin Ihr Modedesign-Assistent. Ich kann Ihnen bei der Kleidungskonstruktion, Schnittmustererstellung und Adobe Illustrator-Techniken helfen. Was möchten Sie heute lernen?",
+        "Hallo! Ich spezialisiere mich auf Modedesign-Bildung. Fragen Sie mich gerne zu Nähtechniken, Schnittmuster-Entwurf oder Mode-Illustration.",
+        "Willkommen! Ich bin hier, um bei Modedesign-Fragen zu helfen, von der grundlegenden Konstruktion bis zu fortgeschrittenen Adobe Illustrator-Techniken. Wie kann ich Ihnen helfen?"
+      ]
+    }
+    
+    const responses = greetingResponses[language]
+    return responses[Math.floor(Math.random() * responses.length)]
   }
 
   private async generateFallbackResponse(query: string, language: 'en' | 'de' = 'en'): Promise<string> {
