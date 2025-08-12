@@ -168,16 +168,20 @@ src/
 ### Comprehensive Test Suite (100+ Tests)
 ```bash
 # Run all tests
-npm test                          # Complete test suite
+npm test                          # Complete test suite with multi-environment support
 
 # Run specific test categories  
 npm test -- ChatInterface.test.tsx     # UI component interactions, language switching, mobile UX
 npm test -- ConversationHistory.test.tsx # Session management, export functionality, stats
 npm test -- conversation-manager.test.ts # Session persistence, storage management
 npm test -- export-functionality.test.ts # JSON, CSV, PDF export with error handling
+npm test -- knowledge-validator.test.ts  # Content validation with enhanced security
 npm test -- security.test.ts           # Security validation framework  
 npm test -- rag-performance.test.ts    # Performance benchmarks
-npm test -- course-structure.test.ts   # Course organization validation
+
+# Environment-specific test runs
+npm test -- --selectProjects=node      # Node.js tests (lib, api)
+npm test -- --selectProjects=jsdom     # React component tests (browser)
 
 # Specialized test suites
 npm run test:course-structure    # Course structure validation
@@ -220,11 +224,19 @@ npm run test:validate-courses   # Complete validation suite
 - ✅ **Relevance filtering**: Added smart query filtering to prevent irrelevant RAG usage
 - ✅ **Clean repository**: Proper .gitignore for local development files
 
+### Test Infrastructure Improvements
+- ✅ **Jest Configuration**: Multi-project setup supporting both Node.js and browser environments
+- ✅ **JSX/TSX Support**: Proper React component test compilation with jsdom
+- ✅ **Knowledge Validator Tests**: Updated 16 tests to work with stricter validation
+- ✅ **Test Content Enhancement**: Improved test samples to pass enhanced validation logic
+- ✅ **Environment Separation**: Separate test configurations for API/lib vs component tests
+
 ### Performance Impact
 - **Caching**: Now functional (was 0% hit rate)
-- **Greetings**: <10ms instant responses instead of 3000ms+ RAG processing
+- **Greetings**: <10ms instant responses instead of 3000ms+ RAG processing  
 - **Irrelevant queries**: Filtered out before expensive operations
 - **Resource usage**: 80% reduction for non-fashion questions
+- **Testing**: Faster, more reliable test execution with proper environment isolation
 
 ## 🚀 Deployment
 

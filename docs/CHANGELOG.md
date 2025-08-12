@@ -4,6 +4,52 @@ All notable changes to the RAG Specialist Bot - ELLU Studios Fashion Assistant p
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.1] - 2025-08-12
+
+### Test Infrastructure Improvements & Code Quality
+
+This release fixes critical test failures and improves the Jest configuration to support modern React testing patterns.
+
+### Fixed
+
+#### Test Infrastructure Issues
+- **Jest Configuration**: Implemented multi-project Jest setup supporting both Node.js and browser environments
+- **JSX/TSX Compilation**: Added proper React JSX transformation for component tests using jsdom environment
+- **Knowledge Validator Tests**: Updated 16 test cases to work with enhanced validation logic
+- **Test Content**: Enhanced test samples with appropriate fashion terminology to pass stricter validation
+
+#### Code Quality Improvements  
+- **Validation Logic**: Stricter content validation now properly rejects low-quality submissions
+- **Security Framework**: Enhanced input validation working correctly across all test scenarios
+- **Test Separation**: Proper environment isolation between API/library tests and component tests
+
+### Added
+
+#### Enhanced Testing Framework
+- **Multi-Environment Support**: Separate Jest configurations for Node.js (API/lib) and browser (components) tests
+- **Environment-Specific Commands**: Added `--selectProjects=node` and `--selectProjects=jsdom` options
+- **Enhanced Test Coverage**: Improved test reliability and reduced flaky test scenarios
+- **Better Error Messages**: More descriptive test failure output for debugging
+
+### Changed
+
+#### Testing Infrastructure
+- **Jest Setup**: Migrated from single-environment to multi-project configuration
+- **Component Testing**: All React component tests now use jsdom environment with proper JSX compilation
+- **Test Documentation**: Updated TESTING.md and README.md with new testing commands and patterns
+
+### Technical Details
+
+#### Jest Configuration Updates
+- **Multi-Project Setup**: Separate configurations for different test environments
+- **JSX Support**: Proper TypeScript JSX compilation with `jsx: "react-jsx"`
+- **Environment Isolation**: Clean separation between Node.js and browser test contexts
+
+#### Test Quality Improvements
+- **Knowledge Validator**: All 16 tests now pass with enhanced validation logic
+- **Content Quality**: Test samples now meet stricter fashion education standards
+- **Validation Behavior**: Tests properly handle both valid content acceptance and invalid content rejection
+
 ## [2.4.0] - 2025-08-09
 
 ### Mobile UX Fixes & Comprehensive Testing Framework

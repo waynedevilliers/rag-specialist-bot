@@ -45,15 +45,20 @@ Input validation and protection mechanisms.
 ```bash
 npm test -- validation.test.ts            # Input validation
 npm test -- security.test.ts              # Security framework
+npm test -- knowledge-validator.test.ts   # Content validation with enhanced security
 ```
 
 ## Test Commands
 
 ### Basic Testing
 ```bash
-npm test                    # Run all tests
+npm test                    # Run all tests (multi-environment support)
 npm test -- --watch        # Watch mode for development
 npm test -- --coverage     # Generate coverage report
+
+# Environment-specific testing
+npm test -- --selectProjects=node    # Run only Node.js tests (lib, api)
+npm test -- --selectProjects=jsdom   # Run only React component tests
 ```
 
 ### Specific Test Categories
@@ -183,9 +188,22 @@ await expect(asyncFunction()).rejects.toThrow('Expected error');
 ```
 
 ### Configuration Files
-- **Jest Config**: `config/jest.config.js`
-- **Jest Setup**: `config/jest.setup.js`
-- **TypeScript**: Configured for test files
+- **Jest Config**: `config/jest.config.js` - Multi-project setup with Node.js and browser environments
+- **Jest Setup**: `config/jest.setup.js` - Shared setup for all test environments
+- **TypeScript**: Configured for test files with JSX/TSX support for React components
+
+### Multi-Environment Configuration
+The test suite uses a multi-project Jest configuration supporting:
+
+**Node.js Environment** (for API and library tests):
+- Test files: `src/lib/**/__tests__/**/*.test.{js,ts,tsx}`  
+- Test files: `src/app/api/**/__tests__/**/*.test.{js,ts,tsx}`
+- Environment: Node.js with standard ts-jest transformation
+
+**Browser Environment** (for React component tests):
+- Test files: `src/app/components/**/__tests__/**/*.test.{js,ts,tsx}`
+- Environment: jsdom with React JSX transformation
+- TSConfig: Configured with `jsx: "react-jsx"` for proper JSX compilation
 
 ## Debugging Tests
 
