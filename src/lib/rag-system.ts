@@ -301,13 +301,16 @@ export class RAGSystem {
       if (!relevanceResult.shouldUseRAG) {
         const quickResponse = relevanceResult.suggestedResponse || this.generateSimpleResponse(sanitizedQuery, language)
         return {
-          response: quickResponse,
+          content: quickResponse,
           sources: [],
-          tokenUsage: { promptTokens: 0, completionTokens: 0, totalTokens: 0 },
-          cost: { promptCost: 0, completionCost: 0, embeddingCost: 0, totalCost: 0 },
           processingTime: Date.now() - startTime,
-          cached: false,
-          model: 'relevance-filter'
+          tokenUsage: { 
+            promptTokens: 0, 
+            completionTokens: 0, 
+            totalTokens: 0,
+            embeddingTokens: 0,
+            cost: { promptCost: 0, completionCost: 0, embeddingCost: 0, totalCost: 0 }
+          }
         }
       }
     
