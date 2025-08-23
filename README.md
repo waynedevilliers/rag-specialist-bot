@@ -76,10 +76,14 @@ Open [http://localhost:3000](http://localhost:3000) to start chatting with your 
 - **Relevance Filtering**: Blocks irrelevant queries and prompt injections
 
 ### 👗 Fashion Education Specialization
-- **5 Complete Courses**: Pattern making, Adobe Illustrator, draping, construction, technical drawing
+- **3 Complete Courses**: Classical Pattern Construction (101), Draping Techniques (201), Adobe Illustrator for Fashion Design (301)
+- **Video-Specific Recognition**: Identifies which specific video students are watching and provides targeted responses
+- **Complete Video Transcripts**: Full WEBVTT transcripts integrated for all Adobe Illustrator course modules
+- **Bilingual Support**: German original transcripts with English translations for technical terminology
 - **Course-Aware Citations**: Specific module and lesson references with collapsible interface
 - **Educational Context**: Student-focused explanations and guidance
 - **Function Calling**: Specialized tools for measurements, techniques, and tutorials
+- **Professional Context**: Maintains industry-relevant context (Atelier, production workflows)
 - **Intuitive Interface**: Clean chat design with auto-scroll and source management
 - **Cross-Platform Access**: Full functionality on desktop, tablet, and mobile devices
 
@@ -94,6 +98,34 @@ Open [http://localhost:3000](http://localhost:3000) to start chatting with your 
 - **Security**: Custom validation framework with comprehensive protections
 - **Testing**: Jest with 100+ tests including security validation
 - **Deployment**: Vercel with auto-scaling and monitoring
+
+## 🎥 Video-Specific Recognition System
+
+Our latest enhancement enables the bot to identify which specific video a student is watching and provide targeted, contextual responses:
+
+### Key Capabilities
+- **Video Recognition**: Identifies specific videos from user queries like "explain Grundlagen again" or "show me the tools section"
+- **12 Complete Modules**: All Adobe Illustrator course videos with full transcript integration
+- **Bilingual Recognition**: Supports both German and English queries with technical term translation
+- **Professional Context**: Maintains industry-relevant terminology and workflow context
+
+### Example Interactions
+```
+User: "Erkläre mir die Grundlagen nochmal auf Deutsch"
+Bot: [Targets MODULE 3: TECHNISCHE MODEZEICHNUNG GRUNDLAGEN specifically]
+
+User: "How do I use the pen tool?"  
+Bot: [Targets MODULE 4.1: WERKZEUGE with Zeichenfeder content]
+
+User: "What's the minimum line weight for printing?"
+Bot: [Targets specific technical details: "0.5 Punkt minimum"]
+```
+
+### Implementation Features
+- **Recognition Keywords**: Each module has comprehensive German/English keywords
+- **Complete Transcripts**: Full WEBVTT transcripts integrated into knowledge base
+- **Quality Assurance**: 16/16 comprehensive tests validate video-specific content recognition
+- **Professional Terminology**: Maintains Atelier/Produktionsstätte context for industry relevance
 
 ## 📝 Development Commands
 
@@ -198,6 +230,8 @@ npm run test:validate-courses   # Complete validation suite
 - **Security**: Input validation, injection protection, rate limiting
 - **Performance**: Response times, memory usage, token optimization
 - **Accessibility**: ARIA labels, keyboard navigation, screen reader support
+- **Video-Specific Content**: Recognition keywords, transcript completeness, bilingual validation
+- **Knowledge Base Quality**: Content structure, formatting consistency, professional context
 
 ### Quality Metrics
 - **Response Times**: <10ms greetings, <3s educational queries

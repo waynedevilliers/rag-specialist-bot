@@ -37,3 +37,40 @@ This ensures that course-related questions are properly recognized as fashion-re
 For specialized domain chatbots, it's better to let the LLM handle relevance filtering within its role constraints rather than trying to pre-filter with brittle keyword matching.
 
 ---
+
+## Q: How do we ensure the knowledge base can provide video-specific responses for Adobe Illustrator course?
+
+**A:** We implemented a comprehensive video-specific knowledge base system for Course 301 (Adobe Illustrator for Fashion Design) with complete transcript integration and video recognition capabilities.
+
+**Implementation approach:**
+1. **Complete transcript integration**: Added full WEBVTT transcripts for all 12 video modules in `src/data/illustrator-fashion-design.md`
+2. **Video-specific recognition keywords**: Each module has comprehensive German and English keywords for accurate video identification
+3. **Bilingual content structure**: Full German original transcripts with English translations for all technical content
+4. **Professional context preservation**: Maintained industry-relevant context (Atelier, Produktionsstätte, production workflows)
+
+**Key modules updated with complete transcripts:**
+- MODULE 5.5: Rückansicht & Checkliste (back view workflow)
+- MODULE 6: Beschriften (professional labeling techniques) 
+- MODULE 7: Zusammenfassung (comprehensive course review)
+
+**Video recognition system:**
+- Recognition keywords enable identification of specific videos users are watching
+- Supports queries like "explain Grundlagen again" → targets MODULE 3 specifically
+- Bilingual support: "Wie benutze ich die Zeichenfeder?" → finds pen tool content
+- Technical detail recognition: "minimum line weight" → finds 0.5 point specifications
+
+**Quality assurance:**
+- 16/16 comprehensive tests passing for content validation (`video-content-recognition-simple.test.ts`)
+- Transcript completeness validation (`transcript-validation.test.ts`)
+- Knowledge base API testing (`illustrator-knowledge-base.test.ts`)
+- All 12 modules properly structured with consistent formatting
+
+**Benefits:**
+- Users get targeted responses about specific video content they're watching
+- Maintains professional fashion industry context
+- Supports both German and English technical terminology
+- Complete workflow documentation from basics to advanced techniques
+
+The bot can now identify which specific Adobe Illustrator video a user is referencing and provide detailed, video-specific guidance rather than generic course information.
+
+---
