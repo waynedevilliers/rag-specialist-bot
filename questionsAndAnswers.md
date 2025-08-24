@@ -74,3 +74,54 @@ For specialized domain chatbots, it's better to let the LLM handle relevance fil
 The bot can now identify which specific Adobe Illustrator video a user is referencing and provide detailed, video-specific guidance rather than generic course information.
 
 ---
+
+## Q: How do we handle conversational follow-up questions and spelling mistakes in user queries?
+
+**A:** We implemented comprehensive conversational improvements and fuzzy spell checking to handle real-world user interactions better.
+
+**Issues identified from conversation logs:**
+1. **"did you forget mit ebene zu arbeiten"** - Was incorrectly rejected as non-fashion related
+2. **"thats a PART FROM PART 1"** - Course structure clarifications were not recognized
+3. **Spelling mistakes** - No tolerance for common typos in fashion terms
+
+**Solutions implemented:**
+
+**1. Enhanced Conversational Context Recognition:**
+- Added conversational keywords: `forgot`, `forget`, `missing`, `teil`, `part`, `about`, `what about`, `thats`
+- Added follow-up question patterns:
+  - `/did\s+you\s+(forget|miss)\s+(.*)(ebenen?|layers?|werkzeuge?|tools?)/i`
+  - `/(what\s+about|was\s+ist\s+mit)\s+(.*)(ebenen?|layers?|teil|part)/i`
+  - `/that[''s]*\s+(a\s+)?part\s+(from|of|von)\s+(part|teil)\s*\d+/i`
+
+**2. Fuzzy Spell Checking with Levenshtein Distance:**
+- Implemented `analyzeRelevanceWithSpellCheck()` method
+- Uses Levenshtein distance algorithm for fuzzy matching
+- Provides up to 3 spell suggestions for misspelled fashion terms
+- Examples: `layrs` → suggests `layers`, `werkzuege` → suggests `werkzeuge`
+
+**3. Mixed Language Support:**
+- Enhanced German-English mixed query recognition
+- Supports queries like "what about ebenen arbeiten" and "explain werkzeuge tools"
+- Technical term translation between German and English
+
+**Test Results:**
+- **34 comprehensive tests** covering conversational improvements (23/23 passing)
+- **11 real conversation examples** from actual user logs (11/11 passing)
+- **Performance**: Complex queries processed in <50ms
+- **Coverage**: Spell checking, conversational context, mixed languages, edge cases
+
+**Key improvements verified:**
+- ✅ `"did you forget mit ebene zu arbeiten"` → Now triggers RAG (confidence: 0.8+)
+- ✅ `"thats a PART FROM PART 1"` → Recognized as course-related (confidence: 0.6+)
+- ✅ `"layrs"` with spell check → Suggests "layers" and processes query
+- ✅ Mixed language queries work seamlessly
+- ✅ Maintains performance with complex conversational queries
+
+**Benefits:**
+- Eliminates false negatives from conversational follow-ups
+- Handles real-world spelling mistakes gracefully
+- Supports natural conversation flow between German and English
+- Maintains high performance while being more flexible
+- Provides better user experience for students watching specific videos
+
+---

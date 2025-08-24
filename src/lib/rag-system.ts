@@ -294,8 +294,8 @@ export class RAGSystem {
       // **SECURITY FIX**: Validate and sanitize user input
       const sanitizedQuery = SecurityValidator.validateQuery(userQuery)
     
-      // **RELEVANCE FIX**: Check if query is relevant to fashion design
-      const relevanceResult = RelevanceFilter.analyzeRelevance(sanitizedQuery)
+      // **RELEVANCE FIX**: Check if query is relevant to fashion design with spell checking
+      const relevanceResult = RelevanceFilter.analyzeRelevanceWithSpellCheck(sanitizedQuery)
       
       // Handle greetings and irrelevant queries efficiently
       if (!relevanceResult.shouldUseRAG) {
@@ -385,7 +385,7 @@ export class RAGSystem {
       
       // Step 3: Generate response with context and track tokens (with retry)
       const { response, tokenUsage } = await this.withRetry(
-        () => this.generateResponse(sanitizedQuery, relevantChunks, language, modelConfig),
+        () => this.generateResponse(sanitizedQuery, relevantChunks, language, modelConfig, relevanceResult.spellSuggestions),
         CONFIG.RETRY.MAX_RETRY_ATTEMPTS,
         CONFIG.RETRY.BASE_RETRY_DELAY
       )
@@ -598,7 +598,7 @@ export class RAGSystem {
     return Array.from(resultMap.values()).sort((a, b) => b.score - a.score)
   }
 
-  private async generateResponse(query: string, relevantChunks: VectorMatch[], language: 'en' | 'de' = 'en', modelConfig?: ModelConfig): Promise<{ response: string; tokenUsage: TokenUsage }> {
+  private async generateResponse(query: string, relevantChunks: VectorMatch[], language: 'en' | 'de' = 'en', modelConfig?: ModelConfig, spellSuggestions?: string[]): Promise<{ response: string; tokenUsage: TokenUsage }> {
     const context = relevantChunks
       .map((match, index) => `[${index + 1}] ${match.chunk.section}: ${match.chunk.content}`)
       .join('\n\n')
