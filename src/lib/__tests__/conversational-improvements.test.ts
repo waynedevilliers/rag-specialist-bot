@@ -1,4 +1,4 @@
-import { RelevanceFilter } from '../relevance-filter'
+import { RelevanceFilter } from '../relevance-filter-simple'
 
 describe('Conversational Improvements Tests', () => {
   describe('Real-World Conversation Issues', () => {
@@ -97,24 +97,23 @@ describe('Conversational Improvements Tests', () => {
   })
 
   describe('Spell Checking Functionality', () => {
-    it('should provide spell suggestions for misspelled fashion terms', () => {
+    it('should handle misspelled fashion terms by passing to RAG', () => {
       const queries = [
-        'layrs', // should suggest "layers"
-        'werkzuege', // should suggest "werkzeuge"  
-        'grundlage', // should suggest "grundlagen"
-        'ebene', // should suggest "ebenen"
-        'fashon', // should suggest "fashion"
-        'ilustrator' // should suggest "illustrator"
+        'layrs', // misspelling will be handled by LLM
+        'werkzuege', // misspelling will be handled by LLM  
+        'grundlage', // misspelling will be handled by LLM
+        'ebene', // misspelling will be handled by LLM
+        'fashon', // misspelling will be handled by LLM
+        'ilustrator' // misspelling will be handled by LLM
       ]
 
       queries.forEach(query => {
         const result = RelevanceFilter.analyzeRelevanceWithSpellCheck(query)
         
-        if (result.spellSuggestions) {
-          expect(result.spellSuggestions.length).toBeGreaterThan(0)
-          expect(result.shouldUseRAG).toBe(true)
-          expect(result.confidence).toBeGreaterThan(0.5)
-        }
+        // Simplified approach: no explicit spell suggestions, let LLM handle it
+        expect(result.shouldUseRAG).toBe(true)
+        expect(result.confidence).toBeGreaterThan(0.5)
+        expect(result.spellSuggestions).toEqual([]) // Empty by design
       })
     })
 
@@ -313,9 +312,9 @@ describe('Conversational Improvements Tests', () => {
 
     it('should handle unsupported greetings by passing to RAG', () => {
       const unsupportedGreetings = [
-        'hi there', // has "there" which doesn't match pattern
-        'guten tag', // German greeting not in patterns
-        'how are you doing' // extended version not in patterns
+        'hi there', // has "there" which doesn't match exact pattern
+        'how are you doing', // extended version not in patterns
+        'whats up' // casual greeting not in patterns
       ]
 
       unsupportedGreetings.forEach(greeting => {

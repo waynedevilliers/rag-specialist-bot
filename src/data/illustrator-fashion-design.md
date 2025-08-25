@@ -10,6 +10,87 @@
 - Total Duration: 7 video modules with specific topics
 - Focus: Hands-on Adobe Illustrator training for fashion designers
 
+**COURSE STRUCTURE - Adobe Illustrator für Modedesign (Kurs 301):**
+**KURS AUFBAU - Adobe Illustrator für Modedesign (Kurs 301):**
+
+**Recognition Keywords:** course structure, kurs aufbau, module overview, vollständiger kursinhalt, complete course overview, welche module, modules list, kurs 301 structure, adobe illustrator course modules, video modules, course content, kursstruktur
+
+**Complete Module Overview - Vollständige Modulübersicht:**
+
+**COMPLETE 7-MODULE COURSE STRUCTURE:**
+
+**English Version:** Module 1: Course Introduction | Module 2: Technical Drawing Fundamentals | Module 3: Illustrator Basics | Module 4: Tools and Layers | Module 5: Creating Technical Flats | Module 6: Professional Labeling | Module 7: Course Summary
+
+**German Version:** Modul 1: INTRO | Modul 2: EINFÜHRUNG | Modul 3: GRUNDLAGEN 1 | Modul 4: WERKZEUGE & MIT EBENEN ARBEITEN | Modul 5: TECHNISCHE ZEICHNUNGEN ERSTELLEN | Modul 6: BESCHRIFTEN | Modul 7: ZUSAMMENFASSUNG
+
+**Note:** The course has 7 main modules total, with Module 4 and Module 5 containing multiple video segments each.
+
+**MODULE 1: Course Introduction (INTRO - Kursüberblick)**
+- Instructor introduction by Luise from ELLU Studios (Instruktorin Vorstellung von Luise von ELLU Studios)
+- Complete course overview and learning objectives (Vollständiger Kursüberblick und Lernziele)
+- What technical fashion drawing is and course goals (Was ist technische Modezeichnung und Kursziele)
+
+**MODULE 2: Technical Drawing Fundamentals (EINFÜHRUNG)**
+- What is technical fashion drawing vs fashion illustration (Was ist technische Modezeichnung vs. Modeillustration)
+- Understanding the differences between drawing types (Verstehen der Unterschiede zwischen Zeichnungsarten)
+- Course foundations and terminology (Kursgrundlagen und Terminologie)
+
+**MODULE 3: Illustrator Basics (GRUNDLAGEN 1)**
+- Core principles of technical fashion drawing (Grundprinzipien der technischen Modezeichnung)
+- Basic concepts and drawing standards (Grundkonzepte und Zeichnungsstandards)
+- Foundation knowledge needed for the course (Grundlagenwissen für den Kurs)
+
+**MODULE 4: Tools and Layers (WERKZEUGE & MIT EBENEN ARBEITEN)**
+This module contains 2 video segments:
+
+**4.1: Adobe Illustrator Tools (WERKZEUGE)**
+- Essential Adobe Illustrator tools for fashion drawing (Wichtige Werkzeuge für Modezeichnung)
+- Tool selection and basic functionality (Werkzeugauswahl und Grundfunktionen)
+- Setting up your workspace (Arbeitsbereich einrichten)
+
+**4.2: Working with Layers (MIT EBENEN ARBEITEN)**
+- Layer management and organization (Ebenenverwaltung und -organisation)
+- Creating and managing multiple layers (Erstellen und Verwalten mehrerer Ebenen)
+- Layer techniques for technical drawings (Ebenentechniken für technische Zeichnungen)
+
+**MODULE 5: Creating Technical Flats (TECHNISCHE ZEICHNUNGEN ERSTELLEN)**
+This module contains 5 video segments that walk through the complete process:
+
+**5.1: Document Formatting (FORMATIEREN)**
+- Document setup and formatting standards (Dokumenteinrichtung und Formatierungsstandards)
+- Professional formatting techniques (Professionelle Formatierungstechniken)
+- Preparing your technical drawings (Vorbereitung Ihrer technischen Zeichnungen)
+
+**5.2: Creating Templates (SCHABLONE)**
+- Setting up reusable templates (Einrichten wiederverwendbarer Vorlagen)
+- Template creation for efficiency (Vorlagenerstellung für Effizienz)
+- Standardizing your workflow (Standardisierung Ihres Arbeitsablaufs)
+
+**5.3: Front View Drawing (VORDERANSICHT)**
+- Creating front view technical drawings (Erstellen von Vorderansicht technischen Zeichnungen)
+- Step-by-step front view construction (Schritt-für-Schritt Vorderansicht Konstruktion)
+- Technical drawing standards for front views (Technische Zeichnungsstandards für Vorderansichten)
+
+**5.4: Copy and Combine Elements (KOPIEREN UND ZUSAMMENFÜGEN)**
+- Copying and duplicating elements (Kopieren und Duplizieren von Elementen)
+- Combining different drawing elements (Kombinieren verschiedener Zeichnungselemente)
+- Efficient workflow techniques (Effiziente Arbeitsabläufe)
+
+**5.5: Back View & Quality Control (RÜCKANSICHT & CHECKLISTE)**
+- Creating back view technical drawings (Erstellen von Rückansicht technischen Zeichnungen)
+- Complete technical drawing checklist (Vollständige technische Zeichnungs-Checkliste)
+- Quality control and finishing touches (Qualitätskontrolle und letzte Verbesserungen)
+
+**MODULE 6: Professional Labeling (BESCHRIFTEN)**
+- Adding professional labels and annotations (Hinzufügen professioneller Beschriftungen und Anmerkungen)
+- Technical drawing notation standards (Standards für technische Zeichnungsnotationen)
+- Text and labeling techniques (Text- und Beschriftungstechniken)
+
+**MODULE 7: Course Summary (ZUSAMMENFASSUNG)**
+- Course recap and key takeaways (Kurswiederholung und wichtige Erkenntnisse)
+- Final technical drawing review (Abschließende Überprüfung der technischen Zeichnung)
+- Next steps in technical fashion drawing (Nächste Schritte in der technischen Modezeichnung)
+
 **VIDEO IDENTIFICATION SYSTEM:**
 When users mention specific video titles, the bot should respond with content from that exact video only:
 - "Intro" → MODULE 1 content

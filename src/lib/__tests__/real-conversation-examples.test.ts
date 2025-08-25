@@ -1,4 +1,4 @@
-import { RelevanceFilter } from '../relevance-filter'
+import { RelevanceFilter } from '../relevance-filter-simple'
 
 describe('Real Conversation Examples - Fixed Issues', () => {
   describe('Original Problematic Queries', () => {

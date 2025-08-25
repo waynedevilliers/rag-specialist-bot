@@ -1,7 +1,32 @@
 # Pattern Making Fundamentals - Course 101
 *Enhanced with ELLU Studios Classical Pattern Construction Methods*
 
-## Course Overview
+## ELLU Studios Complete Course Catalog
+
+**Available Courses (Verfügbare Kurse):**
+
+**Course 101: Classical Pattern Construction (Klassische Schnittmuster-Konstruktion)**
+- Focus: Professional pattern making fundamentals
+- Techniques: Measurements, ease calculations, seam allowances, pattern markings
+- Level: Beginner to intermediate
+- Language: German with English technical terms
+
+**Course 201: Draping Techniques (Drapier-Techniken)**  
+- Focus: 3D draping and muslin manipulation
+- Techniques: Bodice draping, sleeve methods, bias cutting, muslin preparation
+- Level: Intermediate to advanced
+- Language: German with English technical terms
+
+**Course 301: Adobe Illustrator for Fashion Design (Adobe Illustrator für Modedesign)**
+- Focus: Technical fashion drawing and digital design
+- Techniques: Vector illustration, technical flats, color palettes, textile patterns
+- Level: Beginner to intermediate  
+- Language: German with English technical terms
+- 12 comprehensive video modules covering all aspects of fashion illustration
+
+**Course Philosophy:** ELLU Studios combines traditional European craftsmanship with modern digital tools, providing comprehensive fashion education from concept to production.
+
+## Course 101 Overview
 
 **Course Title:** Classical Pattern Construction - ELLU Studios Professional Methods  
 **Course Type:** Comprehensive Pattern Making Foundation  
