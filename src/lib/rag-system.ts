@@ -7,6 +7,7 @@ import { Client } from 'langsmith'
 import { CONFIG } from './config'
 import { RelevanceFilter, type RelevanceResult } from './relevance-filter'
 import PromptOptimizer from './prompt-optimizer'
+import { FunctionCallingSystem } from './function-calling-system'
 
 // Circuit breaker state
 interface CircuitBreakerState {
@@ -55,6 +56,7 @@ export interface DocumentSource {
 export class RAGSystem {
   private llm: ChatOpenAI
   private modelService: ModelService | null = null
+  private functionSystem: FunctionCallingSystem
   private isInitialized = false
   private langsmithClient: Client
   
@@ -77,6 +79,7 @@ export class RAGSystem {
 
   constructor() {
     // Note: API key validation deferred to first usage to prevent build-time errors
+    this.functionSystem = new FunctionCallingSystem()
     this.llm = new ChatOpenAI({
       openAIApiKey: process.env.OPENAI_API_KEY || '',
       modelName: 'gpt-4o-mini',
@@ -673,37 +676,60 @@ export class RAGSystem {
 
 
     try {
-      // Use ModelService if configured, otherwise fallback to LangChain
+      // Check if function calling should be used
+      const functionAnalysis = await this.functionSystem.analyzeQueryForFunctions(query, documentContext)
+
       let response: unknown
       let promptTokens = 0
       let completionTokens = 0
       let totalTokens = 0
       let responseContent = ''
-      
+      let functionCallInfo = ''
+
       if (modelConfig && modelConfig.provider !== 'openai') {
-        // Use ModelService for non-OpenAI providers
+        // Use ModelService for non-OpenAI providers (no function calling yet)
         const modelService = new ModelService(modelConfig)
         const modelResponse = await modelService.generateResponse([
           { role: 'system', content: systemPrompt },
           { role: 'user', content: query }
         ])
-        
+
         responseContent = modelResponse.content
         promptTokens = modelResponse.usage.promptTokens
         completionTokens = modelResponse.usage.completionTokens
         totalTokens = modelResponse.usage.totalTokens
+
+      } else if (functionAnalysis.shouldUseFunctions && functionAnalysis.confidence > 0.6) {
+        // Use enhanced OpenAI function calling
+        console.log('[Function Calling] Using functions:', functionAnalysis.suggestedFunctions)
+
+        const functionResult = await this.functionSystem.callWithFunctions([
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: query }
+        ], functionAnalysis.suggestedFunctions)
+
+        responseContent = functionResult.content
+        promptTokens = functionResult.tokenUsage.promptTokens
+        completionTokens = functionResult.tokenUsage.completionTokens
+        totalTokens = functionResult.tokenUsage.totalTokens
+
+        // Add function call information for debugging
+        if (functionResult.functionCalls.length > 0) {
+          functionCallInfo = `[Function Calls: ${functionResult.functionCalls.map(fc => fc.name).join(', ')}] `
+        }
+
       } else {
-        // Use LangChain ChatOpenAI for OpenAI models
+        // Use LangChain ChatOpenAI for standard responses
         response = await this.llm.invoke(systemPrompt)
         responseContent = (response as { content?: string; text?: string }).content || (response as { content?: string; text?: string }).text || ''
-        
+
         // Try multiple ways to extract token usage from LangChain response
         const langChainResponse = response as {
           response_metadata?: { tokenUsage?: unknown; usage?: unknown };
           usage_metadata?: unknown;
           additional_kwargs?: { usage?: unknown };
         };
-        
+
         let usage = null
         if (langChainResponse.response_metadata?.tokenUsage) {
           usage = langChainResponse.response_metadata.tokenUsage
@@ -714,10 +740,10 @@ export class RAGSystem {
         } else if (langChainResponse.response_metadata?.usage) {
           usage = langChainResponse.response_metadata.usage
         }
-        
-        const usageObj = usage as { 
-          prompt_tokens?: number; 
-          input_tokens?: number; 
+
+        const usageObj = usage as {
+          prompt_tokens?: number;
+          input_tokens?: number;
           promptTokens?: number;
           completion_tokens?: number;
           output_tokens?: number;
@@ -725,15 +751,15 @@ export class RAGSystem {
           total_tokens?: number;
           totalTokens?: number;
         } | null;
-        
+
         promptTokens = usageObj?.prompt_tokens || usageObj?.input_tokens || usageObj?.promptTokens || 0
         completionTokens = usageObj?.completion_tokens || usageObj?.output_tokens || usageObj?.completionTokens || 0
         totalTokens = usageObj?.total_tokens || usageObj?.totalTokens || promptTokens + completionTokens
       }
-      
+
       // More accurate embedding token estimation
       const embeddingTokens = this.estimateTokensAccurately(documentContext)
-      
+
       const tokenUsage: TokenUsage = {
         promptTokens,
         completionTokens,
@@ -741,9 +767,9 @@ export class RAGSystem {
         embeddingTokens,
         cost: this.calculateCost(promptTokens, completionTokens, embeddingTokens)
       }
-      
+
       return {
-        response: responseContent,
+        response: functionCallInfo + responseContent,
         tokenUsage
       }
     } catch (error) {
