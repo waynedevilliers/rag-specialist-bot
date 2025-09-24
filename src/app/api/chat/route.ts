@@ -46,7 +46,7 @@ function generateGreetingResponse(language: 'en' | 'de'): string {
 export async function POST(req: NextRequest) {
   try {
     // Parse request body
-    const { message, language = 'auto', modelConfig } = await req.json();
+    const { message, language = 'auto', modelConfig, conversationHistory = [], sessionId, currentVideoModule } = await req.json();
 
     // Validate input
     if (!message || typeof message !== "string") {
@@ -98,8 +98,12 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Use RAG system for enhanced responses
-    const ragResponse = await ragSystem.query(message, language, modelConfig);
+    // Use RAG system for enhanced responses with conversation context
+    const ragResponse = await ragSystem.query(message, language, modelConfig, {
+      conversationHistory,
+      sessionId,
+      currentVideoModule
+    });
 
     // Return the response with sources and token usage
     return NextResponse.json({

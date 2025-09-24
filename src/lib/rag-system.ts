@@ -6,6 +6,7 @@ import { SecurityValidator, SecurityError, SecurityUtils } from './security-vali
 import { Client } from 'langsmith'
 import { CONFIG } from './config'
 import { RelevanceFilter, type RelevanceResult } from './relevance-filter'
+import PromptOptimizer from './prompt-optimizer'
 
 // Circuit breaker state
 interface CircuitBreakerState {
@@ -296,7 +297,11 @@ export class RAGSystem {
     }
   }
 
-  async query(userQuery: string, language: 'en' | 'de' | 'auto' = 'auto', modelConfig?: ModelConfig): Promise<RAGResponse> {
+  async query(userQuery: string, language: 'en' | 'de' | 'auto' = 'auto', modelConfig?: ModelConfig, context?: {
+    conversationHistory?: any[],
+    sessionId?: string,
+    currentVideoModule?: string
+  }): Promise<RAGResponse> {
     return this.createTrace('rag_query', { query: userQuery, language, modelProvider: modelConfig?.provider }, async () => {
       const startTime = Date.now()
       
@@ -400,7 +405,7 @@ export class RAGSystem {
       
       // Step 3: Generate response with context and track tokens (with retry)
       const { response, tokenUsage } = await this.withRetry(
-        () => this.generateResponse(sanitizedQuery, relevantChunks, detectedLanguage, modelConfig, relevanceResult.spellSuggestions),
+        () => this.generateResponse(sanitizedQuery, relevantChunks, detectedLanguage, modelConfig, relevanceResult.spellSuggestions, context),
         CONFIG.RETRY.MAX_RETRY_ATTEMPTS,
         CONFIG.RETRY.BASE_RETRY_DELAY
       )
@@ -613,84 +618,59 @@ export class RAGSystem {
     return Array.from(resultMap.values()).sort((a, b) => b.score - a.score)
   }
 
-  private async generateResponse(query: string, relevantChunks: VectorMatch[], language: 'en' | 'de' = 'en', modelConfig?: ModelConfig, spellSuggestions?: string[]): Promise<{ response: string; tokenUsage: TokenUsage }> {
-    const context = relevantChunks
+  private buildConversationMemory(conversationHistory: any[], language: 'en' | 'de'): string {
+    if (!conversationHistory || conversationHistory.length === 0) {
+      return ''
+    }
+
+    // Take last 3 messages for context (avoid token limit issues)
+    const recentMessages = conversationHistory.slice(-3)
+
+    const memoryHeader = language === 'de'
+      ? 'Bisherige Unterhaltung (für Kontext):\n'
+      : 'Previous conversation (for context):\n'
+
+    const formattedHistory = recentMessages
+      .map(msg => {
+        const role = msg.type === 'user'
+          ? (language === 'de' ? 'Student' : 'Student')
+          : (language === 'de' ? 'Assistent' : 'Assistant')
+        return `${role}: ${msg.content}`
+      })
+      .join('\n')
+
+    return `${memoryHeader}${formattedHistory}\n\n`
+  }
+
+  private async generateResponse(query: string, relevantChunks: VectorMatch[], language: 'en' | 'de' = 'en', modelConfig?: ModelConfig, spellSuggestions?: string[], conversationContext?: {
+    conversationHistory?: any[],
+    sessionId?: string,
+    currentVideoModule?: string
+  }): Promise<{ response: string; tokenUsage: TokenUsage }> {
+    const documentContext = relevantChunks
       .map((match, index) => `[${index + 1}] ${match.chunk.section}: ${match.chunk.content}`)
       .join('\n\n')
 
-    const systemPrompt = language === 'de' ? 
-      `Sie sind ein spezialisierter Modedesign-Studenten-Support-Assistent für ELLU Studios Kurse NUR.
+    // Build conversation context for memory-enabled responses
+    const conversationMemory = conversationContext?.conversationHistory
+      ? this.buildConversationMemory(conversationContext.conversationHistory, language)
+      : ''
 
-STRENGE ROLLENGRENZEN:
-- Sie sind ein spezialisierter Assistent für ELLU Studios Modedesign-Kurse
-- Sie können grundlegende Fragen über sich selbst, die verfügbaren Kurse und Ihre Fähigkeiten beantworten
-- Bei eindeutig unpassenden Fragen (Wetter, Finanzen, Politik, etc.) höflich umleiten: "Ich kann nur bei Modedesign-Themen aus ELLU Studios Kursen helfen. Fragen Sie bitte nach Schnittmuster-Erstellung, Drapier-Techniken oder Adobe Illustrator für Mode."
-- Basieren Sie fachliche Antworten auf der unten bereitgestellten Kursdokumentation
+    // Add video module context if available
+    const videoContext = conversationContext?.currentVideoModule
+      ? `Current video module: ${conversationContext.currentVideoModule}\n\n`
+      : ''
 
-Ihr Fachwissen ist BEGRENZT auf:
-- Klassische Schnittmuster-Konstruktion (Kurs 101): Maße, Zugaben, Nahtzugaben, Schnittmarkierungen
-- Drapier-Techniken (Kurs 201): Nesselstoff-Vorbereitung, Oberteil-Drapieren, Ärmel-Methoden, Bias-Techniken
-- Adobe Illustrator für Modedesign (Kurs 301): Technische Zeichnungen, Farbpaletten, Textilmuster, Präsentationen
+    // Use enhanced prompting with best practices
+    const systemPrompt = PromptOptimizer.buildEnhancedSystemPrompt(
+      language,
+      documentContext,
+      conversationMemory,
+      videoContext,
+      query,
+      spellSuggestions
+    )
 
-Studenten-Support-Richtlinien:
-1. Verhalten Sie sich als geduldiger, sachkundiger Lehrass­istant, der Kursmaterial erklärt
-2. Zerlegen Sie komplexe Techniken in klare, schrittweise Erklärungen
-3. Geben Sie praktische Tipps und weisen Sie auf häufige Fehler hin, die Studenten machen
-4. Verweisen Sie auf spezifische Kursmodule und Lektionen, wenn relevant
-5. Wenn ein Student ein bestimmtes Video oder Modul erwähnt, passen Sie Ihre Antwort an diesen Kontext an
-6. Geben Sie Zeitschätzungen und Schwierigkeitsgrade an, um Studenten bei der Arbeitsplanung zu helfen
-7. Bieten Sie Ermutigung und versichern Sie Studenten, dass Herausforderungen beim Erlernen von Modedesign normal sind
-8. Schlagen Sie bei Bedarf verwandte Techniken oder Module vor, die helfen könnten
-
-Kurskontext aus der Dokumentation:
-${context}
-
-Studentenfrage: ${query}
-
-Beantworten Sie Fragen über sich selbst, die Kurse oder Modedesign-Themen hilfreich. Nur bei eindeutig unpassenden Themen (Wetter, Finanzen, etc.) höflich zu Modedesign umleiten.
-
-WICHTIGE FORMATIERUNGSREGELN:
-- Schreiben Sie in einem natürlichen, gesprächigen Ton wie ein hilfreicher Lehrer
-- Verwenden Sie KEINE Markdown-Formatierung (keine ###, **, ##, #, -, *)
-- Verwenden Sie KEINE Überschriften, Aufzählungspunkte oder spezielle Formatierung
-- Schreiben Sie in fließenden Absätzen mit natürlicher Satzstruktur
-- Verwenden Sie nur Klartext - machen Sie es leicht lesbar und freundlich` :
-      `You are a specialized fashion design student support assistant for ELLU Studios courses ONLY.
-
-STRICT ROLE BOUNDARIES:
-- You are a specialized assistant for ELLU Studios fashion design courses
-- You can answer basic questions about yourself, the available courses, and your capabilities
-- For clearly inappropriate questions (weather, finance, politics, etc.), politely redirect: "I can only help with fashion design topics from ELLU Studios courses. Please ask about pattern making, draping techniques, or Adobe Illustrator for fashion instead."
-- Base technical answers on the provided course documentation context below
-
-Your expertise is LIMITED to:
-- Classical Pattern Construction (Course 101): Measurements, ease, seam allowances, pattern markings
-- Draping Techniques (Course 201): Muslin preparation, bodice draping, sleeve methods, bias techniques  
-- Adobe Illustrator for Fashion Design (Course 301): Technical flats, color palettes, textile patterns, presentations
-
-Student Support Guidelines:
-1. Act as a patient, knowledgeable teaching assistant who clarifies course material
-2. Break down complex techniques into clear, step-by-step explanations
-3. Provide practical tips and highlight common mistakes students make
-4. Reference specific course modules and lessons when relevant
-5. If a student mentions a specific video or module, tailor your response to that context
-6. Include time estimates and difficulty levels to help students plan their work
-7. Offer encouragement and reassure students that challenges are normal in learning fashion design
-8. When appropriate, suggest related techniques or modules that might help
-
-Course Context from Documentation:
-${context}
-
-Student Question: ${query}
-
-Answer questions about yourself, the courses, or fashion design topics helpfully. Only for clearly inappropriate topics (weather, finance, etc.) politely redirect to fashion design.
-
-IMPORTANT FORMATTING RULES:
-- Write in a natural, conversational tone like a helpful teacher
-- Do NOT use markdown formatting (no ###, **, ##, #, -, *)
-- Do NOT use headers, bullet points, or special formatting
-- Write in flowing paragraphs with natural sentence structure
-- Use plain text only - make it easy to read and friendly`
 
     try {
       // Use ModelService if configured, otherwise fallback to LangChain
@@ -752,7 +732,7 @@ IMPORTANT FORMATTING RULES:
       }
       
       // More accurate embedding token estimation
-      const embeddingTokens = this.estimateTokensAccurately(context)
+      const embeddingTokens = this.estimateTokensAccurately(documentContext)
       
       const tokenUsage: TokenUsage = {
         promptTokens,

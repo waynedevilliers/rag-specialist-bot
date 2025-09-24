@@ -118,7 +118,14 @@ ChatInterface() {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input, language, modelConfig }),
+        body: JSON.stringify({
+          message: input,
+          language,
+          modelConfig,
+          conversationHistory: messages.filter(msg => msg.id !== "welcome").slice(-5), // Last 5 messages for context
+          sessionId: currentSession?.id,
+          currentVideoModule: undefined // TODO: Add video module tracking to sessions
+        }),
       });
 
       if (!response.ok) {
