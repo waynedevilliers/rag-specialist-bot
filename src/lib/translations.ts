@@ -75,7 +75,11 @@ export const translations: Record<Language, Translations> = {
 
 • Classical Pattern Construction (Course 101)
 • Draping Techniques (Course 201)
-• Adobe Illustrator for Fashion Design (Course 301)
+• Onlinekurs – Adobe Illustrator lernen (Course 301)
+  - Technische Modezeichnung – Grundlagen
+  - Teil 1: Werkzeuge & Ebenen arbeiten
+  - Teil 2: Formatieren, Schablone, Vorder-/Rückansicht
+  - Teil 3: Beschriften & Zusammenfassung
 
 I can calculate fabric requirements, provide step-by-step tutorials, and guide you through any creative challenges. What would you like to create today?`,
     
@@ -107,7 +111,7 @@ I can calculate fabric requirements, provide step-by-step tutorials, and guide y
     // Course names
     course101: "Classical Pattern Construction (Course 101)",
     course201: "Draping Techniques (Course 201)",
-    course301: "Adobe Illustrator for Fashion Design (Course 301)",
+    course301: "Onlinekurs – Adobe Illustrator lernen (Course 301)",
     
     // Language toggle
     language: "Language",
@@ -144,7 +148,11 @@ I can calculate fabric requirements, provide step-by-step tutorials, and guide y
 
 • Klassische Schnittmuster-Konstruktion (Kurs 101)
 • Drapier-Techniken (Kurs 201)
-• Adobe Illustrator für Modedesign (Kurs 301)
+• Onlinekurs – Adobe Illustrator lernen (Kurs 301)
+  - Technische Modezeichnung – Grundlagen
+  - Teil 1: Werkzeuge & mit Ebenen arbeiten
+  - Teil 2: Formatieren, Schablone, Vorder-/Rückansicht
+  - Teil 3: Beschriften & Zusammenfassung
 
 Ich kann Stoffberechnungen durchführen, Schritt-für-Schritt Anleitungen geben und Sie bei kreativen Herausforderungen unterstützen. Was möchten Sie heute kreieren?`,
     
@@ -176,7 +184,7 @@ Ich kann Stoffberechnungen durchführen, Schritt-für-Schritt Anleitungen geben 
     // Course names
     course101: "Klassische Schnittmuster-Konstruktion (Kurs 101)",
     course201: "Drapier-Techniken (Kurs 201)",
-    course301: "Adobe Illustrator für Modedesign (Kurs 301)",
+    course301: "Onlinekurs – Adobe Illustrator lernen (Kurs 301)",
     
     // Language toggle
     language: "Sprache",

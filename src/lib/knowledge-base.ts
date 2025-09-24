@@ -31,6 +31,7 @@ export class KnowledgeBase {
       'pattern-making-fundamentals.md',
       'draping-techniques.md',
       'illustrator-fashion-design.md',
+      'adobe-illustrator-corrected-structure.md',
       'klassische-schnittkonstruktion.md',
       'drapieren-transcripts.md'
     ]
@@ -38,7 +39,7 @@ export class KnowledgeBase {
     const courseConfigs = [
       { file: 'pattern-making-fundamentals.md', title: 'Classical Pattern Construction - Course 101', type: 'pattern-making' as const, courseNumber: '101' },
       { file: 'draping-techniques.md', title: 'Draping Techniques - Course 201', type: 'draping' as const, courseNumber: '201' },
-      { file: 'illustrator-fashion-design.md', title: 'Adobe Illustrator for Fashion Design - Course 301', type: 'illustrator-fashion' as const, courseNumber: '301' },
+      { file: 'adobe-illustrator-corrected-structure.md', title: 'Adobe Illustrator for Fashion Design - Course 301', type: 'illustrator-fashion' as const, courseNumber: '301' },
       { file: 'klassische-schnittkonstruktion.md', title: 'Klassische Schnittkonstruktion - Rock Grundschnitt (Course 101)', type: 'pattern-making' as const, courseNumber: '101' },
       { file: 'drapieren-transcripts.md', title: 'Drapieren - Rock Grundschnitt (Course 201)', type: 'draping' as const, courseNumber: '201' }
     ]
