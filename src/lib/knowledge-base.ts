@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs'
 import { join, resolve } from 'path'
 import { SecurityValidator, SecurityError } from './security-validator'
+import { VTTParser } from './vtt-parser'
 
 export interface DocumentChunk {
   id: string
@@ -66,10 +67,60 @@ export class KnowledgeBase {
       }
     }
     
+    // Load transcript files from docs/transcripts
+    const transcriptChunks = await this.loadTranscripts()
+    allChunks.push(...transcriptChunks)
+
     this.chunks = allChunks
     this.isLoaded = true
-    
-    console.log(`Loaded ${this.chunks.length} fashion course document chunks`)
+
+    console.log(`Loaded ${this.chunks.length} fashion course document chunks (including ${transcriptChunks.length} transcript chunks)`)
+  }
+
+  private async loadTranscripts(): Promise<DocumentChunk[]> {
+    const transcriptChunks: DocumentChunk[] = []
+
+    try {
+      const transcriptsPath = resolve(process.cwd(), 'docs', 'transcripts')
+
+      // Define transcript directories and their course mappings
+      const transcriptDirs = [
+        { dir: 'Drapieren', courseType: 'draping' as const, courseNumber: '201' },
+        { dir: 'klassische-schnittkonstruktion', courseType: 'pattern-making' as const, courseNumber: '101' },
+        { dir: 'adobe-illustrator', courseType: 'illustrator-fashion' as const, courseNumber: '301' }
+      ]
+
+      for (const { dir, courseType, courseNumber } of transcriptDirs) {
+        try {
+          const dirPath = join(transcriptsPath, dir)
+          const transcripts = VTTParser.parseDirectory(dirPath)
+
+          for (const transcript of transcripts) {
+            // Convert transcript to markdown for consistent chunking
+            const markdownContent = VTTParser.toMarkdown(transcript)
+
+            // Chunk the transcript content
+            const chunks = this.chunkDocument(
+              markdownContent,
+              `${transcript.filename}.vtt`,
+              transcript.title,
+              courseType,
+              courseNumber
+            )
+
+            transcriptChunks.push(...chunks)
+          }
+
+          console.log(`Loaded ${transcripts.length} transcripts from ${dir}`)
+        } catch (error) {
+          console.warn(`Could not load transcripts from ${dir}:`, error instanceof Error ? error.message : 'Unknown error')
+        }
+      }
+    } catch (error) {
+      console.warn('Could not load transcript directories:', error instanceof Error ? error.message : 'Unknown error')
+    }
+
+    return transcriptChunks
   }
 
   private chunkDocument(content: string, source: string, title: string, type: DocumentChunk['metadata']['type'], courseNumber: string): DocumentChunk[] {
