@@ -74,7 +74,9 @@ export const translations: Record<Language, Translations> = {
     welcomeMessage: `Hello! I'm ELLU, your intelligent fashion design assistant from ELLU Studios. I'm here to help you master fashion design through:
 
 • Classical Pattern Construction (Course 101)
-• Draping Techniques (Course 201)
+• Onlinekurs Schnittkonstruktion durch Drapieren (Course 201)
+  - Rockgrundschnitt Drapieren Teil 1, 2 & 3
+  - Professional draping techniques and pattern transfer
 • Onlinekurs – Adobe Illustrator lernen (Course 301)
   - Technische Modezeichnung – Grundlagen
   - Teil 1: Werkzeuge & Ebenen arbeiten
@@ -110,7 +112,7 @@ I can calculate fabric requirements, provide step-by-step tutorials, and guide y
     
     // Course names
     course101: "Classical Pattern Construction (Course 101)",
-    course201: "Draping Techniques (Course 201)",
+    course201: "Onlinekurs Schnittkonstruktion durch Drapieren (Course 201)",
     course301: "Onlinekurs – Adobe Illustrator lernen (Course 301)",
     
     // Language toggle
@@ -147,7 +149,9 @@ I can calculate fabric requirements, provide step-by-step tutorials, and guide y
     welcomeMessage: `Hallo! Ich bin ELLU, Ihr intelligenter Modedesign-Assistent von ELLU Studios. Ich helfe Ihnen dabei, Modedesign zu meistern durch:
 
 • Klassische Schnittmuster-Konstruktion (Kurs 101)
-• Drapier-Techniken (Kurs 201)
+• Onlinekurs Schnittkonstruktion durch Drapieren (Kurs 201)
+  - Rockgrundschnitt Drapieren Teil 1, 2 & 3
+  - Professionelle Drapier-Techniken und Schnittmuster-Übertragung
 • Onlinekurs – Adobe Illustrator lernen (Kurs 301)
   - Technische Modezeichnung – Grundlagen
   - Teil 1: Werkzeuge & mit Ebenen arbeiten
@@ -183,7 +187,7 @@ Ich kann Stoffberechnungen durchführen, Schritt-für-Schritt Anleitungen geben 
     
     // Course names
     course101: "Klassische Schnittmuster-Konstruktion (Kurs 101)",
-    course201: "Drapier-Techniken (Kurs 201)",
+    course201: "Onlinekurs Schnittkonstruktion durch Drapieren (Kurs 201)",
     course301: "Onlinekurs – Adobe Illustrator lernen (Kurs 301)",
     
     // Language toggle
