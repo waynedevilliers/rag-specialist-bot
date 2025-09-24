@@ -73,7 +73,9 @@ export const translations: Record<Language, Translations> = {
     // Welcome message
     welcomeMessage: `Hello! I'm ELLU, your intelligent fashion design assistant from ELLU Studios. I'm here to help you master fashion design through:
 
-• Classical Pattern Construction (Course 101)
+• Onlinekurs Klassische Schnittkonstruktion (Course 101)
+  - Rockgrundschnitt Konstruieren Teil 1, 2, 3 & 4
+  - Interactive measurement tables and classical pattern construction
 • Onlinekurs Schnittkonstruktion durch Drapieren (Course 201)
   - Rockgrundschnitt Drapieren Teil 1, 2 & 3
   - Professional draping techniques and pattern transfer
@@ -111,7 +113,7 @@ I can calculate fabric requirements, provide step-by-step tutorials, and guide y
     tryAgain: "Please try again.",
     
     // Course names
-    course101: "Classical Pattern Construction (Course 101)",
+    course101: "Onlinekurs Klassische Schnittkonstruktion (Course 101)",
     course201: "Onlinekurs Schnittkonstruktion durch Drapieren (Course 201)",
     course301: "Onlinekurs – Adobe Illustrator lernen (Course 301)",
     
@@ -148,7 +150,9 @@ I can calculate fabric requirements, provide step-by-step tutorials, and guide y
     // Welcome message
     welcomeMessage: `Hallo! Ich bin ELLU, Ihr intelligenter Modedesign-Assistent von ELLU Studios. Ich helfe Ihnen dabei, Modedesign zu meistern durch:
 
-• Klassische Schnittmuster-Konstruktion (Kurs 101)
+• Onlinekurs Klassische Schnittkonstruktion (Kurs 101)
+  - Rockgrundschnitt Konstruieren Teil 1, 2, 3 & 4
+  - Interaktive Maßstabellen und klassische Schnittmuster-Konstruktion
 • Onlinekurs Schnittkonstruktion durch Drapieren (Kurs 201)
   - Rockgrundschnitt Drapieren Teil 1, 2 & 3
   - Professionelle Drapier-Techniken und Schnittmuster-Übertragung
@@ -186,7 +190,7 @@ Ich kann Stoffberechnungen durchführen, Schritt-für-Schritt Anleitungen geben 
     tryAgain: "Bitte versuchen Sie es erneut.",
     
     // Course names
-    course101: "Klassische Schnittmuster-Konstruktion (Kurs 101)",
+    course101: "Onlinekurs Klassische Schnittkonstruktion (Kurs 101)",
     course201: "Onlinekurs Schnittkonstruktion durch Drapieren (Kurs 201)",
     course301: "Onlinekurs – Adobe Illustrator lernen (Kurs 301)",
     

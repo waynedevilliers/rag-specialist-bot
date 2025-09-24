@@ -32,6 +32,7 @@ export class KnowledgeBase {
       'draping-corrected-structure.md',
       'illustrator-fashion-design.md',
       'adobe-illustrator-corrected-structure.md',
+      'klassische-schnittkonstruktion-corrected-structure.md',
       'klassische-schnittkonstruktion.md',
       'drapieren-transcripts.md'
     ]
@@ -40,7 +41,7 @@ export class KnowledgeBase {
       { file: 'pattern-making-fundamentals.md', title: 'Classical Pattern Construction - Course 101', type: 'pattern-making' as const, courseNumber: '101' },
       { file: 'draping-corrected-structure.md', title: 'Draping Techniques - Course 201', type: 'draping' as const, courseNumber: '201' },
       { file: 'adobe-illustrator-corrected-structure.md', title: 'Adobe Illustrator for Fashion Design - Course 301', type: 'illustrator-fashion' as const, courseNumber: '301' },
-      { file: 'klassische-schnittkonstruktion.md', title: 'Klassische Schnittkonstruktion - Rock Grundschnitt (Course 101)', type: 'pattern-making' as const, courseNumber: '101' }
+      { file: 'klassische-schnittkonstruktion-corrected-structure.md', title: 'Klassische Schnittkonstruktion - Rock Grundschnitt (Course 101)', type: 'pattern-making' as const, courseNumber: '101' }
     ]
     
     const allChunks: DocumentChunk[] = []
