@@ -1,14 +1,12 @@
-// Mock environment variables for testing - must be set before imports
-process.env.OPENAI_API_KEY = 'sk-test-api-key-for-testing-purposes-only-1234567890abcdef';
-
 // RAG System Performance Baseline Tests
+// API key should already be loaded from .env.local via jest setup
 import { ragSystem } from '../rag-system';
 
 describe('RAG System Performance Analysis', () => {
   beforeAll(async () => {
     // Initialize the RAG system for testing
     await ragSystem.initialize();
-  }, 30000); // 30 second timeout for initialization
+  }, 120000); // 2 minute timeout for initialization (embeddings generation takes time)
 
   describe('Initialization Performance', () => {
     it('should track system initialization status', () => {

@@ -4,6 +4,7 @@ import { HNSWIndex } from './hnsw-index'
 import { VectorQuantizer, QuantizedVector } from './vector-quantizer'
 import { SecurityValidator, SecurityUtils } from './security-validator'
 import { connectionPool } from './connection-pool'
+import { chromaStore, ChromaSearchResult } from './chromadb-store'
 
 export interface VectorMatch {
   chunk: DocumentChunk
@@ -14,17 +15,21 @@ export class VectorStore {
   private embeddings: OpenAIEmbeddings
   private vectorIndex: Map<string, number[]> = new Map()
   private isInitialized = false
-  
+
   // **Phase 3**: HNSW Index for O(log n) approximate nearest neighbor search
   private hnswIndex: HNSWIndex
   private useHNSW = true // Toggle for HNSW vs brute-force
   private readonly HNSW_THRESHOLD = 50 // Use HNSW when we have 50+ vectors
-  
+
   // **Phase 3**: Vector Quantization for memory efficiency
   private quantizer: VectorQuantizer
   private quantizedIndex: Map<string, QuantizedVector> = new Map()
   private useQuantization = true // Toggle for quantization
   private readonly QUANTIZATION_THRESHOLD = 100 // Use quantization when we have 100+ vectors
+
+  // **ChromaDB Integration**: Persistent vector storage
+  private useChromaDB = true // Enable ChromaDB as persistent backend
+  private chromaInitialized = false
   
   // Embedding cache for persistent storage
   private embeddingCache = new Map<string, { vector: number[], timestamp: number, checksum: string }>()
@@ -62,6 +67,17 @@ export class VectorStore {
 
     // **SECURITY FIX**: Validate API key at runtime
     SecurityValidator.validateApiKey(process.env.OPENAI_API_KEY || '')
+
+    // **ChromaDB Integration**: Initialize persistent storage
+    await this.initializeChromaDB(chunks)
+
+    // **PERFORMANCE**: Try to load from persistent cache first
+    const cacheLoaded = await this.loadEmbeddingsFromCache(chunks)
+    if (cacheLoaded) {
+      console.log(`Loaded ${chunks.length} embeddings from cache in <1s`)
+      this.isInitialized = true
+      return
+    }
 
     console.log(`Generating embeddings for ${chunks.length} chunks...`)
     
@@ -410,8 +426,8 @@ export class VectorStore {
 
   // Hybrid search combining vector similarity and text search with parallel execution
   async hybridSearch(
-    query: string, 
-    chunks: DocumentChunk[], 
+    query: string,
+    chunks: DocumentChunk[],
     vectorWeight: number = 0.7,
     textWeight: number = 0.3,
     limit: number = 5
@@ -422,17 +438,22 @@ export class VectorStore {
     }
 
     try {
-      // **Phase 2 Optimization**: Run vector and text search in parallel
-      const [vectorResults, textResults] = await Promise.all([
+      // **ChromaDB + Local Hybrid Search**: Run ChromaDB, local vector, and text search in parallel
+      const [chromaResults, vectorResults, textResults] = await Promise.all([
+        this.searchWithChromaDB(query, limit * 2), // Get more results from ChromaDB
         this.searchSimilar(query, chunks, chunks.length),
         Promise.resolve(this.textSearch(query, chunks))
       ])
-      
+
+      // Combine ChromaDB results with local results
+      const allVectorResults = [...chromaResults, ...vectorResults]
+      const uniqueVectorResults = this.deduplicateResults(allVectorResults)
+
       // Combine scores with weighted fusion
       const combinedResults = new Map<string, VectorMatch>()
-      
-      // Add vector scores
-      vectorResults.forEach(result => {
+
+      // Add vector scores (including ChromaDB results)
+      uniqueVectorResults.forEach(result => {
         combinedResults.set(result.chunk.id, {
           chunk: result.chunk,
           score: result.score * vectorWeight
@@ -453,12 +474,28 @@ export class VectorStore {
       })
       
       // **Phase 2 Enhancement**: Reciprocal Rank Fusion for better score combination
-      return this.reciprocalRankFusion(vectorResults, textResults, vectorWeight, textWeight, limit)
+      return this.reciprocalRankFusion(uniqueVectorResults, textResults, vectorWeight, textWeight, limit)
     } catch (error) {
       console.error('Error in hybrid search:', error)
       // Fallback to text search
       return this.fallbackTextSearch(query, chunks, limit)
     }
+  }
+
+  /**
+   * **ChromaDB Integration**: Remove duplicate results by chunk ID, keeping highest score
+   */
+  private deduplicateResults(results: VectorMatch[]): VectorMatch[] {
+    const resultMap = new Map<string, VectorMatch>()
+
+    results.forEach(result => {
+      const existing = resultMap.get(result.chunk.id)
+      if (!existing || result.score > existing.score) {
+        resultMap.set(result.chunk.id, result)
+      }
+    })
+
+    return Array.from(resultMap.values()).sort((a, b) => b.score - a.score)
   }
 
   private reciprocalRankFusion(
@@ -610,6 +647,8 @@ export class VectorStore {
     vectorCount: number
     indexType: 'HNSW' | 'BruteForce'
     quantizationEnabled: boolean
+    chromaDBEnabled: boolean
+    chromaDBStatus: string
     memoryUsage: {
       originalVectors: number
       quantizedVectors: number
@@ -645,6 +684,8 @@ export class VectorStore {
       vectorCount,
       indexType: usingHNSW ? 'HNSW' : 'BruteForce',
       quantizationEnabled: usingQuantization,
+      chromaDBEnabled: this.useChromaDB,
+      chromaDBStatus: this.chromaInitialized ? 'Connected' : (this.useChromaDB ? 'Initializing' : 'Disabled'),
       memoryUsage: {
         originalVectors: originalMemory,
         quantizedVectors: quantizedMemory,
@@ -662,14 +703,14 @@ export class VectorStore {
 
   cleanExpiredCache(): void {
     const now = Date.now()
-    
+
     // Clean memory cache
     for (const [key, entry] of this.embeddingCache.entries()) {
       if (now - entry.timestamp > this.EMBEDDING_CACHE_TTL) {
         this.embeddingCache.delete(key)
       }
     }
-    
+
     // Clean localStorage cache (only in browser environments)
     if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
       try {
@@ -690,6 +731,72 @@ export class VectorStore {
       } catch (error) {
         console.debug('Failed to clean localStorage cache:', error)
       }
+    }
+  }
+
+  /**
+   * **ChromaDB Integration**: Initialize persistent vector storage
+   */
+  private async initializeChromaDB(chunks: DocumentChunk[]): Promise<void> {
+    if (!this.useChromaDB || this.chromaInitialized) return
+
+    try {
+      console.log('Initializing ChromaDB persistent storage...')
+
+      // Initialize ChromaDB connection
+      await chromaStore.initialize()
+
+      // Check if documents already exist in ChromaDB
+      const collectionInfo = await chromaStore.getCollectionInfo()
+      console.log(`ChromaDB collection "${collectionInfo.name}" has ${collectionInfo.count} documents`)
+
+      // If ChromaDB is empty, populate it
+      if (collectionInfo.count === 0 && chunks.length > 0) {
+        console.log('Populating ChromaDB with initial documents...')
+        await chromaStore.addDocuments(chunks)
+        console.log('ChromaDB populated successfully')
+      } else if (collectionInfo.count !== chunks.length) {
+        console.log(`Syncing ChromaDB: ${collectionInfo.count} stored vs ${chunks.length} current`)
+        // Could add sync logic here if needed
+      }
+
+      this.chromaInitialized = true
+      console.log('ChromaDB integration initialized successfully')
+    } catch (error) {
+      console.warn('ChromaDB initialization failed, continuing without persistent storage:', error)
+      this.useChromaDB = false // Disable ChromaDB if initialization fails
+    }
+  }
+
+  /**
+   * **ChromaDB Integration**: Search using persistent vector storage
+   */
+  private async searchWithChromaDB(query: string, limit: number): Promise<VectorMatch[]> {
+    if (!this.useChromaDB || !this.chromaInitialized) {
+      return []
+    }
+
+    try {
+      const chromaResults = await chromaStore.searchSimilar(query, limit, 0.3) // Lower threshold for more results
+
+      // Convert ChromaDB results to VectorMatch format
+      return chromaResults.map(result => ({
+        chunk: {
+          id: result.id,
+          content: result.content,
+          section: result.metadata.section,
+          metadata: {
+            title: result.metadata.title,
+            type: result.metadata.type as any,
+            courseNumber: result.metadata.courseNumber,
+            moduleNumber: result.metadata.moduleNumber
+          }
+        } as DocumentChunk,
+        score: result.score
+      }))
+    } catch (error) {
+      console.warn('ChromaDB search failed, falling back to local search:', error)
+      return []
     }
   }
 
@@ -854,6 +961,30 @@ export class VectorStore {
     } catch (error) {
       console.error('Error rebuilding indices:', error)
       throw error
+    }
+  }
+
+  private async loadEmbeddingsFromCache(chunks: DocumentChunk[]): Promise<boolean> {
+    try {
+      // Check if we can restore all embeddings from existing cache
+      let restoredCount = 0
+
+      for (const chunk of chunks) {
+        const text = this.prepareTextForEmbedding(chunk)
+        const cached = this.getCachedEmbedding(text)
+
+        if (cached) {
+          this.vectorIndex.set(chunk.id, cached)
+          this.hnswIndex.insert(chunk.id, cached)
+          restoredCount++
+        }
+      }
+
+      // Only consider successful if we restored all chunks
+      return restoredCount === chunks.length
+    } catch (error) {
+      console.warn('Failed to load embeddings from cache:', error)
+      return false
     }
   }
 }

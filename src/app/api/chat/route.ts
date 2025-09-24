@@ -46,7 +46,7 @@ function generateGreetingResponse(language: 'en' | 'de'): string {
 export async function POST(req: NextRequest) {
   try {
     // Parse request body
-    const { message, language = 'en', modelConfig } = await req.json();
+    const { message, language = 'auto', modelConfig } = await req.json();
 
     // Validate input
     if (!message || typeof message !== "string") {
@@ -57,9 +57,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Validate language
-    if (!['en', 'de'].includes(language)) {
+    if (!['en', 'de', 'auto'].includes(language)) {
       return NextResponse.json(
-        { error: "Language must be 'en' or 'de'" },
+        { error: "Language must be 'en', 'de', or 'auto'" },
         { status: 400 }
       );
     }

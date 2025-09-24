@@ -939,7 +939,7 @@ Then you put both shapes together, side by side and join them, via right-click j
 
 ### Complete Video Transcript
 
-**German Original:**
+**Original German:**
 "Eine technische Zeichnung wird natürlich für das Atelier oder die Produktionsstätte gemacht, die dann das Kleidungsstück auch herstellt und diese benötigt natürlich meist noch mehr Angaben. Oftmals haben wir dann ein ganzes Dossier mit verschiedenen Papieren und Dateien die Informationen über das Kleidungsstück geben, wie zum Beispiel auch eine Maßtabelle oder Angaben, wie das Ganze genäht werden soll.
 
 Ich würde dir jetzt empfehlen, erst mal deine Arbeit nochmal zu speichern und dann über Speichern unter eine zweite Datei anzulegen, auf der ich dann genauer detaillierte Angaben machen würde. Das heißt, wir haben jetzt eine Datei mit unserer Grundzeichnung und legen jetzt noch eine zweite an mit Detailangaben. Die kannst du jetzt zum Beispiel unter technische Zeichnungen, Rock, Detailangaben abspeichern.
@@ -1042,7 +1042,7 @@ When you have made all the specifications that are important for you, we are fin
 
 ### Complete Video Transcript
 
-**German Original:**
+**Original German:**
 "Du hast gelernt, wie man Adobe Illustrator bedient und du hast dich mit den Grundfunktionen des Programmes vertraut gemacht. Du kannst jetzt Dateien anlegen und speichern und dich innerhalb des Programmes orientieren.
 
 Du kennst auch schon einige Bedienfelder wie zum Beispiel Eigenschaften oder Ebenen. Du hast verschiedene Werkzeuge kennengelernt und kannst diese bedienen. Das sind zum einen die Auswahlwerkzeuge, die Zeichenfeder, das Rechteck und das Linienwerkzeug, Spiegeln und auch die Lupe.
@@ -1169,3 +1169,607 @@ Based on Luise's teaching methodology, the complete technical fashion drawing wo
 - Distinguish between contour lines (1pt) and detail lines (0.5pt minimum)
 - Work systematically: half garment → copy → mirror → join
 - Document thoroughly for production communication
+
+# DETAILED VIDEO TRANSCRIPTS
+**Source**: Original German Video Transcripts from Luise (ELLU Studios)
+**Purpose**: Detailed instructional content for students watching videos
+**Total Transcripts**: 12 videos
+
+
+## MODULE 1: INTRO - DETAILED TRANSCRIPT
+
+**Module**: 1
+**Duration**: 00:01:04.180
+**Instructor**: Luise from ELLU Studios
+
+### Complete German Transcript
+
+Hallo, ich bin Luisa von ELO Studios. Willkommen im Kurs Technische Modezeichnung mit Adobe Illustrator. Ich vermittle euch heute Grundlagen der technischen Modezeichnung mit dem Programm Adobe Illustrator und zeige euch, wie man mit dem Programm umgeht bis zur eigenhändigen Erstellung von einer einfachen technischen Modezeichnung. Was dieser Kurs beinhaltet, ich führe euch ein in die technische Modezeichnung und zeige euch, was ist das überhaupt. Ihr lernt Adobe Illustrator kennen, also die Benutzoberfläche. Ihr werdet lernen, wie man in dem Programm navigiert und ihr lernt auch wichtige Werkzeuge und Bedienfelder kennen. Ebenfalls werdet ihr eine erste technische Modezeichnung erstellen, die Vorder und Rückansicht von einem Rock und das Ganze dann auch formatieren und beschriften.
+
+### Timestamped Sections
+
+#### 00:00:01.760 - 00:00:16.360
+
+Hallo, ich bin Luisa von ELO Studios. Willkommen im Kurs Technische Modezeichnung mit Adobe Illustrator. Ich vermittle euch heute Grundlagen der technischen
+
+#### 00:00:16.360 - 00:00:36.280
+
+Modezeichnung mit dem Programm Adobe Illustrator und zeige euch, wie man mit dem Programm umgeht bis zur eigenhändigen Erstellung von einer einfachen technischen Modezeichnung. Was dieser Kurs beinhaltet, ich führe euch ein in die technische Modezeichnung und zeige
+
+#### 00:00:36.280 - 00:00:52.820
+
+euch, was ist das überhaupt. Ihr lernt Adobe Illustrator kennen, also die Benutzoberfläche. Ihr werdet lernen, wie man in dem Programm navigiert und ihr lernt auch wichtige Werkzeuge und Bedienfelder kennen.
+
+#### 00:00:53.120 - 00:01:04.180
+
+Ebenfalls werdet ihr eine erste technische Modezeichnung erstellen, die Vorder und Rückansicht von einem Rock und das Ganze dann auch formatieren und beschriften.
+
+### Key Instructions (Schlüsselanweisungen)
+
+- geht bis zur eigenhändigen Erstellung von einer einfachen technischen Modezeichnung
+- Erstellung von einer einfachen technischen Modezeichnung
+
+
+## MODULE 2: EINFÜHRUNG - DETAILED TRANSCRIPT
+
+**Module**: 2
+**Duration**: 00:03:47.390
+**Instructor**: Luise from ELLU Studios
+
+### Complete German Transcript
+
+Willkommen zur Einführung des Kurses Technische Modezeichnung mit Adobe Illustrator. Die technische Modezeichnung, was ist das? Modeillustration, Modezeichnung, technische Zeichnung, vielleicht habt ihr diese Begriffe ja schon einmal gehört. Ich möchte euch die Unterschiede zeigen. Der Hauptunterschied zwischen einer Modeillustration und einer technischen Modezeichnung liegt im Zweck. Die technische Modezeichnung dient zur Kommunikation mit der Produktionsfirma. Sie ist Teil von den Produktionsunterlagen und sie zeigt, wie das Kleidungsstück hergestellt werden soll. Eine technische Modezeichnung wird flach dargestellt. Im Englischen wird sie auch als Flat Drawing bezeichnet, also flache Zeichnung. Es ist also so, als ob ihr euer Kleidungsstück ganz flach auf den Boden legt und dann auch ganz genauso zeichnet. Die technische Modezeichnung ist exakt, das heißt von der Proportion sollte sie wirklich auch die Realität widerspiegeln und wir zeichnen in der technischen Modezeichnung alle Details ein, also alle Nähte, alle Schließsysteme, Knöpfe, Reißverschlüsse, Versteppungen, alles, was zu diesem Kleidungsstück gehört und was wichtig für die Fertigung ist. Eine technische Modezeichnung wird so neutral wie möglich dargestellt und bildet sowohl die Vorderansicht als auch die Rückansicht ab. Meistens ist das dann in schwarz-weiß und oftmals auch mit einem Zoom auf bestimmte Details, wichtig sind. Wir nutzen dafür auch eine ganz neutrale Perspektive und vermeiden hier auch jeglichen Hüftschwung oder jegliche Stilisierung, die die Zeichnung in irgendeiner Weise abstrahieren könnte. Im Gegensatz dazu dient eine Modeillustration der künstlerischen Darstellung oder auch der Inspiration und dazu bedienen wir uns allerlei künstlerischer Mittel- und Darstellungstechniken. Wir können also diese Modeillustration auf ganz verschiedene Arten und Weißen darstellen, zum Beispiel mit Aquarelle, mit Tusche, aber natürlich auch digital. Die technische Modezeichnung kann man auch per Hand malen, aber es ist natürlich auch ein sehr langer Prozess jetzt wirklich ganz präzise alles per Hand darzustellen. Deswegen benutzen wir digitale Programme zur Unterstützung, wie zum Beispiel Adobe Illustrator. Und der Vorteil von diesem Programm ist natürlich, dass wenn ich einmal technische Zeichnung angelegt habe, kann ich sie auch immer wieder verwenden und dann verändern, sodass ich dann am Ende auch viel schneller technische Zeichnung erstellen kann. Also noch mal zusammengefasst, eine technische Modezeichnung ist keine Modeillustration, denn sie hat einen ganz anderen Zweck. Man benutzt sie, um Kleidungsstücke herzustellen und zu kommunizieren, wie diese hergestellt werden. Technische Modezeichnung sind flach, neutral, man stellt Vorder und Rückansicht dar, sie sind maßstabsgetreu, symmetrisch und zeigen alle Details wie Nähte, Abnäher, Taschen, Verschlüsse etc. Sie sind rein funktional und sachlich und sie werden häufig mit Adobe Illustrator erstellt.
+
+### Timestamped Sections
+
+#### 00:00:02.240 - 00:00:58.060
+
+Willkommen zur Einführung des Kurses Technische Modezeichnung mit Adobe Illustrator. Die technische Modezeichnung, was ist das? Modeillustration, Modezeichnung, technische Zeichnung, vielleicht habt ihr diese Begriffe ja schon einmal gehört. Ich möchte euch die Unterschiede zeigen. Der Hauptunterschied zwischen einer Modeillustration und einer technischen Modezeichnung liegt im Zweck. Die technische Modezeichnung dient zur Kommunikation mit der Produktionsfirma. Sie ist Teil von den Produktionsunterlagen und sie zeigt, wie das Kleidungsstück hergestellt werden soll. Eine technische Modezeichnung wird flach dargestellt. Im Englischen wird sie auch als Flat Drawing bezeichnet, also flache Zeichnung. Es ist also so, als ob ihr euer Kleidungsstück ganz flach
+
+#### 00:00:58.060 - 00:01:57.080
+
+auf den Boden legt und dann auch ganz genauso zeichnet. Die technische Modezeichnung ist exakt, das heißt von der Proportion sollte sie wirklich auch die Realität widerspiegeln und wir zeichnen in der technischen Modezeichnung alle Details ein, also alle Nähte, alle Schließsysteme, Knöpfe, Reißverschlüsse, Versteppungen, alles, was zu diesem Kleidungsstück gehört und was wichtig für die Fertigung ist. Eine technische Modezeichnung wird so neutral wie möglich dargestellt und bildet sowohl die Vorderansicht als auch die Rückansicht ab. Meistens ist das dann in schwarz-weiß und oftmals auch mit einem Zoom auf bestimmte Details, wichtig sind. Wir nutzen dafür auch eine ganz neutrale Perspektive und vermeiden hier auch jeglichen Hüftschwung oder jegliche
+
+#### 00:01:57.080 - 00:02:53.290
+
+Stilisierung, die die Zeichnung in irgendeiner Weise abstrahieren könnte. Im Gegensatz dazu dient eine Modeillustration der künstlerischen Darstellung oder auch der Inspiration und dazu bedienen wir uns allerlei künstlerischer Mittel- und Darstellungstechniken. Wir können also diese Modeillustration auf ganz verschiedene Arten und Weißen darstellen, zum Beispiel mit Aquarelle, mit Tusche, aber natürlich auch digital. Die technische Modezeichnung kann man auch per Hand malen, aber es ist natürlich auch ein sehr langer Prozess jetzt wirklich ganz präzise alles per Hand darzustellen. Deswegen benutzen wir digitale Programme zur Unterstützung, wie zum Beispiel Adobe Illustrator. Und der Vorteil von diesem Programm ist natürlich,
+
+#### 00:02:53.290 - 00:03:44.810
+
+dass wenn ich einmal technische Zeichnung angelegt habe, kann ich sie auch immer wieder verwenden und dann verändern, sodass ich dann am Ende auch viel schneller technische Zeichnung erstellen kann. Also noch mal zusammengefasst, eine technische Modezeichnung ist keine Modeillustration, denn sie hat einen ganz anderen Zweck. Man benutzt sie, um Kleidungsstücke herzustellen und zu kommunizieren, wie diese hergestellt werden. Technische Modezeichnung sind flach, neutral, man stellt Vorder und Rückansicht dar, sie sind maßstabsgetreu, symmetrisch und zeigen alle Details wie Nähte, Abnäher, Taschen, Verschlüsse etc. Sie sind rein funktional und sachlich und sie werden häufig
+
+#### 00:03:44.810 - 00:03:47.390
+
+mit Adobe Illustrator erstellt.
+
+### Key Instructions (Schlüsselanweisungen)
+
+- gehört und was wichtig für die Fertigung ist
+- erstellen kann
+- zeichnet, also flache Zeichnung
+
+
+## MODULE 3: GRUNDLAGEN - DETAILED TRANSCRIPT
+
+**Module**: 3
+**Duration**: 00:03:00.460
+**Instructor**: Luise from ELLU Studios
+
+### Complete German Transcript
+
+Willkommen im Course Einführung in Adobe Illustrator. Ich zeige euch in diesem Course, wie man mit Adobe Illustrator erste technische Modezeichnungen erstellen kann. Adobe Illustrator ist ein relativ komplexes Programm, das auch in vielen Berufsfeldern genutzt wird. In der Modebranche benutzen wir es hauptsächlich zur Erstellung von technischen Modezeichnungen. Ich habe den Course deshalb so strukturiert, dass du nach und nach in essenzielle Funktionen des Programms eingeführt wirst, und zwar in diese, die du brauchst, um technische Modezeichnungen zu erstellen. Du lernst also Schritt für Schritt einige Tools kennen und kannst dein Wissen Kurs für Kurs erweitern. Wir legen jetzt los mit Adobe Illustrator. Zunächst öffnest du das Programm. Du klickst also auf Adobe Illustrator und du wirst sehen, oben links kannst du auf neue Datei gehen. Oder wenn es mal etwas schneller gehen soll, kannst du auch auf schnell eine neue Datei erstellen gehen. Das machen wir jetzt. Klick also hier auf A4 und schon öffnet sich eine Datei Du siehst jetzt eine weiße Seite. Das ist deine Zeichenfläche. Das ist quasi wie ein weißes Platt Papier, nur digital. Mit den meisten Programmen findest du oben eine Menüleiste. Die wollen wir uns jetzt einmal anschauen. Unter dem Menü Datei kannst du eine neue Datei anlegen oder eine Datei oder eine bestehende Datei Öffnen. Das Menü bearbeiten bietet Optionen wie einfügen, rückgängig Machen. Danach folgen die Menüs Objekt, Schrift, Auswahl, Effekt und Ansicht. Das sind Menüs auf die ich später eingehen werde. Dann gibt es das Menü Fenster. Das finde ich ein relativ wichtiges Menü, denn hier kannst du Bedienfelder oder Werkzeuge öffnen bzw. ein und ausblenden. Also, falls dir mal etwas fehlt, kannst du hier einfach nachschauen. Zuletzt haben wir das Menü Hilfe. Hier findest du einige Tutorials und Antworten auf eventuelle Fragen. Wenn du dir jetzt deinen Bildschirm anschaust, fällt dir vielleicht links eine Werkzeugleiste Auf. Die kannst du ganz nach deinem Geschmack anpassen. Ich mag sie gern etwas kompakter, also klicke ich hier auf diesen Doppelfeil und schon ist sie in einem anderen Format.
+
+### Timestamped Sections
+
+#### 00:00:06.890 - 00:00:47.070
+
+Willkommen im Course Einführung in Adobe Illustrator. Ich zeige euch in diesem Course, wie man mit Adobe Illustrator erste technische Modezeichnungen erstellen kann. Adobe Illustrator ist ein relativ komplexes Programm, das auch in vielen Berufsfeldern genutzt wird. In der Modebranche benutzen wir es hauptsächlich zur Erstellung von technischen Modezeichnungen. Ich habe den Course deshalb so strukturiert, dass du nach und nach in essenzielle Funktionen des Programms eingeführt wirst, und zwar in diese, die du brauchst, um technische Modezeichnungen zu erstellen. Du lernst also Schritt für Schritt einige Tools kennen und
+
+#### 00:00:47.070 - 00:01:34.420
+
+kannst dein Wissen Kurs für Kurs erweitern. Wir legen jetzt los mit Adobe Illustrator. Zunächst öffnest du das Programm. Du klickst also auf Adobe Illustrator und du wirst sehen, oben links kannst du auf neue Datei gehen. Oder wenn es mal etwas schneller gehen soll, kannst du auch auf schnell eine neue Datei erstellen gehen. Das machen wir jetzt. Klick also hier auf A4 und schon öffnet sich eine Datei Du siehst jetzt eine weiße Seite. Das ist deine Zeichenfläche. Das ist quasi wie ein weißes Platt Papier, nur digital. Mit den meisten Programmen findest du oben eine Menüleiste.
+
+#### 00:01:34.420 - 00:02:13.760
+
+Die wollen wir uns jetzt einmal anschauen. Unter dem Menü Datei kannst du eine neue Datei anlegen oder eine Datei oder eine bestehende Datei Öffnen. Das Menü bearbeiten bietet Optionen wie einfügen, rückgängig Machen. Danach folgen die Menüs Objekt, Schrift, Auswahl, Effekt und Ansicht. Das sind Menüs auf die ich später eingehen werde. Dann gibt es das Menü Fenster. Das finde ich ein relativ wichtiges Menü,
+
+#### 00:02:13.760 - 00:02:52.140
+
+denn hier kannst du Bedienfelder oder Werkzeuge öffnen bzw. ein und ausblenden. Also, falls dir mal etwas fehlt, kannst du hier einfach nachschauen. Zuletzt haben wir das Menü Hilfe. Hier findest du einige Tutorials und Antworten auf eventuelle Fragen. Wenn du dir jetzt deinen Bildschirm anschaust, fällt dir vielleicht links eine Werkzeugleiste Auf. Die kannst du ganz nach deinem Geschmack anpassen.
+
+#### 00:02:52.140 - 00:03:00.460
+
+Ich mag sie gern etwas kompakter, also klicke ich hier auf diesen Doppelfeil und schon ist sie in einem anderen Format.
+
+### Key Instructions (Schlüsselanweisungen)
+
+- klickst also auf Adobe Illustrator und du wirst sehen, oben links kannst du auf neue Datei gehen
+- Klick also hier auf A4 und schon öffnet sich eine Datei Du siehst jetzt eine weiße Seite
+- klicke ich hier auf diesen Doppelfeil und schon ist sie in einem anderen Format
+- gehen soll, kannst du auch auf schnell eine neue Datei erstellen gehen
+- gehen werde
+- öffnest du das Programm
+- öffnet sich eine Datei Du siehst jetzt eine weiße Seite
+- erstellen kann
+- Erstellung von technischen Modezeichnungen
+- erstellen gehen
+
+
+## MODULE 4.1: WERKZEUGE - DETAILED TRANSCRIPT
+
+**Module**: 4.1
+**Duration**: 00:07:56.400
+**Instructor**: Luise from ELLU Studios
+
+### Complete German Transcript
+
+Ich möchte dir jetzt die wichtigsten Werkzeuge die wir benötigen, vorstellen. Wir fangen an mit der Zeichenfeder, die findest du hier im oberen Bereich. Mit dieser Zeichenfeder kannst du Linien und Kurven zeichnen. Und das probieren wir jetzt gleich einmal aus. Klick also auf die Zeichenfeder, dann geh auf dein Plattpapier und setze deinen ersten Punkt, indem du da raufklickst. Wenn Du jetzt ein zweites Mal klickst, entsteht eine Linie zwischen diesen beiden Punkten. Und nach und nach entsteht eine Form. Wenn du jetzt zum Ausgangspunkt zurückkehrst, wirst du einen kleinen Kreis sehen. Das heißt, die Form wird geschlossen. Das ist ganz wichtig, denn für technische Modezeichnungen wollen wir immer die Formen schließen. Später ist das nämlich wichtig, wenn du zum Beispiel deiner Form eine Farbe geben möchtest oder diese mit einem bestimmten Stoff ausfüllen möchtest. Und nur mit geschlossenen Formen ist das problemlos möglich. Deshalb ist es eine gute Angewohnheit, die Formen immer zu schließen. Wenn jetzt deine Form geschlossen hast und wieder auf dein Plattpapier bist, wirst du merken, du kannst jetzt gar nicht aus dieser Funktion raus und zeichnest immer weiter. Es ist, als ob du einen Stift hast, den du einfach nicht absetzen kannst. Das heißt, wenn du jetzt nicht mehr weiter zeichnen möchtest, solltest du zunächst aus der Funktion Zeichenfeder wieder rausgehen. Das kannst du indem du auf ein anderes Werkzeug klickst. Wir gehen deshalb jetzt zu den Auswahlwerkzeugen, denn das sind die die ich euch als nächstes vorstellen möchte. Als Auswahlwerkzeug haben wir den schwarzen Pfeil, um gesamte Formen auszuwählen, oder den weißen Pfeil als Direktauswahlwerkzeug. Wir gehen jetzt erstmal auf den schwarzen Pfeil. Damit kannst du wie gesagt, gesamte Objekte auswählen und verschieben, vergrößern oder skalieren. Klick jetzt also mal auf deine Form und du wirst ein paar Anfasser an den Ecken sehen. Dann kannst du deine Form auch schon verändern. Zieh einfach mal daran und du wirst merken, sie verformt sich, vergrößert sich oder verkleinert sich, je nachdem was du machst. Allerdings wirst du auch merken, dass sie sich gleich etwas verzerrt, dass also die ursprüngliche Form verändert wird. Wenn du das jetzt nicht möchtest und die Form an sich beibehalten möchtest, drückst du gleichzeitig die Shift-Taste. Du hältst also die Shift-Taste gedrückt und kannst jetzt deine Form proportional vergrößern oder verkleinern. Jetzt schauen wir uns noch das Direktauswahlwerkzeug an. Damit kannst du einzelne Punkte oder Linien verschieben. Wenn du auf eine Linie klickst, siehst du, dass alle Punkte der Form unausgefüllt sind, also weiß sind. Und jetzt kannst du auf einen einzelnen Punkt klicken und der ist jetzt mit der Farbe blau ausgefüllt. Und damit weißt du du hast diesen Punkt angewählt. Jetzt kannst du durch das Halten der Shift-Taste mehrere Punkte auswählen oder du ziehst einfach von außen über mehrere Punkte rüber und kannst jetzt einen Teil der Form transformieren. Als nächstes zeige ich dir, wie wir mit der Zeichenfeder Kurven zeichnen. Klick jetzt auf dein Plattpapier und es entsteht ein Punkt. Und jetzt möchtest du einen zweiten Punkt setzen. Dazu klickst du wieder und lässt diesmal aber nicht los. Und jetzt ziehst du gleichzeitig in eine Richtung. Das kannst du mit der Maus machen oder mit dem Trackpad zum Beispiel, indem du mit dem Zeigefinger dann einfach in eine Richtung ziehst oder indem du den Zeigefinger gedrückt hältst und dann mit dem Mittelfinger in eine Richtung ziehst. Finde für dich raus, was da die beste Methode ist. Und wenn du jetzt in eine Richtung ziehst, wirst du merken, es entsteht eine Kurve. Wenn du jetzt loslässt, hast du eine Kurve gezeichnet. An dieser Kurve befindet sich jetzt eine Tangente und die gibt die Richtung an, in die du weiterzeichnen kannst. Wenn du diese Tangente jetzt nicht haben möchtest und frei weiterzeichnen möchtest, klickst du einfach nochmal auf den Punkt. Und jetzt kannst du frei in jede Richtung weiterzeichnen. Wenn aber jetzt die Tangente von Nutzen ist, das kann sie auch manchmal sein, dann behalte sie einfach bei und zeichne weiter und es entsteht eine weitere Kurve. Aber denke daran, geklickt halten und nicht absetzen und in eine Richtung ziehen, damit es wirklich eine Kurve wird und keine gerade Linie. Keine Sorge, wenn das am Anfang nicht gleich klappt. Das geht wirklich nicht nur dir so. Es braucht einfach eine gewisse Übung und deswegen kannst du das Video jetzt hier anhalten und einfach mal ein bisschen probieren, bis du den Dreh wirklich raus hast. Wir machen jetzt weiter mit einem Formlöschen. Wenn du jetzt deine Form die du gezeichnet hast, löschen möchtest, musst du erstmal aus der Zeichenfederfunktion rausgehen und gehst deshalb am besten auf die Werkzeuge zur Auswahl oder Direktauswahl. Ich gehe jetzt auf den schwarzen Pfeil und kann damit meine Form auswählen. Und wenn ich sie einmal ausgewählt habe, mit dem schwarzen Pfeil habe ich ja die gesamte Form ausgewählt, kann ich jetzt einfach auf die Entfernen oder Delete bzw. Backspace-Taste drücken, je nach System. Und schon ist die Form gelöscht. Falls das jetzt aber ein Fehler war und du die Form gar nicht löschen wolltest, kannst du sie natürlich auch ganz leicht wieder zurückholen. Vielleicht kannst du dich erinnern, in dem Menü Bearbeiten können wir Dinge rückgängig machen und gleichzeitig sieht man hier auch die Tastaturkürzel. Das ist Ctrl oder Command Z, wie eigentlich in ganz vielen Programmen. Das ist in Adobe Illustrator nicht anders. Kannst du damit ganz einfach Schritte zurückgehen. Und schon ist deine Form wieder da. Und da wir schon von löschen reden, können wir jetzt auch gleich mal speichern. Da es das erste Mal ist, dass wir unsere Zeichnung speichern, gehen wir auf das Menü Datei Speichern unter. Und wenn wir die Form dann einmal gespeichert haben, können wir natürlich auch ganz normal auf Speichern drücken. Hier gibt es natürlich auch wieder Tastaturkürzel. Also Shift, Command oder Ctrl S ist Speichern unter. Dann können wir hier einen Namen eingeben. Ich gebe jetzt hier einfach mal Illustrator Einführung ein. Drücke auf OK und schon ist meine Datei bespeichert. Gewöhn dir wirklich an, dann immer mal zwischenzuspeichern, falls das Programm doch mal abstürzen sollte, damit du deine Arbeit nicht komplett verloren hast. Hier nochmal die wichtigsten Punkte als Zusammenfassung. Wenn du mit der Zeichenfeder arbeitest, kannst du eine Linie zeichnen, in dem du klickst und dann nochmal klickst. Wenn du eine Kurve zeichnest, klickst du einmal und beim zweiten Klick ziehst du gleichzeitig und ziehst diese Kurve in die Richtung, in die du sie haben möchtest und lässt nicht los. Der schwarze Pfeil wählt gesamte Formeln aus und der weiße Pfeil wählt einzelne Punkte oder Linien aus.
+
+### Timestamped Sections
+
+#### 00:00:06.140 - 00:01:49.800
+
+Ich möchte dir jetzt die wichtigsten Werkzeuge die wir benötigen, vorstellen. Wir fangen an mit der Zeichenfeder, die findest du hier im oberen Bereich. Mit dieser Zeichenfeder kannst du Linien und Kurven zeichnen. Und das probieren wir jetzt gleich einmal aus. Klick also auf die Zeichenfeder, dann geh auf dein Plattpapier und setze deinen ersten Punkt, indem du da raufklickst. Wenn Du jetzt ein zweites Mal klickst, entsteht eine Linie zwischen diesen beiden Punkten. Und nach und nach entsteht eine Form. Wenn du jetzt zum Ausgangspunkt zurückkehrst, wirst du einen kleinen Kreis sehen. Das heißt, die Form wird geschlossen. Das ist ganz wichtig, denn für technische Modezeichnungen wollen wir immer die Formen schließen. Später ist das nämlich wichtig, wenn du zum Beispiel deiner Form eine Farbe geben möchtest oder diese mit einem bestimmten Stoff ausfüllen möchtest. Und nur mit geschlossenen Formen ist das problemlos möglich. Deshalb ist es eine gute Angewohnheit, die Formen immer zu schließen. Wenn jetzt deine Form geschlossen hast und wieder auf dein Plattpapier bist, wirst du merken, du kannst jetzt gar nicht aus dieser Funktion raus und zeichnest immer weiter. Es ist, als ob du einen Stift hast, den du einfach nicht absetzen kannst. Das heißt, wenn du jetzt nicht mehr weiter zeichnen möchtest, solltest du zunächst aus der Funktion Zeichenfeder wieder rausgehen. Das kannst du indem du auf ein anderes Werkzeug klickst. Wir gehen deshalb jetzt zu den Auswahlwerkzeugen, denn das sind die die ich euch als nächstes vorstellen möchte. Als Auswahlwerkzeug haben wir den schwarzen Pfeil,
+
+#### 00:01:49.800 - 00:03:45.260
+
+um gesamte Formen auszuwählen, oder den weißen Pfeil als Direktauswahlwerkzeug. Wir gehen jetzt erstmal auf den schwarzen Pfeil. Damit kannst du wie gesagt, gesamte Objekte auswählen und verschieben, vergrößern oder skalieren. Klick jetzt also mal auf deine Form und du wirst ein paar Anfasser an den Ecken sehen. Dann kannst du deine Form auch schon verändern. Zieh einfach mal daran und du wirst merken, sie verformt sich, vergrößert sich oder verkleinert sich, je nachdem was du machst. Allerdings wirst du auch merken, dass sie sich gleich etwas verzerrt, dass also die ursprüngliche Form verändert wird. Wenn du das jetzt nicht möchtest und die Form an sich beibehalten möchtest, drückst du gleichzeitig die Shift-Taste. Du hältst also die Shift-Taste gedrückt und kannst jetzt deine Form proportional vergrößern oder verkleinern. Jetzt schauen wir uns noch das Direktauswahlwerkzeug an. Damit kannst du einzelne Punkte oder Linien verschieben. Wenn du auf eine Linie klickst, siehst du, dass alle Punkte der Form unausgefüllt sind, also weiß sind. Und jetzt kannst du auf einen einzelnen Punkt klicken und der ist jetzt mit der Farbe blau ausgefüllt. Und damit weißt du du hast diesen Punkt angewählt. Jetzt kannst du durch das Halten der Shift-Taste mehrere Punkte auswählen oder du ziehst einfach von außen über mehrere Punkte rüber und kannst jetzt einen Teil der Form transformieren. Als nächstes zeige ich dir, wie wir mit der Zeichenfeder Kurven zeichnen. Klick jetzt auf dein Plattpapier und es entsteht ein Punkt. Und jetzt möchtest du einen zweiten Punkt setzen. Dazu klickst du wieder und lässt diesmal aber nicht los.
+
+#### 00:03:45.260 - 00:05:42.340
+
+Und jetzt ziehst du gleichzeitig in eine Richtung. Das kannst du mit der Maus machen oder mit dem Trackpad zum Beispiel, indem du mit dem Zeigefinger dann einfach in eine Richtung ziehst oder indem du den Zeigefinger gedrückt hältst und dann mit dem Mittelfinger in eine Richtung ziehst. Finde für dich raus, was da die beste Methode ist. Und wenn du jetzt in eine Richtung ziehst, wirst du merken, es entsteht eine Kurve. Wenn du jetzt loslässt, hast du eine Kurve gezeichnet. An dieser Kurve befindet sich jetzt eine Tangente und die gibt die Richtung an, in die du weiterzeichnen kannst. Wenn du diese Tangente jetzt nicht haben möchtest und frei weiterzeichnen möchtest, klickst du einfach nochmal auf den Punkt. Und jetzt kannst du frei in jede Richtung weiterzeichnen. Wenn aber jetzt die Tangente von Nutzen ist, das kann sie auch manchmal sein, dann behalte sie einfach bei und zeichne weiter und es entsteht eine weitere Kurve. Aber denke daran, geklickt halten und nicht absetzen und in eine Richtung ziehen, damit es wirklich eine Kurve wird und keine gerade Linie. Keine Sorge, wenn das am Anfang nicht gleich klappt. Das geht wirklich nicht nur dir so. Es braucht einfach eine gewisse Übung und deswegen kannst du das Video jetzt hier anhalten und einfach mal ein bisschen probieren, bis du den Dreh wirklich raus hast. Wir machen jetzt weiter mit einem Formlöschen. Wenn du jetzt deine Form die du gezeichnet hast, löschen möchtest, musst du erstmal aus der Zeichenfederfunktion rausgehen und gehst deshalb am besten auf die Werkzeuge zur Auswahl oder Direktauswahl. Ich gehe jetzt auf den schwarzen Pfeil und kann damit meine Form auswählen. Und wenn ich sie einmal ausgewählt habe, mit dem schwarzen Pfeil habe ich ja die gesamte Form ausgewählt,
+
+#### 00:05:42.340 - 00:07:55.800
+
+kann ich jetzt einfach auf die Entfernen oder Delete bzw. Backspace-Taste drücken, je nach System. Und schon ist die Form gelöscht. Falls das jetzt aber ein Fehler war und du die Form gar nicht löschen wolltest, kannst du sie natürlich auch ganz leicht wieder zurückholen. Vielleicht kannst du dich erinnern, in dem Menü Bearbeiten können wir Dinge rückgängig machen und gleichzeitig sieht man hier auch die Tastaturkürzel. Das ist Ctrl oder Command Z, wie eigentlich in ganz vielen Programmen. Das ist in Adobe Illustrator nicht anders. Kannst du damit ganz einfach Schritte zurückgehen. Und schon ist deine Form wieder da. Und da wir schon von löschen reden, können wir jetzt auch gleich mal speichern. Da es das erste Mal ist, dass wir unsere Zeichnung speichern, gehen wir auf das Menü Datei Speichern unter. Und wenn wir die Form dann einmal gespeichert haben, können wir natürlich auch ganz normal auf Speichern drücken. Hier gibt es natürlich auch wieder Tastaturkürzel. Also Shift, Command oder Ctrl S ist Speichern unter. Dann können wir hier einen Namen eingeben. Ich gebe jetzt hier einfach mal Illustrator Einführung ein. Drücke auf OK und schon ist meine Datei bespeichert. Gewöhn dir wirklich an, dann immer mal zwischenzuspeichern, falls das Programm doch mal abstürzen sollte, damit du deine Arbeit nicht komplett verloren hast. Hier nochmal die wichtigsten Punkte als Zusammenfassung. Wenn du mit der Zeichenfeder arbeitest, kannst du eine Linie zeichnen, in dem du klickst und dann nochmal klickst. Wenn du eine Kurve zeichnest, klickst du einmal und beim zweiten Klick ziehst du gleichzeitig und ziehst diese Kurve in die Richtung, in die du sie haben möchtest und lässt nicht los. Der schwarze Pfeil wählt gesamte Formeln aus und der weiße Pfeil wählt einzelne Punkte oder Linien
+
+#### 00:07:55.800 - 00:07:56.400
+
+aus.
+
+### Key Instructions (Schlüsselanweisungen)
+
+- klickst, entsteht eine Linie zwischen diesen beiden Punkten
+- Klick jetzt also mal auf deine Form und du wirst ein paar Anfasser an den Ecken sehen
+- klickst, siehst du, dass alle Punkte der Form unausgefüllt sind, also weiß sind
+- klicken und der ist jetzt mit der Farbe blau ausgefüllt
+- Klick jetzt auf dein Plattpapier und es entsteht ein Punkt
+- klickst du wieder und lässt diesmal aber nicht los
+- klickst du einfach nochmal auf den Punkt
+- klickst und dann nochmal klickst
+- geh auf dein Plattpapier und setze deinen ersten Punkt, indem du da raufklickst
+- gehen jetzt erstmal auf den schwarzen Pfeil
+
+
+## MODULE 4.2: MIT EBENEN ARBEITEN - DETAILED TRANSCRIPT
+
+**Module**: 4.2
+**Duration**: 00:04:41.500
+**Instructor**: Luise from ELLU Studios
+
+### Complete German Transcript
+
+Als nächstes zeige ich dir, wie du in Adobe Illustrator mit Ebenen arbeitest. Vielleicht hast du schon mal mit Photoshop oder mit InDesign gearbeitet, da ist es ähnlich, da gibt es auch Ebenen, aber im Adobe Illustrator gibt es noch mal ein paar Unterschiede, also selbst wenn du das schon kennst, lohnt es sich, hier noch mal reinzuschauen. Ebenen funktionieren eigentlich wie Schichten. Also es ist, als ob du ein Platt Papier hast und auf dieses Platt Papier noch ein weiteres darüber legst. Das hilft dir, deine Zeichnung übersichtlich zu halten. Um mit Ebenen zu arbeiten, suchen wir jetzt erst mal das Ebenen Bedienfeld, das findest du normalerweise hier rechts. Falls du es aber jetzt gar nicht sehen solltest, kann es sein, dass es irgendwo versteckt ist Vielleicht kannst du dich erinnern, das Menü Fenster dient dazu, Bedienfelder zu aktivieren oder zu deaktivieren. Also falls du das Ebenen Bedienfeld jetzt nicht sehen solltest, dann geh mal in das Menü Fenster und schau ob es angeklickt ist. Also Ebenen und da soll ein Häkchen dran sein. Wenn das Häkchen jetzt dran ist und du das nicht siehst, das Ebenen Bedienfeld, dann ist es irgendwo versteckt auf deinem Bildschirm. guck mal, ob du es irgendwo entdeckst. Falls nicht, kannst du einfach in dem Menü Fenster die Ebenen deaktivieren, also das Häkchen wegmachen, in dem du draufklickst und dann nochmal draufklicken. Dann ist es wieder aktiviert und sollte irgendwo aufkloppen. Jetzt gehen wir zu diesem Feld und als nächstes wollen wir verstehen, wie man mit diesen Ebenen arbeitet. Standardgemäß siehst du erstmal eine einzige Ebene und die ist im Adobe Illustrator im Vergleich zu den anderen Programmen mit einer Farbe hinterlegt und hier ist es immer blau. Deswegen ist auch deine Form die du jetzt gezeichnet hast, du sie auswählst, blau. Wenn du jetzt hier unten auf das Pluszeichen klickst, dann wird eine neue Ebene angelegt. Das ist jetzt deine zweite Ebene und da siehst du schon, die hat eine andere Farbe, die ist jetzt rot. Die dritte ist dann grün und dann kommen immer mehr Farben dazu. Das hilft dir, das Ganze übersichtlich zu halten und dich zu orientieren. Jetzt ist aber zum Beispiel die vierte Ebene auch eine Art blau und relativ schwer von der ersten zu unterscheiden. Das heißt wenn du jetzt hier die Farbe ändern möchtest, kannst du einfach auf dieses weiße Kästchen drücken und es öffnet sich ein Feld, wo du die Farbe ändern kannst. Jetzt am Anfang arbeiten wir aber eigentlich nicht mit so vielen Ebenen und generell brauchen wir für technische Zeichnung jetzt auch nicht ganz so viele Ebenen. Ich persönlich finde es dann auch manchmal so bisschen unübersichtlich, wenn man zu viele Hat. Also löschen wir jetzt erst mal wieder diese Ebenen und fügen dann nach und nach die Ebenen dazu, die wir wirklich brauchen. Ich klicke also hier drauf und dann habe ich hier so einen Papierkorb und da kann ich eine Ebene löschen. Jetzt habe ich wieder eine Ebene. Diese kann ich jetzt auch ein- oder ausblenden. Also am besten hast du jetzt noch eine Form, die du gezeichnet hast. Wenn du jetzt hier auf das Auger neben dieser Ebene gehst und draufklickst, wird die Ebene unsichtbar Wenn du sperren und wieder entsperren, also wenn du draufklickst, dann kommt da so ein kleines Schlosssymbol. Das heißt, die Ebene kann jetzt nicht mehr bearbeitet werden. Jetzt noch mal zusammengefasst, wie du mit Ebenen arbeiten kannst. Es gibt verschiedene Tastaturkürzel zum speichern oder zum löschen. Die lernst du am besten auswendig. Wenn du eine neue Ebene anlegen möchtest, klickst du auf das Pluszeichen im Ebenenbedienfeld. Wenn du eine Ebene löschen möchtest, gibt es dafür das Papierkorbsymbol im Ebenenbedienfeld und sperren kannst du eine Ebene ebenfalls hier, indem du links daneben auf das Schlosssymbol klickst. Und da kannst du auch eine sichtbar oder unsichtbar machen. Neben diesem Schlosssymbol befindet sich das Augensymbol, das dafür dient.
+
+### Timestamped Sections
+
+#### 00:00:03.060 - 00:01:12.840
+
+Als nächstes zeige ich dir, wie du in Adobe Illustrator mit Ebenen arbeitest. Vielleicht hast du schon mal mit Photoshop oder mit InDesign gearbeitet, da ist es ähnlich, da gibt es auch Ebenen, aber im Adobe Illustrator gibt es noch mal ein paar Unterschiede, also selbst wenn du das schon kennst, lohnt es sich, hier noch mal reinzuschauen. Ebenen funktionieren eigentlich wie Schichten. Also es ist, als ob du ein Platt Papier hast und auf dieses Platt Papier noch ein weiteres darüber legst. Das hilft dir, deine Zeichnung übersichtlich zu halten. Um mit Ebenen zu arbeiten, suchen wir jetzt erst mal das Ebenen Bedienfeld, das findest du normalerweise hier rechts. Falls du es aber jetzt gar nicht sehen solltest, kann es sein, dass es irgendwo versteckt ist Vielleicht kannst du dich erinnern, das Menü Fenster dient dazu, Bedienfelder zu aktivieren oder zu deaktivieren. Also falls du das Ebenen Bedienfeld jetzt nicht sehen solltest, dann geh mal in das Menü Fenster und schau ob es angeklickt ist. Also Ebenen und da soll ein Häkchen dran sein.
+
+#### 00:01:12.860 - 00:02:18.120
+
+Wenn das Häkchen jetzt dran ist und du das nicht siehst, das Ebenen Bedienfeld, dann ist es irgendwo versteckt auf deinem Bildschirm. guck mal, ob du es irgendwo entdeckst. Falls nicht, kannst du einfach in dem Menü Fenster die Ebenen deaktivieren, also das Häkchen wegmachen, in dem du draufklickst und dann nochmal draufklicken. Dann ist es wieder aktiviert und sollte irgendwo aufkloppen. Jetzt gehen wir zu diesem Feld und als nächstes wollen wir verstehen, wie man mit diesen Ebenen arbeitet. Standardgemäß siehst du erstmal eine einzige Ebene und die ist im Adobe Illustrator im Vergleich zu den anderen Programmen mit einer Farbe hinterlegt und hier ist es immer blau. Deswegen ist auch deine Form die du jetzt gezeichnet hast, du sie auswählst, blau. Wenn du jetzt hier unten auf das Pluszeichen klickst, dann wird eine neue Ebene angelegt. Das ist jetzt deine zweite Ebene und da siehst du schon, die hat eine andere Farbe, die ist jetzt rot. Die dritte ist dann grün und dann kommen immer mehr
+
+#### 00:02:18.120 - 00:03:27.390
+
+Farben dazu. Das hilft dir, das Ganze übersichtlich zu halten und dich zu orientieren. Jetzt ist aber zum Beispiel die vierte Ebene auch eine Art blau und relativ schwer von der ersten zu unterscheiden. Das heißt wenn du jetzt hier die Farbe ändern möchtest, kannst du einfach auf dieses weiße Kästchen drücken und es öffnet sich ein Feld, wo du die Farbe ändern kannst. Jetzt am Anfang arbeiten wir aber eigentlich nicht mit so vielen Ebenen und generell brauchen wir für technische Zeichnung jetzt auch nicht ganz so viele Ebenen. Ich persönlich finde es dann auch manchmal so bisschen unübersichtlich, wenn man zu viele Hat. Also löschen wir jetzt erst mal wieder diese Ebenen und fügen dann nach und nach die Ebenen dazu, die wir wirklich brauchen. Ich klicke also hier drauf und dann habe ich hier so einen Papierkorb und da kann ich eine Ebene löschen. Jetzt habe ich wieder eine Ebene. Diese kann ich jetzt auch ein- oder ausblenden. Also am besten hast du jetzt noch eine Form,
+
+#### 00:03:27.390 - 00:04:40.400
+
+die du gezeichnet hast. Wenn du jetzt hier auf das Auger neben dieser Ebene gehst und draufklickst, wird die Ebene unsichtbar Wenn du sperren und wieder entsperren, also wenn du draufklickst, dann kommt da so ein kleines Schlosssymbol. Das heißt, die Ebene kann jetzt nicht mehr bearbeitet werden. Jetzt noch mal zusammengefasst, wie du mit Ebenen arbeiten kannst. Es gibt verschiedene Tastaturkürzel zum speichern oder zum löschen. Die lernst du am besten auswendig. Wenn du eine neue Ebene anlegen möchtest, klickst du auf das Pluszeichen im Ebenenbedienfeld. Wenn du eine Ebene löschen möchtest, gibt es dafür das Papierkorbsymbol im Ebenenbedienfeld und sperren kannst du eine Ebene ebenfalls hier, indem du links daneben auf das Schlosssymbol klickst. Und da kannst du auch eine sichtbar oder unsichtbar machen. Neben diesem Schlosssymbol befindet sich das Augensymbol,
+
+#### 00:04:40.400 - 00:04:41.500
+
+das dafür dient.
+
+### Key Instructions (Schlüsselanweisungen)
+
+- klickst und dann nochmal draufklicken
+- klickst, dann wird eine neue Ebene angelegt
+- klickst du auf das Pluszeichen im Ebenenbedienfeld
+- geh mal in das Menü Fenster und schau ob es angeklickt ist
+- gehen wir zu diesem Feld und als nächstes wollen wir verstehen, wie man mit diesen Ebenen arbeitet
+- wählst, blau
+- öffnet sich ein Feld, wo du die Farbe ändern kannst
+- zeichnet hast, du sie auswählst, blau
+- zeichnet hast
+
+
+## MODULE 5.1: FORMATIEREN - DETAILED TRANSCRIPT
+
+**Module**: 5.1
+**Duration**: 00:04:32.520
+**Instructor**: Luise from ELLU Studios
+
+### Complete German Transcript
+
+Und was du jetzt gelernt hast, wenden wir auch gleich mal an. Wir werden eine erste technische Zeichnung mit Adobe Illustrator erstellen. Du kennst ja jetzt schon einige Grundfunktionen. Zunächst wollen wir unsere Arbeit übersichtlich machen und daher das Blatt etwas formatieren. Unsere erste Ebene wird also als Formatgrundlage dienen. Um mich zurecht zu finden, möchte ich meinen Ebenen dann auch Namen geben und deswegen gehe ich jetzt hier auf Ebene 1, klicke da drauf und kann diesen Namen löschen und dann diese Ebene umbenennen und ich nenne sie jetzt einfach mal Format. Ich möchte mir also jetzt einen Rahmen anlegen, um darin dann später meine technische Zeichnung anzulegen und dafür kann ich natürlich die Zeichenfeder nehmen. Aber es gibt auch einen viel schnelleren Weg, nämlich mit der Rechteckfunktion. Du siehst hier links unweit von der Zeichenfeder, ein bisschen weiter unten ein Rechtecksymbol. Da klickst du jetzt mal drauf. Jetzt klickst du auf dein Platt Papier Und Hältst jetzt deine Maus oder deinen Trackpad gedrückt und ziehst in eine Richtung und du wirst sehen, es entsteht ein Rechteck. Wenn jetzt gleichzeitig noch die Shift-Taste gedrückt hält, entsteht ein Quadrat. Ich möchte aber jetzt erstmal ein Rechteck haben, also brauche ich die Shift-Taste nicht drücken und ziehe mir jetzt dieses Rechteck über mein Platt Papier. Das ist jetzt mein Rahmen. In diesen Rahmen möchte ich jetzt noch einen Abschnitt einfügen. Dazu nehme ich das Linienwerkzeug, das findet ihr hier in dieser Werkzeugleiste, auch nicht weit vom Rechteck entfernt und da klickt ihr jetzt mal drauf, dann geht ihr wieder auf eure Zeichenfläche, positioniert euch auf der einen Seite des Rechtecks. Jetzt zieht ihr rüber auf die andere Seite und ihr seht, es entsteht so eine Linie. Haltet gedrückt, nicht loslassen und wenn ich jetzt die Shift-Taste gedrückt halte, dann kann ich eine ganz gerade Linie zeichnen. Das heißt sie ist da nicht mehr in einem beliebigen Winkel. Also ziehe ich jetzt meine ganz gerade Linie, indem ich die Shift-Taste gedrückt halte, bis zur anderen Seite von dem Rechteck und jetzt wenn ich da gut positioniert bin, lasse ich los und habe also meine gerade Linie gezeichnet. Alternativ kann ich das natürlich auch mit der Zeichenfeder machen. Jetzt möchte ich in diesem Abschnitt noch einen Text hinzufügen. Dafür geht ihr in eurer Werkzeugleiste auf das T wie Textwerkzeug und positioniert euch dann auf eurer Zeichenfläche dort wo ihr den Text einfügen möchtet. Du gehst jetzt also auf deine Zeichenfläche und kannst dir hier direkt ein Textfeld definieren oder alternativ kannst du einfach gleichlos schreiben. Ich persönlich mag es immer, wenn ich hier schon ein Feld vordefiniert habe. Ja an dieser Stelle merkt ihr schon, es gibt sehr viele verschiedene Arbeitsweisen mit Adobe Illustrator. Ich stelle meine Arbeitsweise vor, versuche euch aber auch immer gleich ein paar Alternativen zu nennen und ihr könnt dann für euch herausfinden, was am besten passt. So ich schreibe jetzt hier in mein Textfeld technische Modezeichnung und dann mein Name. Ihr könnt dort auch eure Firma oder euer Modelabel eintragen. Technische Zeichnung dient ja meist dazu, sie dann an eine Produktionsfirma zu senden und deshalb ist es dann immer gut einzutragen, was zeichne ich jetzt und von wem ist diese Zeichnung. Wir wollen als erstes eine technische Zeichnung von einem Rock anfertigen. Parallel dazu haben wir Kurse für die Schnittkonstruktion und fertigen dort einen Modellrock an. Also nenne ich meine technische Zeichnung Modellrock 1 und füge noch meinen Namen hinzu. Jetzt ist erstmal meine Grundformatierung fertig und ich möchte diese Grundformatierung auch nicht weiter verschieben. Also sperre ich jetzt meine Ebene, drücke also neben diesem Auge auf die Fläche, es entscheint das Schlosssymbol und ich kann meine Ebene jetzt nicht weiter bearbeiten. Das hat den Vorteil, dass sie dann eben auch nicht verrutschen kann.
+
+### Timestamped Sections
+
+#### 00:00:03.420 - 00:01:11.460
+
+Und was du jetzt gelernt hast, wenden wir auch gleich mal an. Wir werden eine erste technische Zeichnung mit Adobe Illustrator erstellen. Du kennst ja jetzt schon einige Grundfunktionen. Zunächst wollen wir unsere Arbeit übersichtlich machen und daher das Blatt etwas formatieren. Unsere erste Ebene wird also als Formatgrundlage dienen. Um mich zurecht zu finden, möchte ich meinen Ebenen dann auch Namen geben und deswegen gehe ich jetzt hier auf Ebene 1, klicke da drauf und kann diesen Namen löschen und dann diese Ebene umbenennen und ich nenne sie jetzt einfach mal Format. Ich möchte mir also jetzt einen Rahmen anlegen, um darin dann später meine technische Zeichnung anzulegen und dafür kann ich natürlich die Zeichenfeder nehmen. Aber es gibt auch einen viel schnelleren Weg, nämlich mit der Rechteckfunktion. Du siehst hier links unweit von der Zeichenfeder, ein bisschen weiter unten ein Rechtecksymbol. Da klickst du jetzt mal drauf. Jetzt klickst du auf dein Platt Papier Und
+
+#### 00:01:11.460 - 00:02:14.800
+
+Hältst jetzt deine Maus oder deinen Trackpad gedrückt und ziehst in eine Richtung und du wirst sehen, es entsteht ein Rechteck. Wenn jetzt gleichzeitig noch die Shift-Taste gedrückt hält, entsteht ein Quadrat. Ich möchte aber jetzt erstmal ein Rechteck haben, also brauche ich die Shift-Taste nicht drücken und ziehe mir jetzt dieses Rechteck über mein Platt Papier. Das ist jetzt mein Rahmen. In diesen Rahmen möchte ich jetzt noch einen Abschnitt einfügen. Dazu nehme ich das Linienwerkzeug, das findet ihr hier in dieser Werkzeugleiste, auch nicht weit vom Rechteck entfernt und da klickt ihr jetzt mal drauf, dann geht ihr wieder auf eure Zeichenfläche, positioniert euch auf der einen Seite des Rechtecks. Jetzt zieht ihr rüber auf die andere Seite und ihr seht, es entsteht so eine Linie. Haltet gedrückt, nicht loslassen und wenn ich jetzt die Shift-Taste gedrückt halte, dann kann ich eine ganz gerade Linie zeichnen. Das heißt sie ist da nicht mehr in einem beliebigen Winkel.
+
+#### 00:02:15.500 - 00:03:23.800
+
+Also ziehe ich jetzt meine ganz gerade Linie, indem ich die Shift-Taste gedrückt halte, bis zur anderen Seite von dem Rechteck und jetzt wenn ich da gut positioniert bin, lasse ich los und habe also meine gerade Linie gezeichnet. Alternativ kann ich das natürlich auch mit der Zeichenfeder machen. Jetzt möchte ich in diesem Abschnitt noch einen Text hinzufügen. Dafür geht ihr in eurer Werkzeugleiste auf das T wie Textwerkzeug und positioniert euch dann auf eurer Zeichenfläche dort wo ihr den Text einfügen möchtet. Du gehst jetzt also auf deine Zeichenfläche und kannst dir hier direkt ein Textfeld definieren oder alternativ kannst du einfach gleichlos schreiben. Ich persönlich mag es immer, wenn ich hier schon ein Feld vordefiniert habe. Ja an dieser Stelle merkt ihr schon, es gibt sehr viele verschiedene Arbeitsweisen mit Adobe Illustrator. Ich stelle meine Arbeitsweise vor, versuche euch aber auch immer gleich ein paar Alternativen zu nennen und ihr könnt dann für euch herausfinden,
+
+#### 00:03:23.800 - 00:04:31.580
+
+was am besten passt. So ich schreibe jetzt hier in mein Textfeld technische Modezeichnung und dann mein Name. Ihr könnt dort auch eure Firma oder euer Modelabel eintragen. Technische Zeichnung dient ja meist dazu, sie dann an eine Produktionsfirma zu senden und deshalb ist es dann immer gut einzutragen, was zeichne ich jetzt und von wem ist diese Zeichnung. Wir wollen als erstes eine technische Zeichnung von einem Rock anfertigen. Parallel dazu haben wir Kurse für die Schnittkonstruktion und fertigen dort einen Modellrock an. Also nenne ich meine technische Zeichnung Modellrock 1 und füge noch meinen Namen hinzu. Jetzt ist erstmal meine Grundformatierung fertig und ich möchte diese Grundformatierung auch nicht weiter verschieben. Also sperre ich jetzt meine Ebene, drücke also neben diesem Auge auf die Fläche, es entscheint das Schlosssymbol und ich kann meine Ebene jetzt nicht weiter bearbeiten. Das hat den Vorteil, dass sie dann eben auch nicht
+
+#### 00:04:31.580 - 00:04:32.520
+
+verrutschen kann.
+
+### Key Instructions (Schlüsselanweisungen)
+
+- klickst du jetzt mal drauf
+- geht ihr wieder auf eure Zeichenfläche, positioniert euch auf der einen Seite des Rechtecks
+- ziehst in eine Richtung und du wirst sehen, es entsteht ein Rechteck
+- ziehe mir jetzt dieses Rechteck über mein Platt Papier
+- zieht ihr rüber auf die andere Seite und ihr seht, es entsteht so eine Linie
+- zeichnet. Alternativ kann ich das natürlich auch mit der Zeichenfeder machen
+- zeichne ich jetzt und von wem ist diese Zeichnung
+
+
+## MODULE 5.2: SCHABLONE - DETAILED TRANSCRIPT
+
+**Module**: 5.2
+**Duration**: 00:03:47.680
+**Instructor**: Luise from ELLU Studios
+
+### Complete German Transcript
+
+Jetzt lege ich eine zweite Ebene an, die erscheint jetzt rot. Und in meiner zweiten Ebene möchte ich jetzt eine Vorlage hochladen, um diese zu nutzen, um dann meine technische Modezeichnung anzufertigen. Also nenne ich meine zweite Ebene schon einmal Vorlage. Ihr findet mehrere Vorlagen in eurem Kursbereich unter PDF-Dateien. Ladet euch also jetzt die Vorlage runter, die ihr benutzen wollt, direkt auf euren Schreibtisch. Von eurem Schreibtisch aus klickt ihr da drauf und zieht sie dann auch direkt in den Illustrator rein. Hier merkt ihr, dass sie vielleicht von der Größe nicht ganz passt und ihr sie noch mal transformieren wollt. Also vielleicht könnt ihr euch erinnern, ihr geht auf den schwarzen Pfeil, das Auswahlwerkzeug und könnt jetzt hier die Größe verändern. Vorsicht, um sie proportional zu verändern, haltet ihr gleichzeitig die Shift-Taste gedrückt. So steht ihr sicher, dass eure Schablone proportional gleich bleibt und sich nicht deformiert. Am Anfang kann es immer mal passieren, dass man in irgendeine komische Funktion reingerät in Adobe Illustrator und sich plötzlich nicht mehr zurechtfindet. Falls das mal der ist, keine Panik, geht einfach mit Cmd oder Ctrl Z ein paar Schritte zurück, bis ihr wieder in einer normalen Funktion seid oder ihr macht die Datei zu und öffnet sie wieder und sie wird dann da geöffnet, wo ihr sie zum letzten Mal zwischengespeichert habt. Falls ihr jetzt auch lange nicht mehr zwischengespeichert habt, dann tut das jetzt. Wir haben also jetzt unsere Schablone hochgeladen und platziert an der richtigen Stelle und die Größe angepasst und jetzt wollen wir noch die Deckkraft von dieser Schablone verändern, denn das ist ja schließlich nur eine Vorlage und sie soll ein bisschen im Hintergrund sein, aber jetzt nicht so prägnant, damit ich einfach noch drauf zeichnen kann und meine Zeichnung dann auch gut sehe. Also könnt ihr jetzt in dem Bedienfeld Eigenschaften die Deckkraft etwas heruntersetzen. Falls ihr das Bedienfeld Eigenschaften nicht sehen sollt, vielleicht erinnert ihr euch, in dem Menü Fenster könnt ihr es dann aktivieren. So, jetzt setzt die Deckkraft etwas herunter, natürlich auch nur so sehr, dass ihr diese Schablone dann auch noch seht. So und wenn das passt, könnt ihr jetzt diese zweite Ebene, diese Schablone auch wieder sperren. Geht also wieder neben dem Auge auf das Kästchen, klickt drauf und es erscheint wieder ein Schloss. Die Ebene ist gesperrt, die Schablone kann sich also nicht mehr bewegen, sie ist jetzt fest und ich muss keine Angst haben, dass sie irgendwie transformiert oder verkleinert oder vergrößert wird. Jetzt geht ihr wieder auf das Pluszeichen und legt euch eure dritte Ebene an. Das ist jetzt die Ebene auf die wir die technische Zeichnung legen werden. Auch diese Ebene benenne ich um und nenne sie Zeichnung. Die Formatierung noch einmal zusammengefasst. Ein Rechteck zeichnest du mit dem Rechteckwerkzeug und wenn du gleichzeitig die Shift-Taste drückst, daraus ein Quadrat. Für gerade Linien nimmst du am besten das Linienwerkzeug und mit der Shift-Taste kannst du diese Linie dann gerade oder in einem bestimmten Winkel 90 oder 180 Grad zeichnen. Und für Texte gibt es noch das Textwerkzeug.
+
+### Timestamped Sections
+
+#### 00:00:03.170 - 00:00:56.140
+
+Jetzt lege ich eine zweite Ebene an, die erscheint jetzt rot. Und in meiner zweiten Ebene möchte ich jetzt eine Vorlage hochladen, um diese zu nutzen, um dann meine technische Modezeichnung anzufertigen. Also nenne ich meine zweite Ebene schon einmal Vorlage. Ihr findet mehrere Vorlagen in eurem Kursbereich unter PDF-Dateien. Ladet euch also jetzt die Vorlage runter, die ihr benutzen wollt, direkt auf euren Schreibtisch. Von eurem Schreibtisch aus klickt ihr da drauf und zieht sie dann auch direkt in den Illustrator rein. Hier merkt ihr, dass sie vielleicht von der Größe nicht ganz passt und ihr sie noch mal transformieren wollt. Also vielleicht könnt ihr euch erinnern, ihr geht auf den schwarzen Pfeil,
+
+#### 00:00:56.140 - 00:01:50.580
+
+das Auswahlwerkzeug und könnt jetzt hier die Größe verändern. Vorsicht, um sie proportional zu verändern, haltet ihr gleichzeitig die Shift-Taste gedrückt. So steht ihr sicher, dass eure Schablone proportional gleich bleibt und sich nicht deformiert. Am Anfang kann es immer mal passieren, dass man in irgendeine komische Funktion reingerät in Adobe Illustrator und sich plötzlich nicht mehr zurechtfindet. Falls das mal der ist, keine Panik, geht einfach mit Cmd oder Ctrl Z ein paar Schritte zurück, bis ihr wieder in einer normalen Funktion seid oder ihr macht die Datei zu und öffnet sie wieder und sie wird dann da geöffnet, wo ihr sie zum letzten Mal zwischengespeichert habt. Falls ihr jetzt auch lange nicht mehr zwischengespeichert habt, dann tut das jetzt. Wir haben also jetzt unsere Schablone hochgeladen und
+
+#### 00:01:50.580 - 00:02:46.280
+
+platziert an der richtigen Stelle und die Größe angepasst und jetzt wollen wir noch die Deckkraft von dieser Schablone verändern, denn das ist ja schließlich nur eine Vorlage und sie soll ein bisschen im Hintergrund sein, aber jetzt nicht so prägnant, damit ich einfach noch drauf zeichnen kann und meine Zeichnung dann auch gut sehe. Also könnt ihr jetzt in dem Bedienfeld Eigenschaften die Deckkraft etwas heruntersetzen. Falls ihr das Bedienfeld Eigenschaften nicht sehen sollt, vielleicht erinnert ihr euch, in dem Menü Fenster könnt ihr es dann aktivieren. So, jetzt setzt die Deckkraft etwas herunter, natürlich auch nur so sehr, dass ihr diese Schablone dann auch noch seht. So und wenn das passt, könnt ihr jetzt diese zweite Ebene, diese Schablone auch wieder sperren. Geht also wieder neben dem Auge auf das Kästchen,
+
+#### 00:02:46.280 - 00:03:43.540
+
+klickt drauf und es erscheint wieder ein Schloss. Die Ebene ist gesperrt, die Schablone kann sich also nicht mehr bewegen, sie ist jetzt fest und ich muss keine Angst haben, dass sie irgendwie transformiert oder verkleinert oder vergrößert wird. Jetzt geht ihr wieder auf das Pluszeichen und legt euch eure dritte Ebene an. Das ist jetzt die Ebene auf die wir die technische Zeichnung legen werden. Auch diese Ebene benenne ich um und nenne sie Zeichnung. Die Formatierung noch einmal zusammengefasst. Ein Rechteck zeichnest du mit dem Rechteckwerkzeug und wenn du gleichzeitig die Shift-Taste drückst, daraus ein Quadrat. Für gerade Linien nimmst du am besten das Linienwerkzeug und mit der Shift-Taste kannst du diese Linie dann gerade oder in einem bestimmten Winkel 90 oder 180 Grad zeichnen.
+
+#### 00:03:43.560 - 00:03:47.680
+
+Und für Texte gibt es noch das Textwerkzeug.
+
+### Key Instructions (Schlüsselanweisungen)
+
+- klickt ihr da drauf und zieht sie dann auch direkt in den Illustrator rein
+- klickt drauf und es erscheint wieder ein Schloss
+- geht auf den schwarzen Pfeil, das Auswahlwerkzeug und könnt jetzt hier die Größe verändern
+- Geht also wieder neben dem Auge auf das Kästchen, klickt drauf und es erscheint wieder ein Schloss
+- geht ihr wieder auf das Pluszeichen und legt euch eure dritte Ebene an
+- zieht sie dann auch direkt in den Illustrator rein
+- zeichnen kann und meine Zeichnung dann auch gut sehe
+
+
+## MODULE 5.3: VORDERANSICHT - DETAILED TRANSCRIPT
+
+**Module**: 5.3
+**Duration**: 00:06:28.160
+**Instructor**: Luise from ELLU Studios
+
+### Complete German Transcript
+
+Du siehst jetzt deine Schablone und da ist eine Mittellinie, die stellt die Körpermitte dar. Also wie in der Schnittkonstruktion von einem Kleidungsstück ist das jetzt die Körpermitte und auf der werden wir auch anfangen zu zeichnen. In Adobe Illustrator werden wir zunächst erstmal nur ein Teil von dem Kleidungsstück zeichnen, also auch wieder ganz ähnlich wie in der Schnittkonstruktion. Wir machen erst eine Hälfte von dem Rock, dann werden wir dieses Teil kopieren und spiegeln und dann zu einem Rock zusammensetzen. Das dient dazu, dass dann die Symmetrie wirklich perfekt ist. Du gehst also jetzt in Höhe der Teile auf die Körpermitte und setzt dort deinen ersten Punkt mit der Zeichenfeder. Dann gehst du auch wieder in Höhe der Teile nach links Richtung Seitenlinie und wirst dort deinen zweiten Punkt setzen. Hier kannst du eine gerade Linie ziehen oder aber auch eine ganz leichte Kurve. Wenn du jetzt eine Kurve wählst, dann achte darauf, dass sie im Bereich der Körpermitte relativ flach ist, auch wie bei der Schnittkonstruktion, dass also ein Winkel von 90 Grad bei der Körpermitte entsteht. Denn wir wollen ja diese Zeichnung später kopieren und spiegeln und die andere Seite soll dann eben auch ganz gerade weitergehen. Wenn ich jetzt meinen Punkt an der Seitenlinie platziere, platziere ich den nicht genau auf dem Körper. Denn vielleicht könnt ihr euch erinnern in der Einführung technische Modezeichnung. Was ist das? Es ist keine Modeillustration, es ist eine technische Zeichnung, die wirklich flach dargestellt wird. Also setzt du diesen Punkt ein wenig außerhalb von der Körperseite. So, jetzt klickst du hier drauf und hältst entweder geklickt, wenn du jetzt eine Kurve machen möchtest oder für eine gerade Linie setzt du einfach den Punkt. Dann gehst du nach unten. Wir sind jetzt bei der Seite unseres Rockes und hier würde ich dir empfehlen, jeden Fall eine Kurve zu zeichnen. Die ist jetzt im oberen Bereich vor allem etwas gesprungen und unten hin achtest du darauf, dass die Linie relativ gerade ist. Und dann setzt du hier unten am Saum deinen nächsten Punkt. Du könntest das jetzt auch mit zwei Punkten machen, aber ich versuche im Illustrator immer so wenig Punkte wie möglich zu benutzen, um dann später die Zeichnung leichter transformieren zu können. Also setzt du jetzt deinen nächsten Punkt unten am Saum und gehst dann wieder zurück zur Körpermitte. Hier kannst du eine gerade Linie setzen, könntest aber auch alternativ wenn du möchtest, und die Zeichnung wirklich ganz besonders schön aussehen soll, auch eine Kurve zeichnen. Achte aber wieder darauf, dass diese Kurve bei der Körpermitte wieder recht flach ist. Und jetzt zeichnest du von der unteren Körpermitte zurück zum Startpunkt zur oberen Körpermitte und diese Linie muss ganz gerade sein. Jetzt siehst du diesen kleinen Kreis und das heißt meine Form wird geschlossen. Das ist ganz wichtig, schließ deine Form und schon hast du die erste Rockhälfte gezeichnet. Wir wollen diesen Rock nun kopieren und dann spiegeln, aber bevor wir das tun, schauen wir dass wir auch wirklich alles haben, was wir benötigen, um diesen Rock zu spiegeln. Denn wenn wir jetzt noch ein paar Details haben, wäre es ganz günstig, wenn wir die auch gleich mitspiegeln und dann nicht im Nachhinein nochmal doppelt zeichnen müssen. In unserem Modellrock haben wir eine Tasche und wir haben Abnäher. Diese werde ich jetzt erstmal noch einzeichnen, bevor ich das Ganze spiegle. Jetzt zeichne ich die Details ein. In unserem Modellrock sind das die Taschen und die Abnäher und bei meiner technischen Zeichnung variiert die Anzahl der Abnäher vorne und hinten jetzt etwas im Vergleich zu unserem Modellrock aus den Korsenschnittkonstruktionen und Trappieren. Die Anzahl kann einfach von Rock zu Rock ganz unterschiedlich sein. Ich habe jetzt zum Beispiel zwei Abnäher, vorne je Seite und einen hinten und bei unserem Modellrock aus den Konstruktionskursen sind das ein Abnäher vorne und zwei hinten. Vielleicht kannst du dich erinnern als wir unser Format angelegt haben, haben wir das Linienwerkzeug benutzt. Das kann ich jetzt zum Beispiel auch nutzen und hier meine Tasche einzeichnen. Alternativ geht es natürlich auch mit dem Zeichenstiftwerkzeug. Mein Abnäher kann ich jetzt auch mit der Linie zeichnen oder aber auch mit der Zeichenfeder. Wenn ich vielleicht auch einen etwas größeren Abnäher habe, dann lohnt es sich diesen auch ein wenig zu formen. Ich unterscheide in der technischen Modezeichnung zwischen der Konturlinie und den Details. Der Abnäher und die Tasche sind Details und deswegen möchte ich diese etwas weniger stark darstellen. Dazu gehe ich in den Bedienfeld auf Kontur und stelle jetzt hier über diese Pfeile einen geringeren Kontur ein. Zum Beispiel 0,5 Punkt. Der Kontur von meinem Rock an sich ist ein Punkt und 0,5 ist dann etwas dünner und das erscheint dann schon etwas harmonischer. Achte aber darauf, zu sehr runterzugehen. Also bei 0,25 Punkt ist es zum Beispiel so, dass man, wenn man diese Zeichnung dann drucken möchte, oftmals diese Linien gar nicht mehr sieht, die dann so fein gezeichnet sind. Deswegen würde ich empfehlen Minimum 0,5 Punkt
+
+### Timestamped Sections
+
+#### 00:00:07.850 - 00:01:36.970
+
+Du siehst jetzt deine Schablone und da ist eine Mittellinie, die stellt die Körpermitte dar. Also wie in der Schnittkonstruktion von einem Kleidungsstück ist das jetzt die Körpermitte und auf der werden wir auch anfangen zu zeichnen. In Adobe Illustrator werden wir zunächst erstmal nur ein Teil von dem Kleidungsstück zeichnen, also auch wieder ganz ähnlich wie in der Schnittkonstruktion. Wir machen erst eine Hälfte von dem Rock, dann werden wir dieses Teil kopieren und spiegeln und dann zu einem Rock zusammensetzen. Das dient dazu, dass dann die Symmetrie wirklich perfekt ist. Du gehst also jetzt in Höhe der Teile auf die Körpermitte und setzt dort deinen ersten Punkt mit der Zeichenfeder. Dann gehst du auch wieder in Höhe der Teile nach links Richtung Seitenlinie und wirst dort deinen zweiten Punkt setzen. Hier kannst du eine gerade Linie ziehen oder aber auch eine ganz leichte Kurve. Wenn du jetzt eine Kurve wählst, dann achte darauf, dass sie im Bereich der Körpermitte relativ flach ist, auch wie bei der Schnittkonstruktion, dass also ein Winkel von 90 Grad bei der Körpermitte entsteht. Denn wir wollen ja diese Zeichnung später kopieren und spiegeln und die andere Seite soll dann eben auch ganz gerade weitergehen.
+
+#### 00:01:36.970 - 00:03:07.830
+
+Wenn ich jetzt meinen Punkt an der Seitenlinie platziere, platziere ich den nicht genau auf dem Körper. Denn vielleicht könnt ihr euch erinnern in der Einführung technische Modezeichnung. Was ist das? Es ist keine Modeillustration, es ist eine technische Zeichnung, die wirklich flach dargestellt wird. Also setzt du diesen Punkt ein wenig außerhalb von der Körperseite. So, jetzt klickst du hier drauf und hältst entweder geklickt, wenn du jetzt eine Kurve machen möchtest oder für eine gerade Linie setzt du einfach den Punkt. Dann gehst du nach unten. Wir sind jetzt bei der Seite unseres Rockes und hier würde ich dir empfehlen, jeden Fall eine Kurve zu zeichnen. Die ist jetzt im oberen Bereich vor allem etwas gesprungen und unten hin achtest du darauf, dass die Linie relativ gerade ist. Und dann setzt du hier unten am Saum deinen nächsten Punkt. Du könntest das jetzt auch mit zwei Punkten machen, aber ich versuche im Illustrator immer so wenig Punkte wie möglich zu benutzen, um dann später die Zeichnung leichter transformieren zu können. Also setzt du jetzt deinen nächsten Punkt unten am Saum und gehst dann wieder zurück zur Körpermitte. Hier kannst du eine gerade Linie setzen, könntest aber auch alternativ wenn du möchtest,
+
+#### 00:03:07.830 - 00:04:44.480
+
+und die Zeichnung wirklich ganz besonders schön aussehen soll, auch eine Kurve zeichnen. Achte aber wieder darauf, dass diese Kurve bei der Körpermitte wieder recht flach ist. Und jetzt zeichnest du von der unteren Körpermitte zurück zum Startpunkt zur oberen Körpermitte und diese Linie muss ganz gerade sein. Jetzt siehst du diesen kleinen Kreis und das heißt meine Form wird geschlossen. Das ist ganz wichtig, schließ deine Form und schon hast du die erste Rockhälfte gezeichnet. Wir wollen diesen Rock nun kopieren und dann spiegeln, aber bevor wir das tun, schauen wir dass wir auch wirklich alles haben, was wir benötigen, um diesen Rock zu spiegeln. Denn wenn wir jetzt noch ein paar Details haben, wäre es ganz günstig, wenn wir die auch gleich mitspiegeln und dann nicht im Nachhinein nochmal doppelt zeichnen müssen. In unserem Modellrock haben wir eine Tasche und wir haben Abnäher. Diese werde ich jetzt erstmal noch einzeichnen, bevor ich das Ganze spiegle. Jetzt zeichne ich die Details ein. In unserem Modellrock sind das die Taschen und die Abnäher und bei meiner technischen Zeichnung variiert die Anzahl der Abnäher vorne und hinten jetzt etwas im Vergleich zu unserem Modellrock aus den Korsenschnittkonstruktionen und Trappieren.
+
+#### 00:04:44.560 - 00:06:22.500
+
+Die Anzahl kann einfach von Rock zu Rock ganz unterschiedlich sein. Ich habe jetzt zum Beispiel zwei Abnäher, vorne je Seite und einen hinten und bei unserem Modellrock aus den Konstruktionskursen sind das ein Abnäher vorne und zwei hinten. Vielleicht kannst du dich erinnern als wir unser Format angelegt haben, haben wir das Linienwerkzeug benutzt. Das kann ich jetzt zum Beispiel auch nutzen und hier meine Tasche einzeichnen. Alternativ geht es natürlich auch mit dem Zeichenstiftwerkzeug. Mein Abnäher kann ich jetzt auch mit der Linie zeichnen oder aber auch mit der Zeichenfeder. Wenn ich vielleicht auch einen etwas größeren Abnäher habe, dann lohnt es sich diesen auch ein wenig zu formen. Ich unterscheide in der technischen Modezeichnung zwischen der Konturlinie und den Details. Der Abnäher und die Tasche sind Details und deswegen möchte ich diese etwas weniger stark darstellen. Dazu gehe ich in den Bedienfeld auf Kontur und stelle jetzt hier über diese Pfeile einen geringeren Kontur ein. Zum Beispiel 0,5 Punkt. Der Kontur von meinem Rock an sich ist ein Punkt und 0,5 ist dann etwas dünner und das erscheint dann schon etwas harmonischer. Achte aber darauf, zu sehr runterzugehen. Also bei 0,25 Punkt ist es zum Beispiel so, dass man, wenn man diese Zeichnung dann drucken möchte, oftmals diese Linien gar nicht mehr sieht, die dann
+
+#### 00:06:22.500 - 00:06:28.160
+
+so fein gezeichnet sind. Deswegen würde ich empfehlen Minimum 0,5 Punkt
+
+### Key Instructions (Schlüsselanweisungen)
+
+- gehst du nach unten
+- gehst dann wieder zurück zur Körpermitte
+- geht es natürlich auch mit dem Zeichenstiftwerkzeug
+- ziehen oder aber auch eine ganz leichte Kurve
+- zeichnen, also auch wieder ganz ähnlich wie in der Schnittkonstruktion
+- zeichnen müssen
+- zeichnen, bevor ich das Ganze spiegle
+- zeichne ich die Details ein
+- zeichnen oder aber auch mit der Zeichenfeder
+- zeichnet sind
+
+
+## MODULE 5.5: RÜCKANSICHT & CHECKLISTE - DETAILED TRANSCRIPT
+
+**Module**: 5.5
+**Duration**: 00:08:35.510
+**Instructor**: Luise from ELLU Studios
+
+### Complete German Transcript
+
+Um aber unsere technische Zeichnung zu vervollständigen, brauchen wir noch die Rückansicht. Dazu legen wir uns eine neue Zeichenfläche an. Ich gehe jetzt auf das Menü Fenster, ganz runter, alphabetisch geordnet, auf Zeichenfläche und da seht ihr, man kann sich eine neue Zeichenfläche anlegen. Einfach auf das Plus-Symbol klicken und schon haben wir eine neue Zeichenfläche. Für meine zweite Zeichenfläche brauche ich ähnliche Vorlagen wie für meine erste Zeichenfläche. Das heißt, ich würde mir jetzt das Format kopieren, dann die Schablone für die Rückseite auch hochladen und dann würde ich mir tatsächlich mein Vorderteil des Roggers kopieren, um dann mein Hinterteil nicht noch mal von Null auf anlegen zu müssen. Erinnere dich daran, wir haben die Ebenen gesperrt. Das heißt, wenn du jetzt dein Format anwählen möchtest und kopieren möchtest um es auf deine zweite Zeichenfläche zu legen, dann musst du natürlich erstmal die Ebene, also die erste Ebene auf der sich das Format befindet, entsperren. Gehe auf das Schlosssymbol, entsperre diese, dann über Direktauswahl und dann die Option oder Alt-Taste gedrückt halten, ziehst du dir dieses Format rüber. Jetzt kannst du noch eintragen, dass es sich hier einmal um das Vorderteil handelt und einmal um das Rückteil. Und jetzt kannst du die Ebene auch wieder entsperren. Gehe jetzt auf deine zweite Ebene, Schablone oder Vorlage, entsperre diese und lade dir die entsprechende Rückansicht hoch. Wenn du das getan hast, sperrst du diese Ebene wieder und jetzt kannst du deine dritte Ebene, also deine technische Zeichnung, die Vorderansicht von deinem Rock einmal auswählen mit dem Auswahlwerkzeug, über diesen ganzen Rock drüber ziehen, damit auch alle Details mit ausgewählt sind und dann kopierst du das Ganze und ziehst es rüber auf deine Rückseite. So jetzt schaust du ein bisschen, wie das positioniert ist, ob das auch alles auf der entsprechenden Höhe ist. Wenn nicht, passt du das jetzt noch ein bisschen an. So und jetzt müssen wir eigentlich nur noch unser Vorderteil in ein Rückteil umändern. Wir brauchen jetzt nur diese obere Linie die wir im Vorderteil für den Rücken gezeichnet haben, zu löschen und auch die Absteppung, denn die befindet sich jetzt nur innen und wir sehen sie von außen nicht. Und jetzt müssen wir nur noch den Bund den wir schon gezeichnet haben, etwas verändern. Das können wir jetzt über das Direktauswahlwerkzeug machen, indem wir jetzt hier diese Linie markieren und dann einfach die Tangente nach oben ziehen. So das Ganze mache ich jetzt auch mit der anderen Seite vom Bund und natürlich auch noch mit dem Rock an sich. Und jetzt merke ich, dass die Abnäher nicht mehr an der richtigen Stelle sitzen und dass eventuell auch vorne und hinten unterschiedliche Anzahlen von Abnäher sind. Das heißt, ich füge dann entsprechend Abnäher dazu oder lösche sie und werde sie auch an der richtigen Stelle positionieren. Und hinten habe ich auch keine Taschen, deswegen würde ich jetzt erstmal die Taschen auswählen, zum Beispiel mit dem Auswahlwerkzeug und dann der Shift-Taste, sodass ich gleich beide Taschen auswähle und diese dann lösche. Ein weiterer Unterschied ist, dass es im Rücken oftmals eine Naht gibt auf der hinteren Mitte und sich dort auch ein Reißverschluss befindet oder auch ein Schlitz. Das würde ich jetzt noch einzeichnen, zum Beispiel mit dem Linienwerkzeug oder auch mit der Zeichenfeder. Für einen klassischen Rock ist es meistens so, dass wir den Reißverschluss nicht sehen. Das heißt, den würde ich vielleicht auch gar nicht einzeichnen in der technischen Zeichnung, außer vielleicht eine kleine Absteppung markieren. Das könnte man zum Beispiel mit einer kleinen gestrichelten Linie machen. Das gleiche gilt auch für den Schlitz, der sich unten befindet. Hier eine kleine gestrichelte Linie, um diesen Schlitz zu markieren. Später kann ich das dann auch noch beschriften, um wirklich zu zeigen, wo genau ist jetzt mein Schlitz und wo genau ist mein Reißverschluss. Jetzt ist meine Zeichnung wirklich fertig. Was ich jetzt immer noch mache, ist, dass ich die einzelnen Zeichnungen auch gruppiere. Also einmal das Rückteil mit all seinen Details gruppieren und das Vorderteil auch mit all seinen Details gruppieren. Dazu wähle ich erstmal meine Zeichnung komplett aus und jetzt mit dem Rechtsklick auf gruppieren drücken und so habe ich wirklich meine Zeichnung ganz kompakt beisammeln. Und wenn ich diese jetzt bewegen möchte, muss ich nicht immer alles einzeln auswählen, sondern es ist alles in einem, also auch mit den ganzen Details. Jetzt möchte ich noch einmal die Unterschiede zwischen dem Vorderteil und dem Rückteil für euch zusammenfassen. Die Deswegen sieht man in der technischen Zeichnung ganz oft auch das Rückteil, denn die hintere Mitte sitzt etwas höher. Das ist bei Unterteilen und auch bei Oberteilen der Fall. Vorder und Rückansicht noch einmal zusammengefasst. Für Konturlinien einer technischen Zeichnung benutzt du eine Punktstärke von einem Punkt und für die Details von 0,5 Punkt. Wenn du die Form auswählst und gleichzeitig entweder Alt oder Option, je nach System drückst, kannst du eine Form ganz schnell kopieren. Wenn du eine Form spiegeln möchtest, gehst du auf den Kreis mit dem Pfeil und der kleinen Ecke da runter, da befindet sich das Spiegeln-Werkzeug. Wenn du eine Form zusammenfügen möchtest, dann geht das über den Rechtsklick auf zusammenfügen klicken. Wenn du einen Punkt löschen möchtest, geht es über die Zeichenfeder und dem Minuszeichen. Für Absteppung benutzt du gestrichelte Linien. Diese erstellst du über Eigenschaften, Kontur, gestrichelte Linie und setzt hier die Punktstärke auf zwei Punkte runter. Hier nochmal die wichtigsten Punkte für was man für eine technische Modezeichnung benötigt. Als erstes ist es wichtig, dass du mit einer Schablone arbeitest, wenn du maßgerechte Zeichnung haben möchtest. Hierfür haben wir verschiedene Formate und Vorlagen für dich vorbereitet. Wenn du anfängst mit einer technischen Zeichnung, beginnst du am besten an der Mittellinie und zeichnest zunächst die Hälfte der technischen Zeichnung. Dann lässt du an der Seite etwas Platz, denn es ist ja eine technische Zeichnung, die flach gezeichnet wird und du zeichnest zunächst mit Hilfe von Linien und Kurven über das Zeichenfederwerkzeug die Grundform. Danach zeichnest du alle Details ein. Wenn du dann die Hälfte deiner Form mit allen Details gezeichnet hast, kannst du die Form spiegeln. Du kopierst dafür die Form erst einmal und spiegelst sie dann über das Spiegelnwerkzeug. Dann setzt du beide Formen zusammen, nebeneinander und fügst sie zusammen, über Rechtsklick zusammenfügen. Wenn deine Form dann zusammengefügt ist, kopierst du das Ganze und zeichnest die Rückansicht. Zum Schluss nicht vergessen alle Zeichnungen zu kopieren.
+
+### Timestamped Sections
+
+#### 00:00:06.400 - 00:02:23.460
+
+Um aber unsere technische Zeichnung zu vervollständigen, brauchen wir noch die Rückansicht. Dazu legen wir uns eine neue Zeichenfläche an. Ich gehe jetzt auf das Menü Fenster, ganz runter, alphabetisch geordnet, auf Zeichenfläche und da seht ihr, man kann sich eine neue Zeichenfläche anlegen. Einfach auf das Plus-Symbol klicken und schon haben wir eine neue Zeichenfläche. Für meine zweite Zeichenfläche brauche ich ähnliche Vorlagen wie für meine erste Zeichenfläche. Das heißt, ich würde mir jetzt das Format kopieren, dann die Schablone für die Rückseite auch hochladen und dann würde ich mir tatsächlich mein Vorderteil des Roggers kopieren, um dann mein Hinterteil nicht noch mal von Null auf anlegen zu müssen. Erinnere dich daran, wir haben die Ebenen gesperrt. Das heißt, wenn du jetzt dein Format anwählen möchtest und kopieren möchtest um es auf deine zweite Zeichenfläche zu legen, dann musst du natürlich erstmal die Ebene, also die erste Ebene auf der sich das Format befindet, entsperren. Gehe auf das Schlosssymbol, entsperre diese, dann über Direktauswahl und dann die Option oder Alt-Taste gedrückt halten, ziehst du dir dieses Format rüber. Jetzt kannst du noch eintragen, dass es sich hier einmal um das Vorderteil handelt und einmal um das Rückteil. Und jetzt kannst du die Ebene auch wieder entsperren. Gehe jetzt auf deine zweite Ebene, Schablone oder Vorlage, entsperre diese und lade dir die entsprechende Rückansicht hoch. Wenn du das getan hast, sperrst du diese Ebene wieder und jetzt kannst du deine dritte Ebene, also deine technische Zeichnung, die Vorderansicht von deinem Rock einmal auswählen mit dem Auswahlwerkzeug, über diesen ganzen Rock drüber ziehen, damit auch alle Details mit ausgewählt sind und dann kopierst du das Ganze und ziehst es rüber auf deine
+
+#### 00:02:24.160 - 00:04:21.180
+
+Rückseite. So jetzt schaust du ein bisschen, wie das positioniert ist, ob das auch alles auf der entsprechenden Höhe ist. Wenn nicht, passt du das jetzt noch ein bisschen an. So und jetzt müssen wir eigentlich nur noch unser Vorderteil in ein Rückteil umändern. Wir brauchen jetzt nur diese obere Linie die wir im Vorderteil für den Rücken gezeichnet haben, zu löschen und auch die Absteppung, denn die befindet sich jetzt nur innen und wir sehen sie von außen nicht. Und jetzt müssen wir nur noch den Bund den wir schon gezeichnet haben, etwas verändern. Das können wir jetzt über das Direktauswahlwerkzeug machen, indem wir jetzt hier diese Linie markieren und dann einfach die Tangente nach oben ziehen. So das Ganze mache ich jetzt auch mit der anderen Seite vom Bund und natürlich auch noch mit dem Rock an sich. Und jetzt merke ich, dass die Abnäher nicht mehr an der richtigen Stelle sitzen und dass eventuell auch vorne und hinten unterschiedliche Anzahlen von Abnäher sind. Das heißt, ich füge dann entsprechend Abnäher dazu oder lösche sie und werde sie auch an der richtigen Stelle positionieren. Und hinten habe ich auch keine Taschen, deswegen würde ich jetzt erstmal die Taschen auswählen, zum Beispiel mit dem Auswahlwerkzeug und dann der Shift-Taste, sodass ich gleich beide Taschen auswähle und diese dann lösche. Ein weiterer Unterschied ist, dass es im Rücken oftmals eine Naht gibt auf der hinteren Mitte und sich dort auch ein Reißverschluss befindet oder auch ein Schlitz. Das würde ich jetzt noch einzeichnen, zum Beispiel mit dem Linienwerkzeug oder auch mit der Zeichenfeder. Für einen klassischen Rock ist es meistens so,
+
+#### 00:04:21.180 - 00:06:21.260
+
+dass wir den Reißverschluss nicht sehen. Das heißt, den würde ich vielleicht auch gar nicht einzeichnen in der technischen Zeichnung, außer vielleicht eine kleine Absteppung markieren. Das könnte man zum Beispiel mit einer kleinen gestrichelten Linie machen. Das gleiche gilt auch für den Schlitz, der sich unten befindet. Hier eine kleine gestrichelte Linie, um diesen Schlitz zu markieren. Später kann ich das dann auch noch beschriften, um wirklich zu zeigen, wo genau ist jetzt mein Schlitz und wo genau ist mein Reißverschluss. Jetzt ist meine Zeichnung wirklich fertig. Was ich jetzt immer noch mache, ist, dass ich die einzelnen Zeichnungen auch gruppiere. Also einmal das Rückteil mit all seinen Details gruppieren und das Vorderteil auch mit all seinen Details gruppieren. Dazu wähle ich erstmal meine Zeichnung komplett aus und jetzt mit dem Rechtsklick auf gruppieren drücken und so habe ich wirklich meine Zeichnung ganz kompakt beisammeln. Und wenn ich diese jetzt bewegen möchte, muss ich nicht immer alles einzeln auswählen, sondern es ist alles in einem, also auch mit den ganzen Details. Jetzt möchte ich noch einmal die Unterschiede zwischen dem Vorderteil und dem Rückteil für euch zusammenfassen. Die Deswegen sieht man in der technischen Zeichnung ganz oft auch das Rückteil, denn die hintere Mitte sitzt etwas höher. Das ist bei Unterteilen und auch bei Oberteilen der Fall. Vorder und Rückansicht noch einmal zusammengefasst. Für Konturlinien einer technischen Zeichnung benutzt du eine Punktstärke von einem Punkt und für die Details von 0,5 Punkt. Wenn du die Form auswählst und gleichzeitig entweder Alt oder Option, je nach System drückst,
+
+#### 00:06:21.260 - 00:08:30.270
+
+kannst du eine Form ganz schnell kopieren. Wenn du eine Form spiegeln möchtest, gehst du auf den Kreis mit dem Pfeil und der kleinen Ecke da runter, da befindet sich das Spiegeln-Werkzeug. Wenn du eine Form zusammenfügen möchtest, dann geht das über den Rechtsklick auf zusammenfügen klicken. Wenn du einen Punkt löschen möchtest, geht es über die Zeichenfeder und dem Minuszeichen. Für Absteppung benutzt du gestrichelte Linien. Diese erstellst du über Eigenschaften, Kontur, gestrichelte Linie und setzt hier die Punktstärke auf zwei Punkte runter. Hier nochmal die wichtigsten Punkte für was man für eine technische Modezeichnung benötigt. Als erstes ist es wichtig, dass du mit einer Schablone arbeitest, wenn du maßgerechte Zeichnung haben möchtest. Hierfür haben wir verschiedene Formate und Vorlagen für dich vorbereitet. Wenn du anfängst mit einer technischen Zeichnung, beginnst du am besten an der Mittellinie und zeichnest zunächst die Hälfte der technischen Zeichnung. Dann lässt du an der Seite etwas Platz, denn es ist ja eine technische Zeichnung, die flach gezeichnet wird und du zeichnest zunächst mit Hilfe von Linien und Kurven über das Zeichenfederwerkzeug die Grundform. Danach zeichnest du alle Details ein. Wenn du dann die Hälfte deiner Form mit allen Details gezeichnet hast, kannst du die Form spiegeln. Du kopierst dafür die Form erst einmal und spiegelst sie dann über das Spiegelnwerkzeug. Dann setzt du beide Formen zusammen, nebeneinander und fügst sie zusammen, über Rechtsklick zusammenfügen. Wenn deine Form dann zusammengefügt ist, kopierst du das Ganze und zeichnest die
+
+#### 00:08:30.270 - 00:08:35.510
+
+Rückansicht. Zum Schluss nicht vergessen alle Zeichnungen zu kopieren.
+
+### Key Instructions (Schlüsselanweisungen)
+
+- klicken und schon haben wir eine neue Zeichenfläche
+- klick auf gruppieren drücken und so habe ich wirklich meine Zeichnung ganz kompakt beisammeln
+- klick auf zusammenfügen klicken
+- klick zusammenfügen
+- geht das über den Rechtsklick auf zusammenfügen klicken
+- geht es über die Zeichenfeder und dem Minuszeichen
+- ziehst du dir dieses Format rüber
+- wählen, sondern es ist alles in einem, also auch mit den ganzen Details
+- zeichnet haben, etwas verändern
+- zeichnen, zum Beispiel mit dem Linienwerkzeug oder auch mit der Zeichenfeder
+
+
+## MODULE 6: BESCHRIFTEN - DETAILED TRANSCRIPT
+
+**Module**: 6
+**Duration**: 00:05:06.660
+**Instructor**: Luise from ELLU Studios
+
+### Complete German Transcript
+
+Eine technische Zeichnung wird natürlich für das Atelier oder die Produktionsstätte gemacht, die dann das Kleidungsstück auch herstellt und diese benötigt natürlich meist noch mehr Angaben. Oftmals haben wir dann ein ganzes Dossier mit verschiedenen Papieren und Dateien die Informationen über das Kleidungsstück geben, wie zum Beispiel auch eine Maßtabelle oder Angaben, wie das Ganze genäht werden soll. Ich würde dir jetzt empfehlen, erst mal deine Arbeit nochmal zu speichern und dann über Speichern unter eine zweite Datei anzulegen, auf der ich dann genauer detaillierte Angaben machen würde. Das heißt, wir haben jetzt eine Datei mit unserer Grundzeichnung und legen jetzt noch eine zweite an mit Detailangaben. Die kannst du jetzt zum Beispiel unter technische Zeichnungen, Rock, Detailangaben abspeichern. So jetzt würde ich erstmal die Schablone rauslöschen, die brauchen wir jetzt nicht mehr, also eben entsperren und die Schablone vorne und hinten rauslöschen. Du könntest dir jetzt noch eine dritte Zeichenfläche anlegen, wenn du möchtest, um eine Übersicht über das Modell zu geben und Vorderteil und Hinterteil zusammen zu platzieren. Das ist jetzt auch die Seite, wo ich Angaben machen würde zum entsprechenden Stoff oder zum Reißverschluss oder Knöpfen oder sonstigen Sachen, die gebraucht werden um diesen Rock zu produzieren. Wenn du also schon weißt, was du hier für einen Stoff benutzen möchtest, könntest du dir hier ein kleines Textfeld anlegen und das entsprechend eintragen. Ich würde das jetzt auch nochmal optisch trennen, nochmal mit dem Linienwerkzeug mir hier ein Segment anlegen und dort meine Informationen eintragen. So und jetzt habe ich noch mein Vorderteil und mein Rückteil und kann hier Detailangaben machen. Dazu gehst du jetzt auf die Zeichenfläche mit entsprechend Vorderteil oder Rückteil. Ich würde jetzt die Zeichnung auch so ein bisschen an die Seite platzieren und dann die andere Seite dafür nutzen, meine Angaben zu machen, damit es auch wirklich übersichtlich ist. Es gibt auch ganz oft Zeichnungen, wo die technische Zeichnung in der Mitte ist und dann Pfeile überall hingehen und das Ganze ist dann aber meistens sehr unübersichtlich. Denkt immer daran, dass die Person, die dann euer Kleidungsstück herstellt, sich gut zurechtfinden muss und es wirklich schwierig ist dann in allen Richtungen irgendwas zu lesen und zu wissen, habe ich das jetzt schon abgearbeitet oder nicht. Deshalb also meine Empfehlung, technische Zeichnung auf der einen Seite und auf der anderen Seite habe ich dann meine Detailangaben. Dazu möchte ich Pfeile verwenden. Um einen Pfeil zu gestalten, nutzt du zunächst das Liniensegment. Du kannst jetzt hier von dem Punkt, den du beschriften möchtest, bis zu der anderen Seite eine Linie ziehen. Drück dabei die Shift-Taste, damit diese Linie gerade Ist. Jetzt kannst du beim Bedienfeld Eigenschaften auf Kontur klicken und kannst hier einen Pfeil anlegen. Du kannst entweder die Pfeilspitze vorne an der Linie anlegen oder hinten. Ich lege sie jetzt hinten an, sodass mein Pfeil von dem Punkt, ich beschreiben möchte, zu dem Text Zeigt. So, jetzt kann ich diesen Pfeil dann auch beliebig oft kopieren. Anstatt mir ständig einen neuen Pfeil zu basteln und lege jetzt auch noch ein Textfeld an, um das Ganze dann zu Beschriften. Auf dem Vorderteil haben wir Abnäher, wir haben eine Tasche und wir haben den Saum und den Bund, den wir beschriften können. Hier können wir zum Beispiel angeben, wie lang der Abnäher sein soll oder wir können angeben, dass es in der Tasche innen noch eine Absteppung gibt. Da könnten wir zum Beispiel beschreiben, dass diese Absteppung 0,5 cm von der Naht entfernt liegt. Das gleiche auch für den Bund, denn da sehen wir auch diese Absteppung auf dem Rückteil. Für den Saum könnten wir jetzt beschreiben, ob es da innen eine unsichtbare Naht gibt. Wenn wir das für das Vorderteil alles angelegt haben, können wir das Gleiche auch für das Rückteil tun. Hier könnten wir zum Beispiel angeben, was wir für einen Reißverschluss benutzen, wie lang der ist und wir könnten angeben, wie lang der Schlitz ist. Wenn du jetzt alle Angaben gemacht hast, die für dich wichtig sind, sind wir fertig mit unserer technischen Zeichnung und den Detailangaben.
+
+### Timestamped Sections
+
+#### 00:00:07.990 - 00:01:22.210
+
+Eine technische Zeichnung wird natürlich für das Atelier oder die Produktionsstätte gemacht, die dann das Kleidungsstück auch herstellt und diese benötigt natürlich meist noch mehr Angaben. Oftmals haben wir dann ein ganzes Dossier mit verschiedenen Papieren und Dateien die Informationen über das Kleidungsstück geben, wie zum Beispiel auch eine Maßtabelle oder Angaben, wie das Ganze genäht werden soll. Ich würde dir jetzt empfehlen, erst mal deine Arbeit nochmal zu speichern und dann über Speichern unter eine zweite Datei anzulegen, auf der ich dann genauer detaillierte Angaben machen würde. Das heißt, wir haben jetzt eine Datei mit unserer Grundzeichnung und legen jetzt noch eine zweite an mit Detailangaben. Die kannst du jetzt zum Beispiel unter technische Zeichnungen, Rock, Detailangaben abspeichern. So jetzt würde ich erstmal die Schablone rauslöschen, die brauchen wir jetzt nicht mehr, also eben entsperren und die Schablone vorne und hinten rauslöschen. Du könntest dir jetzt noch eine dritte Zeichenfläche anlegen, wenn du möchtest, um eine Übersicht über das Modell zu geben und Vorderteil
+
+#### 00:01:22.210 - 00:02:37.550
+
+und Hinterteil zusammen zu platzieren. Das ist jetzt auch die Seite, wo ich Angaben machen würde zum entsprechenden Stoff oder zum Reißverschluss oder Knöpfen oder sonstigen Sachen, die gebraucht werden um diesen Rock zu produzieren. Wenn du also schon weißt, was du hier für einen Stoff benutzen möchtest, könntest du dir hier ein kleines Textfeld anlegen und das entsprechend eintragen. Ich würde das jetzt auch nochmal optisch trennen, nochmal mit dem Linienwerkzeug mir hier ein Segment anlegen und dort meine Informationen eintragen. So und jetzt habe ich noch mein Vorderteil und mein Rückteil und kann hier Detailangaben machen. Dazu gehst du jetzt auf die Zeichenfläche mit entsprechend Vorderteil oder Rückteil. Ich würde jetzt die Zeichnung auch so ein bisschen an die Seite platzieren und dann die andere Seite dafür nutzen, meine Angaben zu machen, damit es auch wirklich übersichtlich ist. Es gibt auch ganz oft Zeichnungen, wo die technische Zeichnung in der Mitte ist und dann Pfeile überall hingehen und das Ganze ist dann aber meistens sehr unübersichtlich. Denkt immer daran, dass die Person,
+
+#### 00:02:37.550 - 00:03:47.420
+
+die dann euer Kleidungsstück herstellt, sich gut zurechtfinden muss und es wirklich schwierig ist dann in allen Richtungen irgendwas zu lesen und zu wissen, habe ich das jetzt schon abgearbeitet oder nicht. Deshalb also meine Empfehlung, technische Zeichnung auf der einen Seite und auf der anderen Seite habe ich dann meine Detailangaben. Dazu möchte ich Pfeile verwenden. Um einen Pfeil zu gestalten, nutzt du zunächst das Liniensegment. Du kannst jetzt hier von dem Punkt, den du beschriften möchtest, bis zu der anderen Seite eine Linie ziehen. Drück dabei die Shift-Taste, damit diese Linie gerade Ist. Jetzt kannst du beim Bedienfeld Eigenschaften auf Kontur klicken und kannst hier einen Pfeil anlegen. Du kannst entweder die Pfeilspitze vorne an der Linie anlegen oder hinten. Ich lege sie jetzt hinten an, sodass mein Pfeil von dem Punkt, ich beschreiben möchte, zu dem Text Zeigt. So, jetzt kann ich diesen Pfeil dann auch beliebig oft kopieren.
+
+#### 00:03:47.420 - 00:05:05.700
+
+Anstatt mir ständig einen neuen Pfeil zu basteln und lege jetzt auch noch ein Textfeld an, um das Ganze dann zu Beschriften. Auf dem Vorderteil haben wir Abnäher, wir haben eine Tasche und wir haben den Saum und den Bund, den wir beschriften können. Hier können wir zum Beispiel angeben, wie lang der Abnäher sein soll oder wir können angeben, dass es in der Tasche innen noch eine Absteppung gibt. Da könnten wir zum Beispiel beschreiben, dass diese Absteppung 0,5 cm von der Naht entfernt liegt. Das gleiche auch für den Bund, denn da sehen wir auch diese Absteppung auf dem Rückteil. Für den Saum könnten wir jetzt beschreiben, ob es da innen eine unsichtbare Naht gibt. Wenn wir das für das Vorderteil alles angelegt haben, können wir das Gleiche auch für das Rückteil tun. Hier könnten wir zum Beispiel angeben, was wir für einen Reißverschluss benutzen, wie lang der ist und wir könnten angeben, wie lang der Schlitz ist. Wenn du jetzt alle Angaben gemacht hast, die für dich wichtig sind, sind wir fertig mit unserer technischen Zeichnung und den
+
+#### 00:05:05.700 - 00:05:06.660
+
+Detailangaben.
+
+### Key Instructions (Schlüsselanweisungen)
+
+- klicken und kannst hier einen Pfeil anlegen
+- gehst du jetzt auf die Zeichenfläche mit entsprechend Vorderteil oder Rückteil
+- gehen und das Ganze ist dann aber meistens sehr unübersichtlich
+- erstellt und diese benötigt natürlich meist noch mehr Angaben
+
+
+## MODULE 7: ZUSAMMENFASSUNG - DETAILED TRANSCRIPT
+
+**Module**: 7
+**Duration**: 00:01:39.480
+**Instructor**: Luise from ELLU Studios
+
+### Complete German Transcript
+
+Du Hast gelernt, wie man Adobe Illustrator bedient und du hast dich mit den Grundfunktionen des Programmes vertraut gemacht. Du kannst jetzt Dateien anlegen und speichern und dich innerhalb des Programmes orientieren. Du kennst auch schon einige Bedienfelder wie zum Beispiel Eigenschaften oder Ebenen Du hast verschiedene Werkzeuge kennengelernt und kannst diese bedienen. Das sind zum einen die Auswahlwerkzeuge, die Zeichenfeder, das Rechteck und das Linienwerkzeug, Spiegeln und auch die Lupe. Du hast gelernt, wie man Formen und Linien verändert, spiegelt oder auch anordnet. Außerdem hast du gelernt, mit Ebenen zu arbeiten und diese auch sinnvoll anzuwenden. Du kannst Bilder importieren und platzieren. Du kannst erste technische Zeichnung erstellen und beschriften. Diese Grundlagen kannst du jetzt üben und zum Beispiel verschiedene Rockformen erstellen. Als nächsten Kurs empfehle ich dir technische Zeichnungen für Oberteile. Parallel zu diesem Kurs empfehle ich dir alle Grundlagenkurse für den Rockgrundschnitt und den Modellrock und außerdem die entsprechenden Kurse für die Fertigung. Ich hoffe es hat dir Spaß gemacht und wir sehen uns in einem unserer nächsten Kurse wieder.
+
+### Timestamped Sections
+
+#### 00:00:00.000 - 00:00:28.120
+
+Du Hast gelernt, wie man Adobe Illustrator bedient und du hast dich mit den Grundfunktionen des Programmes vertraut gemacht. Du kannst jetzt Dateien anlegen und speichern und dich innerhalb des Programmes orientieren. Du kennst auch schon einige Bedienfelder wie zum Beispiel
+
+#### 00:00:28.120 - 00:00:52.360
+
+Eigenschaften oder Ebenen Du hast verschiedene Werkzeuge kennengelernt und kannst diese bedienen. Das sind zum einen die Auswahlwerkzeuge, die Zeichenfeder, das Rechteck und das Linienwerkzeug, Spiegeln und auch die Lupe. Du hast gelernt, wie man Formen und Linien verändert,
+
+#### 00:00:52.360 - 00:01:14.660
+
+spiegelt oder auch anordnet. Außerdem hast du gelernt, mit Ebenen zu arbeiten und diese auch sinnvoll anzuwenden. Du kannst Bilder importieren und platzieren. Du kannst erste technische Zeichnung erstellen und beschriften. Diese Grundlagen kannst du jetzt üben und zum Beispiel
+
+#### 00:01:14.660 - 00:01:37.760
+
+verschiedene Rockformen erstellen. Als nächsten Kurs empfehle ich dir technische Zeichnungen für Oberteile. Parallel zu diesem Kurs empfehle ich dir alle Grundlagenkurse für den Rockgrundschnitt und den Modellrock und außerdem die entsprechenden Kurse für die Fertigung. Ich hoffe es hat dir Spaß gemacht und wir sehen uns in einem
+
+#### 00:01:37.760 - 00:01:39.480
+
+unserer nächsten Kurse wieder.
+
+### Key Instructions (Schlüsselanweisungen)
+
+- erstellen und beschriften
+
+
+## MODULE: KOPIEREN UND ZUSAMMENFÜGEN - DETAILED TRANSCRIPT
+
+**Module**: 0
+**Duration**: 00:10:50.340
+**Instructor**: Luise from ELLU Studios
+
+### Complete German Transcript
+
+So, jetzt habe ich alles was ich brauche und kann jetzt erstmal meine Form kopieren. Das geht natürlich über das Menü bearbeiten, kopieren und dann einfügen bzw. die entsprechenden Tastaturkürze, Comment oder Kontroll C und dann Comment oder Kontroll V für einfügen. Aber ich habe eine Methode, die noch schneller ist. Dafür gehe ich auf das Gesamtauswahlwerkzeug, also den schwarzen Pfeil, ziehe dann auch über die gesamte Form, damit ich sicher gehe, dass jetzt auch Abnäher und Tasche mit dabei sind. Und jetzt gehe ich auf die Taste Option oder Alt, je nach System und bewege mich über meine ausgewählte Form und da sehe ich jetzt da ist kein einfacher Pfeil mehr, wenn ich Option oder Alt gedrückt halte, sondern ein Doppelfeil. Das heißt kopieren. Jetzt muss ich eigentlich nur auf diese Form draufklicken und diese rüberziehen und schon habe ich zwei Formen und habe diese eine Form kopiert. Jetzt möchte ich diese Form noch Spiegeln. Du gehst jetzt in deine Werkzeugleiste und nicht weit unter dem Rechteck findest du so ein Kreissymbol. Da gehst du jetzt mal drauf, da ist so eine kleine Ecke unten rechts und du gehst auf diese Ecke, dann erscheint unter diesem Kreissymbol das Spiegelnwerkzeug. Dort klickst du mit einem Doppelklick drauf. Normalerweise ist Vertikalspiegel schon voreingestellt und du gehst nur auf OK und deine Form ist gespiegelt. Achte darauf, dass du die Form vorher auch ausgewählt hast. So, wenn du jetzt siehst, es ist alles gespiegelt, auch Tasche und Abnäher, dann ist alles gut. Falls das nicht der Fall ist, dann geh einfach über Ctrl oder Command Z ein paar Schritte zurück und wiederhole das Ganze. Und jetzt kannst du auch mal wieder zwischenspeichern. So, jetzt nimmst du deine rechte Rockhälfte und platzierst sie genau neben die linke. Falls dir das etwas schwerfällt, kannst du auch reinzoomen. Ganz unten in deiner Werkzeugleiste findest du eine Lupe. Da kannst du draufklicken. Dann gehst du auf deine Zeichnung. Es erscheint die Lupe mit einem kleinen Pluszeichen darin. Das heißt, du kannst reinzoomen. Wenn du wieder rauszoomen möchtest, kannst du das über die gleiche Funktion mit Alt oder Option gedrückt halten tun. Wir platzieren jetzt die rechte Rockhälfte neben die linke und zoomen da jetzt mal rein und gucken, ob das auch alles stimmig ist, ob da jetzt auch keine Ecke drin ist und die vordere Mitte wirklich als eine Linie ineinander übergeht. Falls das jetzt nicht der Fall sein soll, können wir das jetzt noch so ein bisschen verändern, indem wir über das Direktauswahlwerkzeug, also den weißen Pfeil, einzelnen Punkt der jeweiligen Rockhälfte etwas anpassen. So und wenn das jetzt eine Linie ist, dann können wir diese Formeln eigentlich auch schon zusammenfügen. Dafür müssen wir aber erst mal die Mittellinie löschen, denn die brauchen wir ja nicht mehr. Um die Mittellinie zu löschen, gehst du auch mit dem Direktauswahlwerkzeug, also dem weißen Pfeil, direkt auf diese Mittellinie, du erkennst, dass nur die Linie markiert wurde, weil deine Punkte ja noch weiß bleiben Und Dann gehst du einfach auf Entfernen oder Delete. So jetzt kann es sein, dass du die Linie von der einen Rockhälfte gelöscht hast, aber die Linie der anderen Rockhälfte gar nicht sichtbar ist. Das liegt daran, dass in Adobe Illustrator die Voreinstellung so ist, dass wenn du eine Form zeichnest, automatisch die Fläche weiß ausgefüllt ist. Das erkennst du daran, dass in deiner Werkzeugleiste unten zwei Kästchen sind. Ein weißes Kästchen und dahinter ist ein schwarzes Kästchen. Das weiße Kästchen im Vordergrund, wenn das ganz ausgefüllt ist, das ist die Fläche, und das schwarze Kästchen im Hintergrund, das ist nicht ganz ausgefüllt, das ist der Kontur. Und jetzt ist diese Fläche meistens weiß voreingestellt. Wenn du nicht möchtest dass diese Fläche farbig gefüllt ist, kannst du unter diesen beiden Kästchen ganz rechts auf dieses weiße Kästchen mit dem roten Strich gehen. Das heißt, die Fläche ist transparent. Also wähl jetzt deine Rockhälfte aus und geh auf dieses Kästchen was durchgestrichen ist, und du wirst sehen, die Mittellinie wird sichtbar werden. Jetzt kannst du wieder über das Direktauswahlwerkzeug deine Mittellinie anklicken und löschen. Jetzt kannst du eigentlich deinen Rock schon zusammenfügen, geh jetzt auf dein Auswahlwerkzeug und ziehe über die beiden Rockformen drüber an der Stelle, wo du sie zusammenfügen möchtest, und dann klickst du auf rechtsklick auf zusammenfügen. Das Ganze wiederholst du auch noch mal am Saumen. So jetzt hast du die Form oben und unten zusammengefügt, und wenn du jetzt heranzoomst mit der Lupe, dann wirst du erkennen, dass sich ja zwei Punkte auf dieser Linie befinden. Und ich hatte dir ja schon mal gesagt, es ist immer ganz günstig, so wenig Punkte wie möglich zu haben, um dann später deine Linie auch verändern zu können und neue Zeichnungen anzulegen mit dieser Zeichnung als Grundlage. Daher würde ich dir empfehlen, jetzt diesen einen Punkt zu löschen. Das geht aber nicht ganz so einfach, also nicht einfach mit dem Direktauswahlwerkzeug. Wir benutzen hierzu die Zeichenfeder, und zwar den Ankerpunkt löschen innerhalb dieses Werkzeugs. Geh also auf die Zeichenfeder, da findest du unten rechts so einen kleinen Teil, klick da drauf. Vorher hast du deine Form ausgewählt, und jetzt gehst du mit diesem Ankerpunkt löschen Werkzeug auf den Punkt, den du löschen möchtest. Klickst da drauf und schon ist er weg und deine Form bleibt aber noch erhalten. Als nächstes möchte ich noch den Bund zeichnen. Den Bund kannst du auch am Anfang zeichnen, zusammen mit der einen Rockhälfte und dann kopieren und spiegeln, wie wir das gerade gemacht haben. Ich zeichne den Bund aber meistens in einem Stück. Also positionierst du dich jetzt auf der Seitenlinie, auf die Höhe, wo dein Bund sein soll, und setzt hier deinen ersten Punkt. Dann gehst du rüber zur anderen Seite. Du siehst, es gibt hier ein paar Hilfslinien, die helfen dir, dich zu orientieren, damit du die Höhe deines Punktes auf der anderen Seite auch wieder findest. Also ziehst du da jetzt rüber zur anderen Seite, lässt aber deine Zeichenfeder gedrückt, damit du eine schöne geschwungene Kurve zeichnen kannst. Achte hier darauf dass die Tangente in der Mitte ankommt, damit diese Kurve auch wirklich von der einen zur anderen Seite harmonisch ausfällt. Jetzt lässt du los und klickst wieder auf deinen Punkt, um frei weiterzeichnen zu können. Dann gehst du ganz gerade nach unten und setzt deinen nächsten Punkt. Dann gehst du wieder rüber zur anderen Seite und achtest wieder darauf, dass deine Tangente bis zur Mitte ankommt, damit diese Kurve auch wieder parallel zu der anderen Kurve harmonisch verläuft. Jetzt setzt du deinen Punkt auf der anderen Seite und dann kommst du wieder zurück zum Ausgangspunkt und schließt die Form. Nochmal zur Erinnerung, hier ist ein kleiner Kreis zu sehen, das heißt, deine Form wird jetzt geschlossen. So und vielleicht kennst du das ja aus der Schnittkonstruktion schon. Die vordere Mitte ist etwas tiefer als die hintere Mitte, deswegen haben wir jetzt eigentlich auch eine Form, die nach unten geschwungen ist. Das hat zur Folge, dass man jetzt in der technischen Zeichnung das Hinterteil von dem Rock auch sehen würde und deswegen werden wir dieses Hinterteil auch einzeichnen. Das Hinterteil des Rockes ist im Gegensatz zum Vorderteil dann nach oben geschwungen, denn da brauchen wir etwas Höhe für unser Gesäß. Also positionierst dich jetzt auf der Höhe von deinem Bund, um das Rückteil zu zeichnen. Also ich klicke jetzt hier drauf und ziehe jetzt zur anderen Seite und gestalte eine Kurve, die nach oben geschwungen ist. Jetzt hast du dein Rückteil gezeichnet. Oftmals gibt es aber im Bund auch noch mal eine Absteppung und die können wir jetzt auch noch einzeichnen. Eigentlich ist das eine Linie, die jetzt parallel zu dieser Linie verläuft, die du schon gezeichnet hast. Du könntest also diese Linie einfach kopieren, indem du auf das Auswahlwerkzeug gehst und dann wieder über Option Alt dich darauf positionierst und wenn du den Doppelfeil siehst, die Linie einfach nach unten ziehst und dann ist sie kopiert. Oder du zeichnest einfach parallel zu deiner ersten Linie mit dem Zeichenwerkzeug eine zweite. So eine Absteppung ist aber meistens auch so dass sie nicht durchgängig gezeichnet wird, sondern als gestrichelte Linie. Dazu gehst du über Eigenschaften Kontur, klickst darauf und kannst jetzt hier gestrichelte Linie ankreuzen. Die Voreinstellung ist meistens zwölf Punkt, was viel zu groß ist. Das ändern wir jetzt hier auf zwei Punkt und die Lücke auch auf zwei Punkt und dann haben wir eine schöne gestrichelte Linie. Achte aber darauf, dass hier die Punktstärke auch wieder reduziert ist. Also ich gehe hier meistens dann auch auf 0,5 Punkt und habe so eine schöne Absteppung. So, jetzt ist mein Vorderteil vollständig.
+
+### Timestamped Sections
+
+#### 00:00:03.620 - 00:02:43.570
+
+So, jetzt habe ich alles was ich brauche und kann jetzt erstmal meine Form kopieren. Das geht natürlich über das Menü bearbeiten, kopieren und dann einfügen bzw. die entsprechenden Tastaturkürze, Comment oder Kontroll C und dann Comment oder Kontroll V für einfügen. Aber ich habe eine Methode, die noch schneller ist. Dafür gehe ich auf das Gesamtauswahlwerkzeug, also den schwarzen Pfeil, ziehe dann auch über die gesamte Form, damit ich sicher gehe, dass jetzt auch Abnäher und Tasche mit dabei sind. Und jetzt gehe ich auf die Taste Option oder Alt, je nach System und bewege mich über meine ausgewählte Form und da sehe ich jetzt da ist kein einfacher Pfeil mehr, wenn ich Option oder Alt gedrückt halte, sondern ein Doppelfeil. Das heißt kopieren. Jetzt muss ich eigentlich nur auf diese Form draufklicken und diese rüberziehen und schon habe ich zwei Formen und habe diese eine Form kopiert. Jetzt möchte ich diese Form noch Spiegeln. Du gehst jetzt in deine Werkzeugleiste und nicht weit unter dem Rechteck findest du so ein Kreissymbol. Da gehst du jetzt mal drauf, da ist so eine kleine Ecke unten rechts und du gehst auf diese Ecke, dann erscheint unter diesem Kreissymbol das Spiegelnwerkzeug. Dort klickst du mit einem Doppelklick drauf. Normalerweise ist Vertikalspiegel schon voreingestellt und du gehst nur auf OK und deine Form ist gespiegelt. Achte darauf, dass du die Form vorher auch ausgewählt hast. So, wenn du jetzt siehst, es ist alles gespiegelt, auch Tasche und Abnäher, dann ist alles gut. Falls das nicht der Fall ist, dann geh einfach über Ctrl oder Command Z ein paar Schritte zurück und wiederhole das Ganze. Und jetzt kannst du auch mal wieder zwischenspeichern. So, jetzt nimmst du deine rechte Rockhälfte und platzierst sie genau neben die linke. Falls dir das etwas schwerfällt, kannst du auch reinzoomen. Ganz unten in deiner Werkzeugleiste findest du eine Lupe. Da kannst du draufklicken. Dann gehst du auf deine Zeichnung. Es erscheint die Lupe mit einem kleinen Pluszeichen darin. Das heißt, du kannst reinzoomen. Wenn du wieder rauszoomen möchtest, kannst du das über die gleiche Funktion mit Alt oder Option gedrückt halten tun.
+
+#### 00:02:43.830 - 00:05:24.340
+
+Wir platzieren jetzt die rechte Rockhälfte neben die linke und zoomen da jetzt mal rein und gucken, ob das auch alles stimmig ist, ob da jetzt auch keine Ecke drin ist und die vordere Mitte wirklich als eine Linie ineinander übergeht. Falls das jetzt nicht der Fall sein soll, können wir das jetzt noch so ein bisschen verändern, indem wir über das Direktauswahlwerkzeug, also den weißen Pfeil, einzelnen Punkt der jeweiligen Rockhälfte etwas anpassen. So und wenn das jetzt eine Linie ist, dann können wir diese Formeln eigentlich auch schon zusammenfügen. Dafür müssen wir aber erst mal die Mittellinie löschen, denn die brauchen wir ja nicht mehr. Um die Mittellinie zu löschen, gehst du auch mit dem Direktauswahlwerkzeug, also dem weißen Pfeil, direkt auf diese Mittellinie, du erkennst, dass nur die Linie markiert wurde, weil deine Punkte ja noch weiß bleiben Und Dann gehst du einfach auf Entfernen oder Delete. So jetzt kann es sein, dass du die Linie von der einen Rockhälfte gelöscht hast, aber die Linie der anderen Rockhälfte gar nicht sichtbar ist. Das liegt daran, dass in Adobe Illustrator die Voreinstellung so ist, dass wenn du eine Form zeichnest, automatisch die Fläche weiß ausgefüllt ist. Das erkennst du daran, dass in deiner Werkzeugleiste unten zwei Kästchen sind. Ein weißes Kästchen und dahinter ist ein schwarzes Kästchen. Das weiße Kästchen im Vordergrund, wenn das ganz ausgefüllt ist, das ist die Fläche, und das schwarze Kästchen im Hintergrund, das ist nicht ganz ausgefüllt, das ist der Kontur. Und jetzt ist diese Fläche meistens weiß voreingestellt. Wenn du nicht möchtest dass diese Fläche farbig gefüllt ist, kannst du unter diesen beiden Kästchen ganz rechts auf dieses weiße Kästchen mit dem roten Strich gehen. Das heißt, die Fläche ist transparent. Also wähl jetzt deine Rockhälfte aus und geh auf dieses Kästchen was durchgestrichen ist, und du wirst sehen, die Mittellinie wird sichtbar werden. Jetzt kannst du wieder über das Direktauswahlwerkzeug deine Mittellinie anklicken und löschen. Jetzt kannst du eigentlich deinen Rock schon zusammenfügen, geh jetzt auf dein Auswahlwerkzeug und ziehe über die beiden Rockformen drüber an der Stelle,
+
+#### 00:05:24.340 - 00:08:12.600
+
+wo du sie zusammenfügen möchtest, und dann klickst du auf rechtsklick auf zusammenfügen. Das Ganze wiederholst du auch noch mal am Saumen. So jetzt hast du die Form oben und unten zusammengefügt, und wenn du jetzt heranzoomst mit der Lupe, dann wirst du erkennen, dass sich ja zwei Punkte auf dieser Linie befinden. Und ich hatte dir ja schon mal gesagt, es ist immer ganz günstig, so wenig Punkte wie möglich zu haben, um dann später deine Linie auch verändern zu können und neue Zeichnungen anzulegen mit dieser Zeichnung als Grundlage. Daher würde ich dir empfehlen, jetzt diesen einen Punkt zu löschen. Das geht aber nicht ganz so einfach, also nicht einfach mit dem Direktauswahlwerkzeug. Wir benutzen hierzu die Zeichenfeder, und zwar den Ankerpunkt löschen innerhalb dieses Werkzeugs. Geh also auf die Zeichenfeder, da findest du unten rechts so einen kleinen Teil, klick da drauf. Vorher hast du deine Form ausgewählt, und jetzt gehst du mit diesem Ankerpunkt löschen Werkzeug auf den Punkt, den du löschen möchtest. Klickst da drauf und schon ist er weg und deine Form bleibt aber noch erhalten. Als nächstes möchte ich noch den Bund zeichnen. Den Bund kannst du auch am Anfang zeichnen, zusammen mit der einen Rockhälfte und dann kopieren und spiegeln, wie wir das gerade gemacht haben. Ich zeichne den Bund aber meistens in einem Stück. Also positionierst du dich jetzt auf der Seitenlinie, auf die Höhe, wo dein Bund sein soll, und setzt hier deinen ersten Punkt. Dann gehst du rüber zur anderen Seite. Du siehst, es gibt hier ein paar Hilfslinien, die helfen dir, dich zu orientieren, damit du die Höhe deines Punktes auf der anderen Seite auch wieder findest. Also ziehst du da jetzt rüber zur anderen Seite, lässt aber deine Zeichenfeder gedrückt, damit du eine schöne geschwungene Kurve zeichnen kannst. Achte hier darauf dass die Tangente in der Mitte ankommt, damit diese Kurve auch wirklich von der einen zur anderen Seite harmonisch ausfällt. Jetzt lässt du los und klickst wieder auf deinen Punkt, um frei weiterzeichnen zu können. Dann gehst du ganz gerade nach unten und setzt deinen nächsten Punkt. Dann gehst du wieder rüber zur anderen Seite und achtest wieder darauf, dass deine Tangente bis zur Mitte ankommt, damit diese Kurve auch wieder parallel zu der anderen Kurve
+
+#### 00:08:12.600 - 00:10:47.180
+
+harmonisch verläuft. Jetzt setzt du deinen Punkt auf der anderen Seite und dann kommst du wieder zurück zum Ausgangspunkt und schließt die Form. Nochmal zur Erinnerung, hier ist ein kleiner Kreis zu sehen, das heißt, deine Form wird jetzt geschlossen. So und vielleicht kennst du das ja aus der Schnittkonstruktion schon. Die vordere Mitte ist etwas tiefer als die hintere Mitte, deswegen haben wir jetzt eigentlich auch eine Form, die nach unten geschwungen ist. Das hat zur Folge, dass man jetzt in der technischen Zeichnung das Hinterteil von dem Rock auch sehen würde und deswegen werden wir dieses Hinterteil auch einzeichnen. Das Hinterteil des Rockes ist im Gegensatz zum Vorderteil dann nach oben geschwungen, denn da brauchen wir etwas Höhe für unser Gesäß. Also positionierst dich jetzt auf der Höhe von deinem Bund, um das Rückteil zu zeichnen. Also ich klicke jetzt hier drauf und ziehe jetzt zur anderen Seite und gestalte eine Kurve, die nach oben geschwungen ist. Jetzt hast du dein Rückteil gezeichnet. Oftmals gibt es aber im Bund auch noch mal eine Absteppung und die können wir jetzt auch noch einzeichnen. Eigentlich ist das eine Linie, die jetzt parallel zu dieser Linie verläuft, die du schon gezeichnet hast. Du könntest also diese Linie einfach kopieren, indem du auf das Auswahlwerkzeug gehst und dann wieder über Option Alt dich darauf positionierst und wenn du den Doppelfeil siehst, die Linie einfach nach unten ziehst und dann ist sie kopiert. Oder du zeichnest einfach parallel zu deiner ersten Linie mit dem Zeichenwerkzeug eine zweite. So eine Absteppung ist aber meistens auch so dass sie nicht durchgängig gezeichnet wird, sondern als gestrichelte Linie. Dazu gehst du über Eigenschaften Kontur, klickst darauf und kannst jetzt hier gestrichelte Linie ankreuzen. Die Voreinstellung ist meistens zwölf Punkt, was viel zu groß ist. Das ändern wir jetzt hier auf zwei Punkt und die Lücke auch auf zwei Punkt und dann haben wir eine schöne gestrichelte Linie. Achte aber darauf, dass hier die Punktstärke auch wieder reduziert ist. Also ich gehe hier meistens dann auch auf 0,5 Punkt und habe so eine schöne Absteppung.
+
+#### 00:10:47.220 - 00:10:50.340
+
+So, jetzt ist mein Vorderteil vollständig.
+
+### Key Instructions (Schlüsselanweisungen)
+
+- klicken und diese rüberziehen und schon habe ich zwei Formen und habe diese eine Form kopiert
+- klickst du mit einem Doppelklick drauf
+- klicken und löschen
+- klickst du auf rechtsklick auf zusammenfügen
+- klick da drauf
+- Klickst da drauf und schon ist er weg und deine Form bleibt aber noch erhalten
+- klickst wieder auf deinen Punkt, um frei weiterzeichnen zu können
+- klickst darauf und kannst jetzt hier gestrichelte Linie ankreuzen
+- geht natürlich über das Menü bearbeiten, kopieren und dann einfügen bzw
+- gehst jetzt in deine Werkzeugleiste und nicht weit unter dem Rechteck findest du so ein Kreissymbol
+
+
+## MASTER INSTRUCTION REFERENCE
+
+**All Key Instructions from Luise's Videos:**
+
+- Erstellung von einer einfachen technischen Modezeichnung
+- Erstellung von technischen Modezeichnungen
+- Geht also wieder neben dem Auge auf das Kästchen, klickt drauf und es erscheint wieder ein Schloss
+- Klick also hier auf A4 und schon öffnet sich eine Datei Du siehst jetzt eine weiße Seite
+- Klick jetzt also mal auf deine Form und du wirst ein paar Anfasser an den Ecken sehen
+- Klick jetzt auf dein Plattpapier und es entsteht ein Punkt
+- Klickst da drauf und schon ist er weg und deine Form bleibt aber noch erhalten
+- erstellen gehen
+- erstellen kann
+- erstellen und beschriften
+- erstellt und diese benötigt natürlich meist noch mehr Angaben
+- geh auf dein Plattpapier und setze deinen ersten Punkt, indem du da raufklickst
+- geh mal in das Menü Fenster und schau ob es angeklickt ist
+- gehen jetzt erstmal auf den schwarzen Pfeil
+- gehen soll, kannst du auch auf schnell eine neue Datei erstellen gehen
+- gehen und das Ganze ist dann aber meistens sehr unübersichtlich
+- gehen werde
+- gehen wir zu diesem Feld und als nächstes wollen wir verstehen, wie man mit diesen Ebenen arbeitet
+- gehst dann wieder zurück zur Körpermitte
+- gehst du jetzt auf die Zeichenfläche mit entsprechend Vorderteil oder Rückteil
+- gehst du nach unten
+- gehst jetzt in deine Werkzeugleiste und nicht weit unter dem Rechteck findest du so ein Kreissymbol
+- geht auf den schwarzen Pfeil, das Auswahlwerkzeug und könnt jetzt hier die Größe verändern
+- geht bis zur eigenhändigen Erstellung von einer einfachen technischen Modezeichnung
+- geht das über den Rechtsklick auf zusammenfügen klicken
+- geht es natürlich auch mit dem Zeichenstiftwerkzeug
+- geht es über die Zeichenfeder und dem Minuszeichen
+- geht ihr wieder auf das Pluszeichen und legt euch eure dritte Ebene an
+- geht ihr wieder auf eure Zeichenfläche, positioniert euch auf der einen Seite des Rechtecks
+- geht natürlich über das Menü bearbeiten, kopieren und dann einfügen bzw
+- gehört und was wichtig für die Fertigung ist
+- klick auf gruppieren drücken und so habe ich wirklich meine Zeichnung ganz kompakt beisammeln
+- klick auf zusammenfügen klicken
+- klick da drauf
+- klick zusammenfügen
+- klicke ich hier auf diesen Doppelfeil und schon ist sie in einem anderen Format
+- klicken und der ist jetzt mit der Farbe blau ausgefüllt
+- klicken und diese rüberziehen und schon habe ich zwei Formen und habe diese eine Form kopiert
+- klicken und kannst hier einen Pfeil anlegen
+- klicken und löschen
+- klicken und schon haben wir eine neue Zeichenfläche
+- klickst also auf Adobe Illustrator und du wirst sehen, oben links kannst du auf neue Datei gehen
+- klickst darauf und kannst jetzt hier gestrichelte Linie ankreuzen
+- klickst du auf das Pluszeichen im Ebenenbedienfeld
+- klickst du auf rechtsklick auf zusammenfügen
+- klickst du einfach nochmal auf den Punkt
+- klickst du jetzt mal drauf
+- klickst du mit einem Doppelklick drauf
+- klickst du wieder und lässt diesmal aber nicht los
+- klickst und dann nochmal draufklicken
+- klickst und dann nochmal klickst
+- klickst wieder auf deinen Punkt, um frei weiterzeichnen zu können
+- klickst, dann wird eine neue Ebene angelegt
+- klickst, entsteht eine Linie zwischen diesen beiden Punkten
+- klickst, siehst du, dass alle Punkte der Form unausgefüllt sind, also weiß sind
+- klickt drauf und es erscheint wieder ein Schloss
+- klickt ihr da drauf und zieht sie dann auch direkt in den Illustrator rein
+- wählen, sondern es ist alles in einem, also auch mit den ganzen Details
+- wählst, blau
+- zeichne ich die Details ein
+- zeichne ich jetzt und von wem ist diese Zeichnung
+- zeichnen kann und meine Zeichnung dann auch gut sehe
+- zeichnen müssen
+- zeichnen oder aber auch mit der Zeichenfeder
+- zeichnen, also auch wieder ganz ähnlich wie in der Schnittkonstruktion
+- zeichnen, bevor ich das Ganze spiegle
+- zeichnen, zum Beispiel mit dem Linienwerkzeug oder auch mit der Zeichenfeder
+- zeichnet haben, etwas verändern
+- zeichnet hast
+- zeichnet hast, du sie auswählst, blau
+- zeichnet sind
+- zeichnet, also flache Zeichnung
+- zeichnet. Alternativ kann ich das natürlich auch mit der Zeichenfeder machen
+- ziehe mir jetzt dieses Rechteck über mein Platt Papier
+- ziehen oder aber auch eine ganz leichte Kurve
+- ziehst du dir dieses Format rüber
+- ziehst in eine Richtung und du wirst sehen, es entsteht ein Rechteck
+- zieht ihr rüber auf die andere Seite und ihr seht, es entsteht so eine Linie
+- zieht sie dann auch direkt in den Illustrator rein
+- öffnest du das Programm
+- öffnet sich ein Feld, wo du die Farbe ändern kannst
+- öffnet sich eine Datei Du siehst jetzt eine weiße Seite

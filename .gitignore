@@ -45,12 +45,12 @@ logs
 
 # Claude Code and AI Assistant Files (keep entire directory local)
 .claude/
-CLAUDE.md
 
-# Local Development Documentation (keep these local)
-questionsAndAnswers.md
-adobe-illustrator-301-bilingual-knowledge-base.md
-adobe-illustrator-301-knowledge-base.md
+# Documentation Files (keep all docs local except READMEs)
+docs/
+*.md
+!README.md
+!CAPSTONE_README.md
 
 # Temporary/Test Files
 test-*.js

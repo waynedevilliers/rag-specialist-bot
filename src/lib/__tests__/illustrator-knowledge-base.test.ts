@@ -38,6 +38,10 @@ describe('Adobe Illustrator Knowledge Base Tests', () => {
         })
       })
 
+      console.log('Total chunks:', chunks.length)
+      console.log('Found modules:', Array.from(foundModules))
+      console.log('Sample chunk sections:', chunks.slice(0, 5).map(c => c.section))
+
       expect(foundModules.size).toBeGreaterThanOrEqual(10) // At least 10 modules should be found
       expect(Array.from(foundModules)).toEqual(
         expect.arrayContaining([

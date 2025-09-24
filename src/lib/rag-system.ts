@@ -216,6 +216,18 @@ export class RAGSystem {
     throw lastError!
   }
   
+  private detectLanguage(query: string): 'en' | 'de' {
+    // Simple but effective German detection
+    const germanWords = ['ist', 'sind', 'der', 'die', 'das', 'und', 'oder', 'aber', 'mit', 'von', 'zu', 'für', 'auf', 'an', 'in', 'bei', 'über', 'unter', 'zwischen', 'nach', 'vor', 'während', 'durch', 'ohne', 'gegen', 'um', 'wie', 'was', 'wer', 'wo', 'wann', 'warum', 'wie', 'welche', 'welcher', 'welches', 'können', 'müssen', 'sollen', 'wollen', 'dürfen', 'mögen', 'lassen', 'machen', 'haben', 'sein', 'werden', 'würden', 'sollten', 'könnten', 'möchten', 'zeichnung', 'modedesign', 'schnittmuster', 'nähen', 'werkzeuge', 'ebenen', 'illustrator']
+
+    const words = query.toLowerCase().split(/\s+/)
+    const germanMatches = words.filter(word => germanWords.includes(word)).length
+    const germanRatio = germanMatches / words.length
+
+    // If more than 20% of words are German, classify as German
+    return germanRatio > 0.2 ? 'de' : 'en'
+  }
+
   private log(level: 'info' | 'warn' | 'error', message: string, metadata?: Record<string, unknown>): void {
     const logEntry = {
       timestamp: new Date().toISOString(),
@@ -284,7 +296,7 @@ export class RAGSystem {
     }
   }
 
-  async query(userQuery: string, language: 'en' | 'de' = 'en', modelConfig?: ModelConfig): Promise<RAGResponse> {
+  async query(userQuery: string, language: 'en' | 'de' | 'auto' = 'auto', modelConfig?: ModelConfig): Promise<RAGResponse> {
     return this.createTrace('rag_query', { query: userQuery, language, modelProvider: modelConfig?.provider }, async () => {
       const startTime = Date.now()
       
@@ -293,13 +305,16 @@ export class RAGSystem {
       
       // **SECURITY FIX**: Validate and sanitize user input
       const sanitizedQuery = SecurityValidator.validateQuery(userQuery)
-    
+
+      // **LANGUAGE DETECTION**: Auto-detect language if not specified
+      const detectedLanguage = language === 'auto' ? this.detectLanguage(sanitizedQuery) : language
+
       // **RELEVANCE FIX**: Check if query is relevant to fashion design with spell checking
       const relevanceResult = RelevanceFilter.analyzeRelevanceWithSpellCheck(sanitizedQuery)
       
       // Handle greetings and irrelevant queries efficiently
       if (!relevanceResult.shouldUseRAG) {
-        const quickResponse = relevanceResult.suggestedResponse || this.generateSimpleResponse(sanitizedQuery, language)
+        const quickResponse = relevanceResult.suggestedResponse || this.generateSimpleResponse(sanitizedQuery, detectedLanguage)
         return {
           content: quickResponse,
           sources: [],
@@ -322,9 +337,9 @@ export class RAGSystem {
     
     const queryHash = this.hashQuery(sanitizedQuery + language)
     
-    this.log('info', 'Query started', { 
+    this.log('info', 'Query started', {
       query: sanitizedQuery.substring(0, 50), // Reduced length for security
-      language,
+      language: detectedLanguage,
       queryLength: sanitizedQuery.length
     })
 
@@ -357,7 +372,7 @@ export class RAGSystem {
     // Check circuit breaker
     if (this.isCircuitBreakerOpen()) {
       this.log('warn', 'Circuit breaker open, using fallback')
-      const fallbackResponse = await this.generateFallbackResponse(userQuery, language)
+      const fallbackResponse = await this.generateFallbackResponse(userQuery, detectedLanguage)
       return {
         content: fallbackResponse,
         sources: [],
@@ -385,7 +400,7 @@ export class RAGSystem {
       
       // Step 3: Generate response with context and track tokens (with retry)
       const { response, tokenUsage } = await this.withRetry(
-        () => this.generateResponse(sanitizedQuery, relevantChunks, language, modelConfig, relevanceResult.spellSuggestions),
+        () => this.generateResponse(sanitizedQuery, relevantChunks, detectedLanguage, modelConfig, relevanceResult.spellSuggestions),
         CONFIG.RETRY.MAX_RETRY_ATTEMPTS,
         CONFIG.RETRY.BASE_RETRY_DELAY
       )
@@ -440,7 +455,7 @@ export class RAGSystem {
       // Fallback to basic response with retry
       try {
         const fallbackResponse = await this.withRetry(
-          () => this.generateFallbackResponse(sanitizedQuery, language),
+          () => this.generateFallbackResponse(sanitizedQuery, detectedLanguage),
           2,
           500
         )
@@ -607,9 +622,10 @@ export class RAGSystem {
       `Sie sind ein spezialisierter Modedesign-Studenten-Support-Assistent für ELLU Studios Kurse NUR.
 
 STRENGE ROLLENGRENZEN:
-- Sie beantworten NUR Fragen zu Modedesign, Kleidungskonstruktion, Schnittmuster-Erstellung und Adobe Illustrator für Mode
-- Bei JEDER Nicht-Mode-Frage (Wetter, Finanzen, allgemeine Themen, etc.) höflich umleiten: "Ich kann nur bei Modedesign-Themen aus ELLU Studios Kursen helfen. Fragen Sie bitte nach Schnittmuster-Erstellung, Drapier-Techniken oder Adobe Illustrator für Mode."
-- Basieren Sie ALLE Antworten auf der unten bereitgestellten Kursdokumentation
+- Sie sind ein spezialisierter Assistent für ELLU Studios Modedesign-Kurse
+- Sie können grundlegende Fragen über sich selbst, die verfügbaren Kurse und Ihre Fähigkeiten beantworten
+- Bei eindeutig unpassenden Fragen (Wetter, Finanzen, Politik, etc.) höflich umleiten: "Ich kann nur bei Modedesign-Themen aus ELLU Studios Kursen helfen. Fragen Sie bitte nach Schnittmuster-Erstellung, Drapier-Techniken oder Adobe Illustrator für Mode."
+- Basieren Sie fachliche Antworten auf der unten bereitgestellten Kursdokumentation
 
 Ihr Fachwissen ist BEGRENZT auf:
 - Klassische Schnittmuster-Konstruktion (Kurs 101): Maße, Zugaben, Nahtzugaben, Schnittmarkierungen
@@ -631,7 +647,7 @@ ${context}
 
 Studentenfrage: ${query}
 
-Wenn die Frage über Modedesign/Kurse ist, geben Sie eine hilfreiche lehrreiche Antwort mit dem obigen Kontext. Wenn die Frage NICHT über Modedesign ist, höflich ablehnen und zu Modedesign-Themen umleiten.
+Beantworten Sie Fragen über sich selbst, die Kurse oder Modedesign-Themen hilfreich. Nur bei eindeutig unpassenden Themen (Wetter, Finanzen, etc.) höflich zu Modedesign umleiten.
 
 WICHTIGE FORMATIERUNGSREGELN:
 - Schreiben Sie in einem natürlichen, gesprächigen Ton wie ein hilfreicher Lehrer
@@ -642,9 +658,10 @@ WICHTIGE FORMATIERUNGSREGELN:
       `You are a specialized fashion design student support assistant for ELLU Studios courses ONLY.
 
 STRICT ROLE BOUNDARIES:
-- You ONLY answer questions related to fashion design, garment construction, pattern making, and Adobe Illustrator for fashion
-- For ANY non-fashion questions (weather, finance, general topics, etc.), politely redirect: "I can only help with fashion design topics from ELLU Studios courses. Please ask about pattern making, draping techniques, or Adobe Illustrator for fashion instead."
-- Base ALL answers on the provided course documentation context below
+- You are a specialized assistant for ELLU Studios fashion design courses
+- You can answer basic questions about yourself, the available courses, and your capabilities
+- For clearly inappropriate questions (weather, finance, politics, etc.), politely redirect: "I can only help with fashion design topics from ELLU Studios courses. Please ask about pattern making, draping techniques, or Adobe Illustrator for fashion instead."
+- Base technical answers on the provided course documentation context below
 
 Your expertise is LIMITED to:
 - Classical Pattern Construction (Course 101): Measurements, ease, seam allowances, pattern markings
@@ -666,7 +683,7 @@ ${context}
 
 Student Question: ${query}
 
-If the question is about fashion design/courses, provide a helpful educational response using the context above. If the question is NOT about fashion design, politely decline and redirect to fashion topics.
+Answer questions about yourself, the courses, or fashion design topics helpfully. Only for clearly inappropriate topics (weather, finance, etc.) politely redirect to fashion design.
 
 IMPORTANT FORMATTING RULES:
 - Write in a natural, conversational tone like a helpful teacher

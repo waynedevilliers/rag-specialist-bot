@@ -1,0 +1,396 @@
+COMMIT: 76b001e feat: Add comprehensive conversational improvements and fuzzy spell checking 2025-08-24 20:37:28 +0200
+
+questionsAndAnswers.md
+src/lib/__tests__/conversational-improvements.test.ts
+src/lib/__tests__/real-conversation-examples.test.ts
+src/lib/rag-system.ts
+src/lib/relevance-filter.ts
+COMMIT: 2cfd6e1 feat: Add comprehensive video-specific knowledge base system 2025-08-23 16:51:04 +0200
+
+ELLU-Studios-Adobe-Illustrator-Course-URLs.md
+README.md
+docs/transcripts/Einfuhrung.vtt
+docs/transcripts/Grundlagen.vtt
+docs/transcripts/Intro.vtt
+"docs/transcripts/Kopieren und zusammenfu\314\210gen.vtt"
+"docs/transcripts/R\303\274ckansicht_Checkliste.vtt"
+docs/transcripts/beschriften.vtt
+docs/transcripts/formatieren.vtt
+docs/transcripts/mit ebene arbeiten.vtt
+docs/transcripts/schablone.vtt
+docs/transcripts/vorderansicht.vtt
+docs/transcripts/werkzeuge.vtt
+docs/transcripts/zusammenfassung.vtt
+questionsAndAnswers.md
+src/data/illustrator-fashion-design.md
+src/lib/__tests__/illustrator-knowledge-base.test.ts
+src/lib/__tests__/transcript-validation.test.ts
+src/lib/__tests__/video-content-recognition-simple.test.ts
+src/lib/__tests__/video-content-recognition.test.ts
+COMMIT: d314696 fix: Simplify relevance filter and strengthen RAG role boundaries 2025-08-12 12:45:24 +0200
+
+questionsAndAnswers.md
+src/lib/rag-system.ts
+src/lib/relevance-filter.ts
+COMMIT: b14a478 fix: Correct RAGResponse interface mismatch in relevance filter 2025-08-12 11:17:34 +0200
+
+src/lib/rag-system.ts
+COMMIT: 5321416 fix: Add null safety for tokenUsage.cost.totalCost access 2025-08-12 10:18:57 +0200
+
+src/app/components/ChatInterface.tsx
+src/lib/conversation-manager.ts
+COMMIT: 7d4166a docs: Update documentation for test infrastructure improvements 2025-08-12 09:37:04 +0200
+
+README.md
+docs/CHANGELOG.md
+docs/TESTING.md
+COMMIT: 212b2af fix: Resolve failing tests and improve Jest configuration 2025-08-12 09:30:14 +0200
+
+config/jest.config.js
+src/lib/__tests__/knowledge-update.test.ts
+src/lib/__tests__/knowledge-validator.test.ts
+COMMIT: 05c3358 docs: Consolidate README files into comprehensive root README 2025-08-12 07:40:53 +0200
+
+README.md
+COMMIT: de03821 chore: Remove .claude directory from repository tracking 2025-08-12 07:37:36 +0200
+
+.claude/security-agent-config.md
+.claude/security-checklist.md
+.claude/security-reports/2025-08-05-phase2-3-security-review.md
+.claude/security-review-requests.md
+.gitignore
+COMMIT: 81108ac fix: Implement critical code review improvements (score 95 → production-ready) 2025-08-12 07:18:35 +0200
+
+.gitignore
+src/app/components/ChatInterface.tsx
+src/lib/config.ts
+src/lib/conversation-manager.ts
+src/lib/date-utils.ts
+src/lib/rag-system.ts
+src/lib/relevance-filter.ts
+src/lib/security-validator.ts
+src/lib/validation-schemas.ts
+COMMIT: 10af468 feat: Integrate authentic German Adobe Illustrator transcript from ELLU Studios 2025-08-11 14:46:49 +0200
+
+src/data/illustrator-fashion-design.md
+COMMIT: 0b8e784 refactor: Reorganize project structure for better maintainability 2025-08-09 12:05:37 +0200
+
+README.md
+config/eslint.config.mjs
+config/jest.config.js
+config/jest.setup.js
+config/next.config.ts
+config/postcss.config.mjs
+config/vercel.json
+docs/API.md
+docs/CHANGELOG.md
+docs/CLAUDE.md
+docs/ORGANIZATION.md
+docs/README.md
+docs/SETUP.md
+docs/TESTING.md
+eslint.config.mjs
+jest.config.js
+next.config.ts
+package.json
+postcss.config.mjs
+scripts/test-env.js
+scripts/test-gemini.js
+scripts/test-model-service.js
+scripts/test-models.js
+scripts/test-runner.js
+COMMIT: 5440b31 feat: Add comprehensive testing framework and update documentation 2025-08-09 11:57:41 +0200
+
+CHANGELOG.md
+CLAUDE.md
+README.md
+src/app/components/__tests__/ChatInterface.test.tsx
+src/app/components/__tests__/ConversationHistory.test.tsx
+src/lib/__tests__/export-functionality.test.ts
+COMMIT: a1a45bf fix: Resolve language switching and conversation history issues 2025-08-09 11:38:13 +0200
+
+src/app/components/ChatInterface.tsx
+src/lib/__tests__/conversation-manager.test.ts
+COMMIT: bb6496e fix: Remove extra fragment closing tag causing syntax error 2025-08-09 11:21:59 +0200
+
+src/app/components/ConversationHistory.tsx
+COMMIT: 8264a5b fix: Make conversation history full-width on mobile 2025-08-09 11:17:17 +0200
+
+src/app/components/ChatInterface.tsx
+src/app/components/ConversationHistory.tsx
+COMMIT: 8511ddd fix: Eliminate white space below input on mobile 2025-08-09 10:37:50 +0200
+
+src/app/components/ChatInterface.tsx
+src/app/globals.css
+COMMIT: 2db45c1 feat: Add proper mobile responsiveness without breaking desktop 2025-08-08 22:18:41 +0200
+
+src/app/components/ChatInterface.tsx
+src/app/globals.css
+src/app/layout.tsx
+COMMIT: f56c0e4 fix: Revert problematic mobile responsiveness that broke desktop styling 2025-08-08 22:01:58 +0200
+
+src/app/components/ChatInterface.tsx
+src/app/components/ModelSelector.tsx
+src/app/globals.css
+src/app/layout.tsx
+COMMIT: 056a134 fix: Resolve desktop styling issues caused by mobile responsiveness 2025-08-08 21:57:43 +0200
+
+src/app/globals.css
+src/app/layout.tsx
+COMMIT: 9fbe56a docs: Update documentation for v2.3.0 mobile responsiveness release 2025-08-08 14:11:57 +0200
+
+CHANGELOG.md
+CLAUDE.md
+README.md
+COMMIT: f19ee53 feat: Add comprehensive mobile responsiveness while maintaining desktop experience 2025-08-08 14:07:34 +0200
+
+src/app/components/ChatInterface.tsx
+src/app/components/ModelSelector.tsx
+src/app/globals.css
+src/app/layout.tsx
+COMMIT: 84bdbe2 docs: Update all documentation for v2.2.0 course structure fixes and testing framework 2025-08-08 13:01:27 +0200
+
+CHANGELOG.md
+CLAUDE.md
+README.md
+COMMIT: ae753f9 fix: Update German system prompt with correct course structure 2025-08-08 12:57:37 +0200
+
+src/lib/rag-system.ts
+COMMIT: fccd133 feat: Add comprehensive course structure validation testing framework 2025-08-08 12:32:51 +0200
+
+package.json
+src/app/api/chat/__tests__/course-integration.test.ts
+src/lib/__tests__/course-structure.test.ts
+test-runner.js
+COMMIT: ef385d1 fix: Correct course structure in all system components 2025-08-08 12:15:36 +0200
+
+src/lib/knowledge-base.ts
+src/lib/rag-system.ts
+COMMIT: 7d04305 fix: Remove deleted fashion-construction-methods.md file from course restructure 2025-08-08 11:08:43 +0200
+
+src/data/fashion-construction-methods.md
+src/lib/knowledge-base.ts
+COMMIT: 7e0e39b fix: Update German input placeholder to reflect new course structure 2025-08-07 10:54:53 +0200
+
+src/lib/translations.ts
+COMMIT: 602ddc6 fix: Update frontend translations to match new course structure 2025-08-07 10:41:49 +0200
+
+src/lib/translations.ts
+COMMIT: ba1d556 docs: Update documentation for ELLU Studios course integration v2.1.0 2025-08-07 10:30:45 +0200
+
+CHANGELOG.md
+README.md
+COMMIT: 0f13adb feat: Reorganize course structure and enhance Course 301 with ELLU Studios Adobe Illustrator 2025-08-07 10:16:40 +0200
+
+src/data/draping-techniques.md
+src/data/illustrator-fashion-design.md
+COMMIT: 32f996d feat: Enhance Course 101 with ELLU Studios Classical Pattern Construction 2025-08-07 09:53:43 +0200
+
+src/data/pattern-making-fundamentals.md
+COMMIT: cc0cb57 feat: Enhance draping knowledge base with ELLU Studios content 2025-08-07 09:47:22 +0200
+
+src/data/draping-techniques.md
+src/data/ellu-studios-drapieren-kurs.md
+COMMIT: 0a6e848 fix: Defer API key validation to runtime to prevent build errors 2025-08-07 09:36:46 +0200
+
+src/lib/rag-system.ts
+src/lib/vector-store.ts
+COMMIT: f2b9966 feat: Enhance chat interface UX with improved scroll and collapsible sources 2025-08-06 22:32:39 +0200
+
+CLAUDE.md
+README.md
+src/app/components/ChatInterface.tsx
+src/app/components/SourceCitations.tsx
+src/lib/rag-system.ts
+COMMIT: 8791bf6 docs: Update documentation for LangSmith integration and remove emojis 2025-08-06 22:02:37 +0200
+
+README.md
+src/app/components/SourceCitations.tsx
+COMMIT: ab1f2dc feat: Add LangSmith tracing and observability integration 2025-08-06 22:01:30 +0200
+
+.claude/agent-state.json
+.claude/handoffs/rag-specialist-initial-analysis.md
+.claude/init-rag-specialist.sh
+.claude/rag-ai-specialist.md
+.claude/status.md
+CLAUDE.md
+README.md
+eslint.config.mjs
+package-lock.json
+package.json
+src/app/admin/page.tsx
+src/app/api/knowledge-update/route.ts
+src/app/components/KnowledgeUpdateManager.tsx
+src/components/ui/alert.tsx
+src/components/ui/badge.tsx
+src/components/ui/button.tsx
+src/components/ui/card.tsx
+src/components/ui/input.tsx
+src/components/ui/label.tsx
+src/components/ui/select.tsx
+src/components/ui/tabs.tsx
+src/components/ui/textarea.tsx
+src/lib/__tests__/knowledge-update.test.ts
+src/lib/__tests__/knowledge-validator.test.ts
+src/lib/connection-pool.ts
+src/lib/hnsw-index.ts
+src/lib/knowledge-update-service.ts
+src/lib/knowledge-validator.ts
+src/lib/model-service.ts
+src/lib/rag-system.ts
+src/lib/vector-store.ts
+tsconfig.json
+COMMIT: 7e44ab6 docs: Remove all emojis from markdown files for professional appearance 2025-08-06 10:19:31 +0200
+
+CLAUDE.md
+README.md
+COMMIT: 7e5a9be 🚀 Major Release v2.0.0: Performance & Security Overhaul 2025-08-06 08:06:52 +0200
+
+.claude/security-agent-config.md
+.claude/security-checklist.md
+.claude/security-reports/2025-08-05-phase2-3-security-review.md
+.claude/security-review-requests.md
+CHANGELOG.md
+CLAUDE.md
+README.md
+src/app/api/chat/__tests__/greeting.test.ts
+src/app/api/chat/route.ts
+src/data/technische-modezeichnung.md
+src/lib/__tests__/rag-performance.test.ts
+src/lib/hnsw-index.ts
+src/lib/knowledge-base.ts
+src/lib/rag-system.ts
+src/lib/security-validator.ts
+src/lib/vector-quantizer.ts
+src/lib/vector-store.ts
+COMMIT: 81c8847 ⚡ Implement RAG Performance Optimizations: Parallel Embeddings + Caching 2025-08-05 12:01:16 +0200
+
+.claude/agent-state.json
+.claude/handoffs/rag-specialist-initial-analysis.md
+.claude/init-rag-specialist.sh
+.claude/rag-ai-specialist.md
+.claude/status.md
+CLAUDE.md
+package.json
+src/app/api/chat/route.ts
+src/app/api/test-gemini/route.ts
+src/app/components/SourceCitations.tsx
+src/lib/__tests__/fashion-functions-simple.test.ts
+src/lib/__tests__/rag-performance.test.ts
+src/lib/fashion-functions.ts
+src/lib/model-service.ts
+src/lib/vector-store.ts
+vercel.json
+COMMIT: 8495947 ready to deploy 2025-08-04 13:17:29 +0200
+
+Building-Application.md
+CLAUDE.md
+PROJECT_ANALYSIS.md
+README.md
+SETUP.md
+src/app/api/chat/route.ts
+src/app/api/test-gemini/route.ts
+src/app/components/ChatInterface.tsx
+src/lib/model-service.ts
+src/lib/rag-system.ts
+test-env.js
+test-gemini.js
+test-model-service.js
+test-models.js
+COMMIT: c062036 📚 Complete Documentation Update for Maximum Points Achievement 2025-08-04 11:47:26 +0200
+
+Building-Application.md
+CLAUDE.md
+COMMIT: 2e83e9b 🚀 Implement Maximum Points Features: Multi-Model Support + Export + Deployment 2025-08-04 11:41:35 +0200
+
+README.md
+package.json
+src/app/api/chat/route.ts
+src/app/components/ChatInterface.tsx
+src/app/components/ModelSelector.tsx
+src/lib/__tests__/fashion-functions-simple.test.ts
+src/lib/conversation-manager.ts
+src/lib/fashion-functions.ts
+src/lib/model-service.ts
+src/lib/rag-system.ts
+vercel.json
+COMMIT: 9f476b6 Merge remote-tracking branch 'turing-main/main' 2025-08-04 10:38:17 +0200
+COMMIT: 45b0fb3 🧪 Add Comprehensive Test Suite with 27/27 Passing Tests 2025-07-31 21:30:34 +0200
+
+Building-Application.md
+CLAUDE.md
+PROJECT_ANALYSIS.md
+README.md
+SETUP.md
+jest.config.js
+jest.setup.js
+package-lock.json
+package.json
+src/app/api/chat/__tests__/route.test.ts
+src/app/api/chat/route.ts
+src/app/components/ChatInterface.tsx
+src/app/components/ConversationHistory.tsx
+src/app/components/SourceCitations.tsx
+src/data/draping-techniques.md
+src/data/fashion-construction-methods.md
+src/data/illustrator-fashion-design.md
+src/data/pattern-making-fundamentals.md
+src/lib/__tests__/fashion-functions-simple.test.ts
+src/lib/__tests__/validation.test.ts
+src/lib/conversation-manager.ts
+src/lib/fashion-functions.ts
+src/lib/knowledge-base.ts
+src/lib/rag-system.ts
+src/lib/translations.ts
+COMMIT: cc93297 Update CLAUDE.md: Remove emojis and add Sprint 2 requirements mapping 2025-07-29 13:10:17 +0200
+
+CLAUDE.md
+COMMIT: 1da698f 📚 Add Sprint 2 Capstone Requirements Documentation 2025-07-29 13:01:51 +0200
+
+Building-Application.md
+COMMIT: c5fc4ed 📚 Comprehensive Documentation Update 2025-07-29 11:32:05 +0200
+
+CLAUDE.md
+PROJECT_ANALYSIS.md
+README.md
+SETUP.md
+COMMIT: 71edfa6 Phase 2: Advanced RAG Implementation with Vector Search 2025-07-29 11:31:50 +0200
+
+src/app/components/SourceCitations.tsx
+src/data/nextjs-docs.md
+src/data/react-docs.md
+src/data/troubleshooting.md
+src/lib/knowledge-base.ts
+src/lib/rag-system.ts
+src/lib/vector-store.ts
+COMMIT: 38fe40d Phase 1: Foundation - Basic Chat Interface with OpenAI Integration 2025-07-29 11:25:32 +0200
+
+.gitignore
+package-lock.json
+package.json
+src/app/api/chat/route.ts
+src/app/components/ChatInterface.tsx
+src/app/layout.tsx
+src/app/page.tsx
+COMMIT: 4a9683f Initial commit from Create Next App 2025-07-28 14:01:26 +0200
+
+.gitignore
+README.md
+eslint.config.mjs
+next.config.ts
+package-lock.json
+package.json
+postcss.config.mjs
+public/file.svg
+public/globe.svg
+public/next.svg
+public/vercel.svg
+public/window.svg
+src/app/favicon.ico
+src/app/globals.css
+src/app/layout.tsx
+src/app/page.tsx
+tsconfig.json
+COMMIT: f067ef0 Initial commit 2025-07-28 11:50:11 +0000
+
+125.md

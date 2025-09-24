@@ -1,5 +1,8 @@
 require('@testing-library/jest-dom');
 
+// Load real environment variables from .env.local
+require('dotenv').config({ path: '.env.local' });
+
 // Mock Next.js router
 jest.mock('next/router', () => ({
   useRouter: () => ({
@@ -12,8 +15,10 @@ jest.mock('next/router', () => ({
   }),
 }));
 
-// Mock environment variables
-process.env.OPENAI_API_KEY = 'test-api-key';
+// Only set fallback API key if none exists
+if (!process.env.OPENAI_API_KEY) {
+  process.env.OPENAI_API_KEY = 'test-api-key';
+}
 
 // Mock console methods to reduce noise in tests
 global.console = {
