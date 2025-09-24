@@ -403,6 +403,79 @@ export class KnowledgeBase {
     return this.searchInChunks(query, filteredChunks, limit)
   }
 
+  /**
+   * Find specific video content by video title or description
+   */
+  findVideoContent(videoQuery: string, courseNumber?: string): DocumentChunk[] {
+    const videoKeywords = this.extractVideoKeywords(videoQuery.toLowerCase())
+
+    let filteredChunks = this.chunks.filter(chunk => chunk.source.endsWith('.vtt'))
+
+    // Filter by course if specified
+    if (courseNumber) {
+      filteredChunks = filteredChunks.filter(chunk => chunk.metadata.courseNumber === courseNumber)
+    }
+
+    // Score chunks based on video-specific keywords
+    const scored = filteredChunks.map(chunk => {
+      let score = 0
+      const sourceLower = chunk.source.toLowerCase()
+      const titleLower = chunk.metadata.title.toLowerCase()
+      const contentLower = chunk.content.toLowerCase()
+
+      // High score for exact video title matches
+      videoKeywords.forEach(keyword => {
+        if (sourceLower.includes(keyword)) score += 10
+        if (titleLower.includes(keyword)) score += 8
+        if (contentLower.includes(keyword)) score += 3
+      })
+
+      // Boost score for specific video patterns
+      if (videoQuery.includes('teil') && sourceLower.includes('teil')) score += 5
+      if (videoQuery.includes('video') && sourceLower.includes('teil')) score += 5
+      if (videoQuery.includes('drapieren') && sourceLower.includes('drapieren')) score += 5
+      if (videoQuery.includes('konstruieren') && sourceLower.includes('konstruieren')) score += 5
+      if (videoQuery.includes('illustrator') && sourceLower.includes('illustrator')) score += 5
+
+      return { chunk, score }
+    })
+
+    return scored
+      .filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 10)
+      .map(item => item.chunk)
+  }
+
+  private extractVideoKeywords(query: string): string[] {
+    const keywords: string[] = []
+
+    // Extract Teil and video numbers
+    const teilMatch = query.match(/teil\s*(\d+)/i)
+    if (teilMatch) keywords.push(`teil${teilMatch[1]}`)
+
+    const videoMatch = query.match(/video\s*(\d+)/i)
+    if (videoMatch) keywords.push(`teil${videoMatch[1]}`)
+
+    // Extract specific technique keywords
+    const techniques = [
+      'stoff vorbereiten', 'vorderrock stecken', 'hinterrock stecken', 'seitennaht stecken',
+      'abnäher', 'seitenrundung', 'markieren', 'hüftrundung einschneiden',
+      'abnehmen', 'papier übertragen', 'seitenlinie verlegen', 'maße überprüfen',
+      'taillenkurve', 'fadenlauf', 'werkzeuge', 'ebenen arbeiten', 'formatieren',
+      'schablone', 'vorderansicht', 'kopieren', 'zusammenfügen', 'rückansicht',
+      'beschriften', 'grundlagen'
+    ]
+
+    techniques.forEach(technique => {
+      if (query.includes(technique)) {
+        keywords.push(...technique.split(' '))
+      }
+    })
+
+    return [...new Set(keywords)]
+  }
+
   searchChunks(query: string, limit: number = 10): DocumentChunk[] {
     return this.searchInChunks(query, this.chunks, limit)
   }

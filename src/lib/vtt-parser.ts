@@ -156,25 +156,90 @@ export class VTTParser {
   private static generateTitle(filename: string): string {
     // Handle different naming patterns
     const patterns = [
-      // RG_Konstruieren_GL1 -> Rock Grundschnitt Konstruieren - Grundlagen 1
+      // Draping Course (Course 201) - RG_Drapieren patterns
+      {
+        regex: /RG_Drapieren_(\d+)_Teil(\d+) (.+)/,
+        template: 'Rockgrundschnitt Drapieren Teil $1 - Video $2 - $3'
+      },
+      {
+        regex: /RG_Drapieren_(\d+)_Teil(\d+)/,
+        template: 'Rockgrundschnitt Drapieren Teil $1 - Video $2'
+      },
+      {
+        regex: /Einleitung_Drapieren_Grundschnitt Rock/,
+        template: 'Rockgrundschnitt Drapieren - Einleitung'
+      },
+      {
+        regex: /Geschafft_GS_Drapieren_Zusammenfassung/,
+        template: 'Rockgrundschnitt Drapieren - Zusammenfassung'
+      },
+
+      // Classical Pattern Construction (Course 101) - RG_Konstruieren patterns
       {
         regex: /RG_Konstruieren_GL(\d+)/,
         template: 'Rock Grundschnitt Konstruieren - Grundlagen $1'
       },
-      // RG_Konstruieren_Teil1 -> Rock Grundschnitt Konstruieren - Teil 1
       {
         regex: /RG_Konstruieren_Teil(\d+)/,
         template: 'Rock Grundschnitt Konstruieren - Teil $1'
       },
-      // Rock_GS_Konstruieren -> Rock Grundschnitt Konstruieren
       {
-        regex: /Rock_GS_Konstruieren/,
+        regex: /Rock_GS_Konstruieren.*Einleitung/,
         template: 'Rock Grundschnitt Konstruieren - Einleitung'
       },
-      // Geschafft_Rock_GS_Konstruieren -> Rock Grundschnitt Abschluss
       {
         regex: /Geschafft_Rock_GS_Konstruieren/,
         template: 'Rock Grundschnitt Konstruieren - Abschluss'
+      },
+
+      // Adobe Illustrator Course (Course 301) - Individual video patterns
+      {
+        regex: /^Intro$/,
+        template: 'Adobe Illustrator - Intro'
+      },
+      {
+        regex: /^Einfuhrung$/,
+        template: 'Adobe Illustrator - Einführung'
+      },
+      {
+        regex: /^Grundlagen$/,
+        template: 'Adobe Illustrator - Grundlagen'
+      },
+      {
+        regex: /^werkzeuge$/,
+        template: 'Adobe Illustrator - Werkzeuge'
+      },
+      {
+        regex: /^mit ebene arbeiten$/,
+        template: 'Adobe Illustrator - mit Ebenen arbeiten'
+      },
+      {
+        regex: /^formatieren$/,
+        template: 'Adobe Illustrator - Formatieren'
+      },
+      {
+        regex: /^schablone$/,
+        template: 'Adobe Illustrator - Schablone'
+      },
+      {
+        regex: /^vorderansicht$/,
+        template: 'Adobe Illustrator - Vorderansicht'
+      },
+      {
+        regex: /^Kopieren und zusammenfügen$/,
+        template: 'Adobe Illustrator - Kopieren und zusammenfügen'
+      },
+      {
+        regex: /^Rückansicht_Checkliste$/,
+        template: 'Adobe Illustrator - Rückansicht & Checkliste'
+      },
+      {
+        regex: /^beschriften$/,
+        template: 'Adobe Illustrator - Beschriften'
+      },
+      {
+        regex: /^zusammenfassung$/,
+        template: 'Adobe Illustrator - Zusammenfassung'
       }
     ]
 
@@ -201,27 +266,61 @@ export class VTTParser {
     let partNumber: string | undefined
 
     // Determine course type from filename and content
-    if (filename.includes('RG_') || filename.includes('Rock') || content.includes('Rock')) {
+    if (filename.includes('RG_Drapieren') || content.includes('drapieren')) {
+      courseType = 'draping'
+    } else if (filename.includes('RG_Konstruieren') || filename.includes('Rock') || content.includes('Rock')) {
       courseType = 'pattern-making'
+    } else if (filename.includes('Illustrator') || filename.match(/^(Intro|werkzeuge|formatieren|schablone|vorderansicht|beschriften|zusammenfassung|Einfuhrung|Grundlagen)$/i)) {
+      courseType = 'illustrator-fashion'
     }
 
-    // Extract module/part numbers
-    const moduleMatch = filename.match(/(?:GL|Teil)(\d+)/)
-    if (moduleMatch) {
-      moduleNumber = moduleMatch[1]
-
-      if (filename.includes('Teil')) {
-        partNumber = moduleMatch[1]
-        moduleNumber = '1' // All parts belong to main construction module
-      } else if (filename.includes('GL')) {
-        moduleNumber = moduleMatch[1]
+    // Extract module/part numbers for draping course
+    if (courseType === 'draping') {
+      const drapingMatch = filename.match(/RG_Drapieren_(\d+)_Teil(\d+)/)
+      if (drapingMatch) {
+        moduleNumber = drapingMatch[1] // Teil number (1, 2, 3)
+        partNumber = drapingMatch[2]   // Video number within Teil
       }
+    }
+    // Extract module/part numbers for pattern construction
+    else if (courseType === 'pattern-making') {
+      const moduleMatch = filename.match(/(?:GL|Teil)(\d+)/)
+      if (moduleMatch) {
+        moduleNumber = moduleMatch[1]
+
+        if (filename.includes('Teil')) {
+          partNumber = moduleMatch[1]
+          moduleNumber = '1' // All parts belong to main construction module
+        } else if (filename.includes('GL')) {
+          moduleNumber = moduleMatch[1]
+        }
+      }
+    }
+    // Handle Adobe Illustrator videos
+    else if (courseType === 'illustrator-fashion') {
+      // Map specific video filenames to logical module numbers
+      const illustratorModules = {
+        'Intro': '0',
+        'Einfuhrung': '1',
+        'Grundlagen': '2',
+        'werkzeuge': '3',
+        'mit ebene arbeiten': '4',
+        'formatieren': '5',
+        'schablone': '6',
+        'vorderansicht': '7',
+        'Kopieren und zusammenfügen': '8',
+        'Rückansicht_Checkliste': '9',
+        'beschriften': '10',
+        'zusammenfassung': '11'
+      }
+
+      moduleNumber = illustratorModules[filename] || '1'
     }
 
     // Special cases
     if (filename.includes('Einleitung')) {
       moduleNumber = '0'
-    } else if (filename.includes('Geschafft')) {
+    } else if (filename.includes('Geschafft') || filename.includes('zusammenfassung')) {
       moduleNumber = '99'
     }
 
