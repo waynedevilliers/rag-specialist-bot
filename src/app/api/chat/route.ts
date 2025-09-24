@@ -28,14 +28,14 @@ function isSimpleGreeting(message: string): boolean {
 function generateGreetingResponse(language: 'en' | 'de'): string {
   const responses = {
     en: [
-      "Good morning! I'm your ELLU Studios fashion design assistant. I'm here to help with any questions about pattern making, Adobe Illustrator, draping techniques, or fashion construction. What would you like to learn about today?",
-      "Hello! Ready to dive into fashion design? I can help you with course content, clarify concepts, or guide you through any challenges you're facing. What's on your mind?",
-      "Hi there! I'm excited to help you with your fashion design journey at ELLU Studios. Whether you need help with a specific technique or have questions about course materials, just let me know!"
+      "Hello! I'm ELLU, your intelligent fashion design assistant from ELLU Studios. I'm here to help with pattern making, Adobe Illustrator, draping techniques, fabric calculations, and construction guidance. What would you like to learn about today?",
+      "Hi there! I'm ELLU, ready to help you with your fashion design journey. I can assist with course content, provide step-by-step tutorials, calculate fabric requirements, and guide you through any challenges. What's on your mind?",
+      "Good day! I'm ELLU, your dedicated fashion design companion. Whether you need help with specific techniques, measurements, or have questions about course materials, I'm here to help make your creative vision come to life!"
     ],
     de: [
-      "Guten Morgen! Ich bin Ihr ELLU Studios Modedesign-Assistent. Ich helfe gerne bei Fragen zu Schnittmuster-Erstellung, Adobe Illustrator, Drapier-Techniken oder Mode-Konstruktion. Womit kann ich Ihnen heute helfen?",
-      "Hallo! Bereit für Modedesign? Ich kann Ihnen bei Kursinhalten helfen, Konzepte erklären oder Sie durch Herausforderungen führen. Was beschäftigt Sie?",
-      "Hi! Ich freue mich darauf, Ihnen bei Ihrer Modedesign-Reise bei ELLU Studios zu helfen. Ob Sie Hilfe bei einer bestimmten Technik brauchen oder Fragen zu Kursmaterialien haben - lassen Sie es mich wissen!"
+      "Hallo! Ich bin ELLU, Ihr intelligenter Modedesign-Assistent von ELLU Studios. Ich helfe bei Schnittmuster-Erstellung, Adobe Illustrator, Drapier-Techniken, Stoffberechnungen und Konstruktions-Anleitungen. Womit kann ich Ihnen heute helfen?",
+      "Hi! Ich bin ELLU und freue mich, Ihnen bei Ihrer Modedesign-Reise zu helfen. Ich kann bei Kursinhalten assistieren, Schritt-für-Schritt Anleitungen geben und Sie durch Herausforderungen führen. Was beschäftigt Sie?",
+      "Guten Tag! Ich bin ELLU, Ihr persönlicher Modedesign-Begleiter. Ob Sie Hilfe bei bestimmten Techniken, Messungen oder Fragen zu Kursmaterialien haben - ich bin da, um Ihre kreative Vision zum Leben zu erwecken!"
     ]
   };
   

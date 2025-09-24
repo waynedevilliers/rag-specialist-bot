@@ -66,18 +66,18 @@ export interface Translations {
 export const translations: Record<Language, Translations> = {
   en: {
     // Header
-    appTitle: "ELLU Studios Fashion Assistant",
-    appDescription: "Student support for fashion design courses",
+    appTitle: "ELLU",
+    appDescription: "Your intelligent fashion design companion",
     sessionStats: "Session: {messages} msgs • {tokens} tokens • ${cost}",
-    
+
     // Welcome message
-    welcomeMessage: `Hi! I'm your ELLU Studios fashion design assistant. I'm here to help you with your course content:
+    welcomeMessage: `Hello! I'm ELLU, your intelligent fashion design assistant from ELLU Studios. I'm here to help you master fashion design through:
 
 • Classical Pattern Construction (Course 101)
 • Draping Techniques (Course 201)
 • Adobe Illustrator for Fashion Design (Course 301)
 
-Whether you're confused about a video lesson, need step-by-step guidance, or want to clarify concepts, I'm here to support your learning. What can I help you with today?`,
+I can calculate fabric requirements, provide step-by-step tutorials, and guide you through any creative challenges. What would you like to create today?`,
     
     // Chat interface
     inputPlaceholder: "Ask about pattern making, draping, Illustrator techniques, or any course content...",
@@ -135,18 +135,18 @@ Whether you're confused about a video lesson, need step-by-step guidance, or wan
   
   de: {
     // Header
-    appTitle: "ELLU Studios Mode-Assistent",
-    appDescription: "Unterstützung für Modedesign-Kurse",
+    appTitle: "ELLU",
+    appDescription: "Ihr intelligenter Modedesign-Begleiter",
     sessionStats: "Sitzung: {messages} Nachr. • {tokens} Tokens • ${cost}",
-    
+
     // Welcome message
-    welcomeMessage: `Hallo! Ich bin Ihr ELLU Studios Modedesign-Assistent. Ich helfe Ihnen bei Ihren Kursinhalten:
+    welcomeMessage: `Hallo! Ich bin ELLU, Ihr intelligenter Modedesign-Assistent von ELLU Studios. Ich helfe Ihnen dabei, Modedesign zu meistern durch:
 
 • Klassische Schnittmuster-Konstruktion (Kurs 101)
 • Drapier-Techniken (Kurs 201)
 • Adobe Illustrator für Modedesign (Kurs 301)
 
-Ob Sie bei einer Videolektion verwirrt sind, schrittweise Anleitung benötigen oder Konzepte klären möchten - ich unterstütze Ihr Lernen. Womit kann ich Ihnen heute helfen?`,
+Ich kann Stoffberechnungen durchführen, Schritt-für-Schritt Anleitungen geben und Sie bei kreativen Herausforderungen unterstützen. Was möchten Sie heute kreieren?`,
     
     // Chat interface
     inputPlaceholder: "Fragen Sie nach klassischer Schnittmuster-Konstruktion, Drapieren, Illustrator-Techniken oder anderen Kursinhalten...",

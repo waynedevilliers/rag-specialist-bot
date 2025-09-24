@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "RAG Specialist Bot - ELLU Studios Fashion Assistant",
-  description: "AI-powered chatbot specialized in fashion design and pattern construction",
+  title: "ELLU - Your Intelligent Fashion Design Assistant",
+  description: "ELLU is your AI-powered companion for fashion design, pattern construction, and creative guidance from ELLU Studios",
 };
 
 export const viewport = {
