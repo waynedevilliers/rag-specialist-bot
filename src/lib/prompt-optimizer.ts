@@ -1,4 +1,6 @@
 // Advanced prompt optimization for fashion design education
+import { LanguageDetector, type DetectedLanguage } from './language-detector'
+
 export class PromptOptimizer {
 
   /**
@@ -37,6 +39,9 @@ ${spellSuggestions && spellSuggestions.length > 0 ?
 
 ## STUDENT QUESTION
 ${query}
+
+## LANGUAGE INSTRUCTIONS
+${LanguageDetector.getLanguageInstructions(language as DetectedLanguage)}
 
 ## YOUR RESPONSE APPROACH
 ${this.getResponseStructure(language)}`;

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { ragSystem } from "@/lib/rag-system";
+import { logger, performanceMonitor } from "@/lib/logging-system";
 
 // Helper function to detect simple greetings
 function isSimpleGreeting(message: string): boolean {
@@ -44,6 +45,9 @@ function generateGreetingResponse(language: 'en' | 'de'): string {
 }
 
 export async function POST(req: NextRequest) {
+  const requestStart = Date.now()
+  const requestTimer = performanceMonitor.startTiming('api_request_time')
+
   try {
     // Parse request body
     const { message, language = 'auto', modelConfig, conversationHistory = [], sessionId, currentVideoModule } = await req.json();
@@ -83,11 +87,22 @@ export async function POST(req: NextRequest) {
     const isGreeting = isSimpleGreeting(message);
     if (isGreeting) {
       const greetingResponse = generateGreetingResponse(language);
+      const responseTime = requestTimer()
+
+      // Log greeting response
+      await logger.log('INFO', 'Greeting response served', {
+        type: 'greeting',
+        message: message.substring(0, 50),
+        language,
+        responseTime,
+        sessionId
+      })
+
       return NextResponse.json({
         content: greetingResponse,
         sources: [],
         timestamp: new Date().toISOString(),
-        processingTime: 5, // Minimal processing time
+        processingTime: responseTime,
         tokenUsage: {
           promptTokens: 0,
           completionTokens: 0,
@@ -105,6 +120,19 @@ export async function POST(req: NextRequest) {
       currentVideoModule
     });
 
+    // Log successful API response
+    const totalResponseTime = requestTimer()
+    await logger.log('INFO', 'API request completed successfully', {
+      type: 'rag-query',
+      message: message.substring(0, 50),
+      language,
+      responseTime: totalResponseTime,
+      tokenUsage: ragResponse.tokenUsage.totalTokens,
+      cost: ragResponse.tokenUsage.cost.totalCost,
+      sourcesFound: ragResponse.sources.length,
+      sessionId
+    })
+
     // Return the response with sources and token usage
     return NextResponse.json({
       content: ragResponse.content,
@@ -115,6 +143,16 @@ export async function POST(req: NextRequest) {
     });
 
   } catch (error) {
+    const errorResponseTime = requestTimer()
+
+    // Log API error
+    await logger.log('ERROR', 'API request failed', {
+      error: error instanceof Error ? error.message : String(error),
+      errorType: error instanceof Error ? error.name : 'Unknown',
+      responseTime: errorResponseTime,
+      sessionId: 'unknown'
+    })
+
     console.error("Chat API error:", error);
     console.error("Error details:", {
       name: error instanceof Error ? error.name : 'Unknown',

@@ -8,6 +8,8 @@ import { CONFIG } from './config'
 import { RelevanceFilter, type RelevanceResult } from './relevance-filter'
 import PromptOptimizer from './prompt-optimizer'
 import { FunctionCallingSystem } from './function-calling-system'
+import { logger, performanceMonitor, type QueryLog } from './logging-system'
+import { LanguageDetector, type DetectedLanguage } from './language-detector'
 
 // Circuit breaker state
 interface CircuitBreakerState {
@@ -221,15 +223,9 @@ export class RAGSystem {
   }
   
   private detectLanguage(query: string): 'en' | 'de' {
-    // Simple but effective German detection
-    const germanWords = ['ist', 'sind', 'der', 'die', 'das', 'und', 'oder', 'aber', 'mit', 'von', 'zu', 'für', 'auf', 'an', 'in', 'bei', 'über', 'unter', 'zwischen', 'nach', 'vor', 'während', 'durch', 'ohne', 'gegen', 'um', 'wie', 'was', 'wer', 'wo', 'wann', 'warum', 'wie', 'welche', 'welcher', 'welches', 'können', 'müssen', 'sollen', 'wollen', 'dürfen', 'mögen', 'lassen', 'machen', 'haben', 'sein', 'werden', 'würden', 'sollten', 'könnten', 'möchten', 'zeichnung', 'modedesign', 'schnittmuster', 'nähen', 'werkzeuge', 'ebenen', 'illustrator']
-
-    const words = query.toLowerCase().split(/\s+/)
-    const germanMatches = words.filter(word => germanWords.includes(word)).length
-    const germanRatio = germanMatches / words.length
-
-    // If more than 20% of words are German, classify as German
-    return germanRatio > 0.2 ? 'de' : 'en'
+    // Use the new centralized LanguageDetector
+    const detected = LanguageDetector.detectLanguage(query)
+    return detected === 'auto' ? 'de' : detected // Default to German for auto/unknown
   }
 
   private log(level: 'info' | 'warn' | 'error', message: string, metadata?: Record<string, unknown>): void {
@@ -345,11 +341,18 @@ export class RAGSystem {
     
     const queryHash = this.hashQuery(sanitizedQuery + language)
     
+    // Start performance monitoring
+    const queryTimer = performanceMonitor.startTiming('query_total_time')
+    let retrievalTime = 0
+
     this.log('info', 'Query started', {
       query: sanitizedQuery.substring(0, 50), // Reduced length for security
       language: detectedLanguage,
       queryLength: sanitizedQuery.length
     })
+
+    // Detect query type for logging
+    const queryType = this.detectQueryType(sanitizedQuery)
 
     // Add LangSmith tracing metadata (for potential future use)
     // const traceData = {
@@ -404,7 +407,9 @@ export class RAGSystem {
       const enhancedQuery = await this.enhanceQuery(sanitizedQuery)
       
       // Step 2: Retrieve relevant documents
+      const retrievalTimer = performanceMonitor.startTiming('document_retrieval_time')
       const relevantChunks = await this.retrieveRelevantChunks(enhancedQuery, sanitizedQuery)
+      retrievalTime = retrievalTimer()
       
       // Step 3: Generate response with context and track tokens (with retry)
       const { response, tokenUsage } = await this.withRetry(
@@ -433,6 +438,41 @@ export class RAGSystem {
       })
       
       this.recordSuccess()
+      const totalTime = queryTimer()
+
+      // Comprehensive logging
+      await logger.logQuery({
+        query: sanitizedQuery,
+        queryType,
+        language: detectedLanguage,
+        responseTime: processingTime,
+        tokensUsed: {
+          prompt: tokenUsage.promptTokens,
+          completion: tokenUsage.completionTokens,
+          embedding: tokenUsage.embeddingTokens || 0
+        },
+        vectorResults: {
+          found: relevantChunks.length,
+          relevanceScores: relevantChunks.map(chunk => chunk.score || 0),
+          topScore: Math.max(...relevantChunks.map(chunk => chunk.score || 0), 0)
+        },
+        response: {
+          length: response.length,
+          hasVideoReference: this.hasVideoReference(response),
+          hasCourseReference: this.hasCourseReference(response),
+          hasCalculation: this.hasCalculation(response)
+        }
+      })
+
+      await logger.logRAGOperation({
+        query: sanitizedQuery,
+        retrievalTime: retrievalTime,
+        generationTime: totalTime - retrievalTime,
+        documentsRetrieved: relevantChunks.length,
+        chunkSources: sources.map(s => `${s.type}:${s.title}`),
+        confidence: Math.max(...relevantChunks.map(chunk => chunk.score || 0), 0)
+      })
+
       this.log('info', 'Query completed successfully', {
         processingTime,
         tokenUsage: tokenUsage.totalTokens,
@@ -576,17 +616,36 @@ export class RAGSystem {
 
   private async retrieveRelevantChunks(enhancedQuery: string, originalQuery: string): Promise<VectorMatch[]> {
     const chunks = knowledgeBase.getChunks()
-    
+
+    // **VIDEO-SPECIFIC SEARCH**: Check if this is a video-specific query
+    const isVideoQuery = this.isVideoSpecificQuery(originalQuery)
+
+    if (isVideoQuery) {
+      console.log('Detected video-specific query, using targeted video search')
+      const videoResults = knowledgeBase.findVideoContent(originalQuery)
+
+      if (videoResults.length > 0) {
+        // Prioritize video content but also include some general results
+        const videoMatches = videoResults.slice(0, 5).map(chunk => ({ chunk, score: 1.2 })) // Higher score for video content
+
+        // Add some general results for context
+        const generalResults = knowledgeBase.searchChunks(originalQuery, 3)
+        const generalMatches = generalResults.map(chunk => ({ chunk, score: 0.8 }))
+
+        return [...videoMatches, ...generalMatches].slice(0, 8)
+      }
+    }
+
     try {
       // **Phase 2 Enhancement**: Multi-stage retrieval with early results
       if (vectorStore.getInitializationStatus()) {
         // Start with a quick text search for immediate results
         const quickTextResults = knowledgeBase.searchChunks(originalQuery, 3)
         const quickResults = quickTextResults.map(chunk => ({ chunk, score: 1 }))
-        
+
         // Then perform comprehensive hybrid search
         const hybridResults = await vectorStore.hybridSearch(enhancedQuery, chunks, 0.7, 0.3, 8)
-        
+
         // Merge results, prioritizing hybrid search but keeping quick results as backup
         const mergedResults = this.mergeRetrievalResults(quickResults, hybridResults)
         return mergedResults.slice(0, 8)
@@ -893,6 +952,82 @@ IMPORTANT FORMATTING RULES: Do NOT use markdown formatting (no ###, **, ##, #, -
       state: 'closed'
     }
     this.log('info', 'Circuit breaker reset')
+  }
+
+  // Helper methods for enhanced logging
+  private detectQueryType(query: string): QueryLog['queryType'] {
+    const lowerQuery = query.toLowerCase()
+
+    // Check for video-specific queries
+    if (lowerQuery.includes('video') || lowerQuery.includes('teil') || lowerQuery.includes('part')) {
+      return 'video-specific'
+    }
+
+    // Check for calculation queries
+    if (lowerQuery.includes('calculate') || lowerQuery.includes('size') || lowerQuery.includes('measurement') ||
+        lowerQuery.includes('fabric') || lowerQuery.includes('berech')) {
+      return 'calculation'
+    }
+
+    // Check for course navigation
+    if (lowerQuery.includes('course') || lowerQuery.includes('kurs') || lowerQuery.includes('next') ||
+        lowerQuery.includes('after') || lowerQuery.includes('before')) {
+      return 'course-navigation'
+    }
+
+    // Check for function calling patterns
+    if (lowerQuery.includes('convert') || lowerQuery.includes('grade') || lowerQuery.includes('pattern')) {
+      return 'function-calling'
+    }
+
+    return 'general'
+  }
+
+  private hasVideoReference(content: string): boolean {
+    const videoKeywords = ['video', 'teil', 'part', 'module', 'lesson', 'tutorial', 'transcript']
+    return videoKeywords.some(keyword => content.toLowerCase().includes(keyword))
+  }
+
+  private hasCourseReference(content: string): boolean {
+    const courseKeywords = ['course', 'kurs', 'schnittkonstruktion', 'drapieren', 'illustrator', 'ellu studios']
+    return courseKeywords.some(keyword => content.toLowerCase().includes(keyword))
+  }
+
+  private hasCalculation(content: string): boolean {
+    const calcKeywords = ['calculate', 'measurement', 'size', 'cm', 'inch', 'fabric', 'seam allowance', 'ease']
+    const hasNumbers = /\d+/.test(content)
+    const hasCalcWords = calcKeywords.some(keyword => content.toLowerCase().includes(keyword))
+    return hasNumbers && hasCalcWords
+  }
+
+  // Video-specific query detection
+  private isVideoSpecificQuery(query: string): boolean {
+    const videoKeywords = [
+      'video', 'teil', 'part', 'step', 'steps', 'specific steps', 'show me', 'video 2', 'video 1', 'video 3',
+      'draping course video', 'illustrator video', 'construction video', 'transcript', 'mentioned in',
+      'what specific', 'in the video', 'from the video', 'video content', 'introduced first',
+      'exact measurements mentioned', 'specific tools', 'what tools'
+    ]
+
+    const lowerQuery = query.toLowerCase()
+
+    // Check for explicit video references
+    if (videoKeywords.some(keyword => lowerQuery.includes(keyword))) {
+      return true
+    }
+
+    // Check for patterns that suggest video-specific content
+    const videoPatterns = [
+      /video\s+\d+/i,           // "video 2", "video 1"
+      /teil\s+\d+/i,           // "teil 1", "teil 2"
+      /part\s+\d+/i,           // "part 1", "part 2"
+      /steps?\s+(for|to|in)/i,  // "steps for", "step to"
+      /what.*mentioned/i,       // "what is mentioned"
+      /specific.*tools?/i,      // "specific tools"
+      /exact.*measurements?/i   // "exact measurements"
+    ]
+
+    return videoPatterns.some(pattern => pattern.test(query))
   }
 }
 

@@ -29,11 +29,14 @@ export class VTTParser {
    * Parse a single VTT file
    */
   static parseVTTFile(filePath: string): ParsedTranscript {
-    // Security validation
-    SecurityValidator.validateFilePath(filePath)
+    // Security validation - allow access to the docs/transcripts directory and subdirectories
+    const allowedBasePath = '/home/johnblack/dev/learning/turingCollege/projects/rag-specialist-bot-capstone/docs/transcripts'
+    SecurityValidator.validateFilePath(filePath, allowedBasePath)
 
+    console.log('VTTParser.parseVTTFile: Processing file:', filePath)
     const content = readFileSync(filePath, 'utf-8')
     const filename = basename(filePath, '.vtt')
+    console.log('VTTParser.parseVTTFile: Extracted filename:', filename, typeof filename)
 
     return this.parseVTTContent(content, filename)
   }
@@ -42,6 +45,7 @@ export class VTTParser {
    * Parse VTT content string
    */
   static parseVTTContent(content: string, filename: string): ParsedTranscript {
+    console.log('VTTParser.parseVTTContent: Processing filename:', filename, typeof filename)
     const lines = content.split('\n')
     const cues: VTTCue[] = []
 
@@ -109,6 +113,7 @@ export class VTTParser {
     const lastCue = cues[cues.length - 1]
     const duration = lastCue ? lastCue.endTime : '00:00:00.000'
 
+    console.log('VTTParser.parseVTTContent: About to call generateTitle with:', filename, typeof filename)
     return {
       filename,
       title: this.generateTitle(filename),
@@ -123,24 +128,34 @@ export class VTTParser {
    * Parse all VTT files in a directory
    */
   static parseDirectory(dirPath: string): ParsedTranscript[] {
-    SecurityValidator.validateFilePath(dirPath)
+    console.log('[VTT DEBUG] parseDirectory called with:', dirPath)
+    // Validate file path - allow access to the docs/transcripts directory and subdirectories
+    const allowedBasePath = '/home/johnblack/dev/learning/turingCollege/projects/rag-specialist-bot-capstone/docs/transcripts'
+    SecurityValidator.validateFilePath(dirPath, allowedBasePath)
 
     const transcripts: ParsedTranscript[] = []
 
     try {
+      console.log('[VTT DEBUG] About to call readdirSync')
       const files = readdirSync(dirPath)
+      console.log('[VTT DEBUG] Found files:', files)
 
       for (const file of files) {
+        console.log('[VTT DEBUG] Processing file:', file)
         const filePath = join(dirPath, file)
         const stat = statSync(filePath)
 
         if (stat.isFile() && extname(file).toLowerCase() === '.vtt') {
+          console.log('[VTT DEBUG] Found VTT file, parsing:', file)
           try {
             const transcript = this.parseVTTFile(filePath)
             transcripts.push(transcript)
+            console.log('[VTT DEBUG] Successfully parsed:', file)
           } catch (error) {
-            console.error(`Failed to parse VTT file ${file}:`, error)
+            console.error(`[VTT DEBUG] Failed to parse VTT file ${file}:`, error)
           }
+        } else {
+          console.log('[VTT DEBUG] Skipping non-VTT file:', file)
         }
       }
     } catch (error) {
@@ -154,6 +169,12 @@ export class VTTParser {
    * Generate a human-readable title from filename
    */
   private static generateTitle(filename: string): string {
+    // Safety check for undefined filename
+    if (!filename || typeof filename !== 'string') {
+      console.warn('VTTParser.generateTitle received invalid filename:', filename)
+      return 'Unknown Video'
+    }
+
     // Handle different naming patterns
     const patterns = [
       // Draping Course (Course 201) - RG_Drapieren patterns
@@ -245,16 +266,21 @@ export class VTTParser {
 
     for (const pattern of patterns) {
       const match = filename.match(pattern.regex)
-      if (match) {
+      if (match && pattern.template) {
         return pattern.template.replace(/\$(\d+)/g, (_, num) => match[parseInt(num)])
       }
     }
 
     // Fallback: clean up filename
-    return filename
-      .replace(/_/g, ' ')
-      .replace(/([a-z])([A-Z])/g, '$1 $2')
-      .replace(/\b\w/g, l => l.toUpperCase())
+    try {
+      return filename
+        .replace(/_/g, ' ')
+        .replace(/([a-z])([A-Z])/g, '$1 $2')
+        .replace(/\b\w/g, l => l.toUpperCase())
+    } catch (error) {
+      console.error('Error in filename fallback processing for:', filename, error)
+      return String(filename || 'Unknown Video')
+    }
   }
 
   /**

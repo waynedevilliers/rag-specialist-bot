@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Send, Bot, User, Loader2, Download, FileText, FileSpreadsheet, FileImage, Zap, DollarSign, Globe, History } from "lucide-react";
 import SourceCitations from "./SourceCitations";
 import ConversationHistory from "./ConversationHistory";
@@ -90,6 +90,7 @@ ChatInterface() {
     maxTokens: 2000
   });
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   const scrollToLatestMessage = () => {
     // Find the latest assistant message and scroll to it
@@ -149,7 +150,12 @@ ChatInterface() {
       
       // Scroll to latest bot message
       setTimeout(() => scrollToLatestMessage(), 100);
-      
+
+      // Refocus input after response is complete
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 200);
+
       // Update session stats
       if (data.tokenUsage) {
         setSessionStats(prev => ({
@@ -169,6 +175,15 @@ ChatInterface() {
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+      // Refocus the input field after loading completes (longer delay for reliability)
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+          // Also ensure cursor is at the end
+          const len = inputRef.current.value.length;
+          inputRef.current.setSelectionRange(len, len);
+        }
+      }, 300);
     }
   };
 
@@ -182,15 +197,20 @@ ChatInterface() {
   // Set client-side flag and initialize language and session
   useEffect(() => {
     setIsClient(true);
-    
+
     // Load saved language preference
     const savedLanguage = localStorage.getItem('fashion-assistant-language') as Language;
     if (savedLanguage && ['en', 'de'].includes(savedLanguage)) {
       setLanguage(savedLanguage);
     }
-    
+
     // Initialize or migrate conversation sessions
     initializeSession();
+
+    // Focus input field on initial load
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
@@ -198,25 +218,11 @@ ChatInterface() {
     // Check if we need to migrate existing conversation
     const migratedSession = ConversationManager.migrateExistingConversation();
     if (migratedSession) {
-      setCurrentSession(migratedSession);
-      setMessages(migratedSession.messages);
-      calculateSessionStats(migratedSession.messages);
-      return;
+      // Migrated session is saved to history, but we start fresh
+      console.log('Migrated existing conversation to history');
     }
-    
-    // Try to load current session
-    const currentSessionId = ConversationManager.getCurrentSessionId();
-    if (currentSessionId) {
-      const session = ConversationManager.getSession(currentSessionId);
-      if (session) {
-        setCurrentSession(session);
-        setMessages(session.messages);
-        calculateSessionStats(session.messages);
-        return;
-      }
-    }
-    
-    // Create new session if none exists
+
+    // Always create a new session on startup
     createNewSession();
   };
   
@@ -225,8 +231,10 @@ ChatInterface() {
     setCurrentSession(newSession);
     setMessages([]);
     setSessionStats({ totalTokens: 0, totalCost: 0, totalMessages: 0 });
-    ConversationManager.setCurrentSession(newSession.id);
-    
+
+    // Clear any current session from storage to ensure fresh start
+    localStorage.removeItem('fashion-assistant-current-session');
+
     // Save the session immediately so it appears in history
     const sessions = ConversationManager.getSessions();
     ConversationManager.saveSessions([...sessions, newSession]);
@@ -247,9 +255,9 @@ ChatInterface() {
     setSessionStats(stats);
   };
 
-  // Save current session when messages change
+  // Save current session when messages change (only if it has real conversation)
   useEffect(() => {
-    if (currentSession && messages.length > 0) {
+    if (currentSession && messages.length > 1) { // More than just welcome message
       ConversationManager.updateSession(currentSession.id, messages);
     }
   }, [currentSession, messages]);
@@ -357,13 +365,19 @@ ChatInterface() {
   };
   
   const handleSessionSelect = (sessionId: string) => {
+    // Save current session before switching if it has real conversation
+    if (currentSession && messages.length > 1) {
+      ConversationManager.updateSession(currentSession.id, messages);
+    }
+
     const session = ConversationManager.getSession(sessionId);
     if (session) {
       setCurrentSession(session);
       setMessages(session.messages);
       calculateSessionStats(session.messages);
-      ConversationManager.setCurrentSession(sessionId);
       setLanguage(session.language);
+
+      // Don't set as current session in storage - let user start fresh next time
     }
     setShowHistoryPanel(false);
   };
@@ -632,6 +646,7 @@ ChatInterface() {
       <div className="border-t-2 border-rose-200 bg-gradient-to-r from-rose-50 to-pink-50 p-4 mobile-input">
         <div className="flex gap-2">
           <textarea
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyPress}

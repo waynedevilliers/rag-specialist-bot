@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ChevronDown, Bot, Zap, Brain } from "lucide-react";
 import { ModelProvider, ModelService } from "@/lib/model-service";
 
@@ -18,6 +18,7 @@ interface ModelSelectorProps {
 
 export default function ModelSelector({ currentConfig, onConfigChange }: ModelSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const providers: { provider: ModelProvider; icon: React.ReactNode; color: string }[] = [
     { provider: 'openai', icon: <Bot className="w-4 h-4" />, color: 'text-green-600' },
@@ -28,12 +29,13 @@ export default function ModelSelector({ currentConfig, onConfigChange }: ModelSe
   const handleProviderChange = (provider: ModelProvider) => {
     const availableModels = ModelService.getAvailableModels(provider);
     const defaultModel = availableModels[0];
-    
+
     onConfigChange({
       ...currentConfig,
       provider,
       model: defaultModel,
     });
+    // Keep menu open so user can select specific model if desired
   };
 
   const handleModelChange = (model: string) => {
@@ -43,11 +45,25 @@ export default function ModelSelector({ currentConfig, onConfigChange }: ModelSe
     });
   };
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen]);
+
   const currentProvider = providers.find(p => p.provider === currentConfig.provider);
   const availableModels = ModelService.getAvailableModels(currentConfig.provider);
 
   return (
-    <div className="relative">
+    <div ref={containerRef} className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"

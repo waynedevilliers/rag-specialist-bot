@@ -1,4 +1,10 @@
-# AI Engineering Capstone Project: RAG Specialist Bot for Fashion Design Education ## Project Overview **Capstone Case**: Case 1 - Retrieval-Augmented Generation (RAG)-Powered Knowledge Assistant
+# AI Engineering Capstone Project: RAG Specialist Bot for Fashion Design Education
+
+## Executive Summary
+
+This capstone project delivers a **Retrieval-Augmented Generation (RAG) knowledge assistant** that transforms fashion design education by providing instant, contextual access to specialized course content. The system solves the critical problem of fragmented learning materials across German-language fashion design courses by implementing an intelligent AI assistant that retrieves relevant information from 36 video transcripts (519 content chunks) and generates precise, educational responses in both German and English. Built using LangChain, ChromaDB, and OpenAI APIs with a production-ready Next.js interface, the assistant enables students to ask specific technical questions like "How do I pin the front skirt in draping?" and receive accurate, step-by-step guidance drawn directly from authentic course materials, dramatically improving learning efficiency and accessibility.
+
+## Project Overview **Capstone Case**: Case 1 - Retrieval-Augmented Generation (RAG)-Powered Knowledge Assistant
 **Project Title**: RAG Specialist Bot for Fashion Design Education
 **Domain**: Advanced AI/ML - Production-Ready RAG System
 **Duration**: September 11-24, 2024 (13 days intensive development)

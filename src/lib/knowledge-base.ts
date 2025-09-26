@@ -93,7 +93,9 @@ export class KnowledgeBase {
       for (const { dir, courseType, courseNumber } of transcriptDirs) {
         try {
           const dirPath = join(transcriptsPath, dir)
+          console.log(`[DEBUG] About to parse directory: ${dirPath} for course type: ${courseType}`)
           const transcripts = VTTParser.parseDirectory(dirPath)
+          console.log(`[DEBUG] Successfully parsed ${transcripts.length} transcripts from ${dir}`)
 
           for (const transcript of transcripts) {
             // Convert transcript to markdown for consistent chunking
