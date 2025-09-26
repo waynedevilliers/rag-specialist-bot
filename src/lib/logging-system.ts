@@ -216,7 +216,8 @@ export class LoggingSystem {
              `- Function Call Success Rate: ${report.summary.functionCallSuccessRate}%`;
 
     } catch (error) {
-      await this.log('ERROR', 'Failed to generate performance report', { error: error.message });
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      await this.log('ERROR', 'Failed to generate performance report', { error: errorMessage });
       return 'Error generating performance report';
     }
   }
@@ -242,7 +243,8 @@ export class LoggingSystem {
         issues
       };
     } catch (error) {
-      issues.push(`Logging system error: ${error.message}`);
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      issues.push(`Logging system error: ${errorMessage}`);
       return { healthy: false, issues };
     }
   }

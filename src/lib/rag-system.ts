@@ -5,11 +5,11 @@ import { ModelService, type ModelConfig } from './model-service'
 import { SecurityValidator, SecurityError, SecurityUtils } from './security-validator'
 import { Client } from 'langsmith'
 import { CONFIG } from './config'
-import { RelevanceFilter, type RelevanceResult } from './relevance-filter'
+import { RelevanceFilter } from './relevance-filter'
 import PromptOptimizer from './prompt-optimizer'
 import { FunctionCallingSystem } from './function-calling-system'
 import { logger, performanceMonitor, type QueryLog } from './logging-system'
-import { LanguageDetector, type DetectedLanguage } from './language-detector'
+import { LanguageDetector } from './language-detector'
 
 // Circuit breaker state
 interface CircuitBreakerState {
@@ -281,9 +281,9 @@ export class RAGSystem {
       // Load knowledge base
       await knowledgeBase.loadDocuments()
       const chunks = knowledgeBase.getChunks()
-      
+
       // Initialize vector embeddings
-      await vectorStore.initializeVectors(chunks)
+      await this.vectorStore.initializeVectors(chunks)
       
       this.isInitialized = true
       const initTime = Date.now() - startTime

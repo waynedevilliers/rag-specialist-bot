@@ -1,9 +1,9 @@
-import { z } from 'zod'
-import { FashionFunctions, FashionFunctionSchemas, type FashionFunctionName } from './fashion-functions'
+import { FashionFunctions } from './fashion-functions'
+import OpenAI from 'openai'
 
 // Enhanced function calling system with intent detection
 export class FunctionCallingSystem {
-  private openai: any
+  private openai: OpenAI | null = null
   private functionRegistry: Map<string, FunctionDefinition> = new Map()
 
   constructor() {
@@ -16,7 +16,6 @@ export class FunctionCallingSystem {
 
   private initializeOpenAI() {
     try {
-      const OpenAI = require('openai')
       this.openai = new OpenAI({
         apiKey: process.env.OPENAI_API_KEY
       })

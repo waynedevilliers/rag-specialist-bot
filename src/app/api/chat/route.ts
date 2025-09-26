@@ -45,7 +45,6 @@ function generateGreetingResponse(language: 'en' | 'de'): string {
 }
 
 export async function POST(req: NextRequest) {
-  const requestStart = Date.now()
   const requestTimer = performanceMonitor.startTiming('api_request_time')
 
   try {

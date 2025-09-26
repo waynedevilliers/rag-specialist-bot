@@ -340,7 +340,7 @@ export class VTTParser {
         'zusammenfassung': '11'
       }
 
-      moduleNumber = illustratorModules[filename] || '1'
+      moduleNumber = illustratorModules[filename as keyof typeof illustratorModules] || '1'
     }
 
     // Special cases

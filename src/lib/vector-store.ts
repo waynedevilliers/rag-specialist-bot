@@ -4,7 +4,7 @@ import { HNSWIndex } from './hnsw-index'
 import { VectorQuantizer, QuantizedVector } from './vector-quantizer'
 import { SecurityValidator, SecurityUtils } from './security-validator'
 import { connectionPool } from './connection-pool'
-import { chromaStore, ChromaSearchResult } from './chromadb-store'
+import { chromaStore } from './chromadb-store'
 
 export interface VectorMatch {
   chunk: DocumentChunk
@@ -62,14 +62,30 @@ export class VectorStore {
     this.quantizer = new VectorQuantizer()
   }
 
-  async initializeVectors(chunks: DocumentChunk[]): Promise<void> {
+  async initializeVectors(chunks?: DocumentChunk[]): Promise<void> {
     if (this.isInitialized) return
 
     // **SECURITY FIX**: Validate API key at runtime
     SecurityValidator.validateApiKey(process.env.OPENAI_API_KEY || '')
 
-    // **ChromaDB Integration**: Initialize persistent storage
-    await this.initializeChromaDB(chunks)
+    // **ChromaDB Integration**: Initialize persistent storage FIRST
+    await this.initializeChromaDB(chunks || [])
+
+    // If ChromaDB is initialized successfully, we don't need local embeddings
+    if (this.chromaInitialized && this.useChromaDB) {
+      console.log('✅ ChromaDB initialized - using persistent vector storage')
+      this.isInitialized = true
+      return
+    }
+
+    // Fallback: Initialize local vectors if ChromaDB is not available
+    if (!chunks || chunks.length === 0) {
+      console.log('⚠️  No chunks provided and ChromaDB not available - loading from knowledge base')
+      // Load chunks if not provided
+      const knowledgeBase = new (await import('./knowledge-base')).KnowledgeBase()
+      await knowledgeBase.loadDocuments()
+      chunks = knowledgeBase.getChunks()
+    }
 
     // **PERFORMANCE**: Try to load from persistent cache first
     const cacheLoaded = await this.loadEmbeddingsFromCache(chunks)
@@ -438,43 +454,25 @@ export class VectorStore {
     }
 
     try {
-      // **ChromaDB + Local Hybrid Search**: Run ChromaDB, local vector, and text search in parallel
-      const [chromaResults, vectorResults, textResults] = await Promise.all([
-        this.searchWithChromaDB(query, limit * 2), // Get more results from ChromaDB
+      // **ChromaDB Primary**: If ChromaDB is initialized, prioritize it
+      if (this.chromaInitialized && this.useChromaDB) {
+        const [chromaResults, textResults] = await Promise.all([
+          this.searchWithChromaDB(query, limit * 2), // Get more results from ChromaDB
+          Promise.resolve(this.textSearch(query, chunks))
+        ])
+
+        // Use primarily ChromaDB results
+        return this.reciprocalRankFusion(chromaResults, textResults, vectorWeight, textWeight, limit)
+      }
+
+      // **Fallback to Local Hybrid Search**: Run local vector and text search
+      const [vectorResults, textResults] = await Promise.all([
         this.searchSimilar(query, chunks, chunks.length),
         Promise.resolve(this.textSearch(query, chunks))
       ])
 
-      // Combine ChromaDB results with local results
-      const allVectorResults = [...chromaResults, ...vectorResults]
-      const uniqueVectorResults = this.deduplicateResults(allVectorResults)
-
-      // Combine scores with weighted fusion
-      const combinedResults = new Map<string, VectorMatch>()
-
-      // Add vector scores (including ChromaDB results)
-      uniqueVectorResults.forEach(result => {
-        combinedResults.set(result.chunk.id, {
-          chunk: result.chunk,
-          score: result.score * vectorWeight
-        })
-      })
-      
-      // Add text scores
-      textResults.forEach(result => {
-        const existing = combinedResults.get(result.chunk.id)
-        if (existing) {
-          existing.score += result.score * textWeight
-        } else {
-          combinedResults.set(result.chunk.id, {
-            chunk: result.chunk,
-            score: result.score * textWeight
-          })
-        }
-      })
-      
       // **Phase 2 Enhancement**: Reciprocal Rank Fusion for better score combination
-      return this.reciprocalRankFusion(uniqueVectorResults, textResults, vectorWeight, textWeight, limit)
+      return this.reciprocalRankFusion(vectorResults, textResults, vectorWeight, textWeight, limit)
     } catch (error) {
       console.error('Error in hybrid search:', error)
       // Fallback to text search
@@ -750,14 +748,21 @@ export class VectorStore {
       const collectionInfo = await chromaStore.getCollectionInfo()
       console.log(`ChromaDB collection "${collectionInfo.name}" has ${collectionInfo.count} documents`)
 
-      // If ChromaDB is empty, populate it
+      // If ChromaDB has documents, use it as the primary source
+      if (collectionInfo.count > 0) {
+        console.log(`✅ Using ChromaDB as primary vector store with ${collectionInfo.count} documents`)
+        this.chromaInitialized = true
+        console.log('ChromaDB integration initialized successfully')
+        // Force this to be the initialized state
+        this.isInitialized = true
+        return // Skip local vector initialization
+      }
+
+      // Only populate if empty and we have chunks
       if (collectionInfo.count === 0 && chunks.length > 0) {
         console.log('Populating ChromaDB with initial documents...')
         await chromaStore.addDocuments(chunks)
         console.log('ChromaDB populated successfully')
-      } else if (collectionInfo.count !== chunks.length) {
-        console.log(`Syncing ChromaDB: ${collectionInfo.count} stored vs ${chunks.length} current`)
-        // Could add sync logic here if needed
       }
 
       this.chromaInitialized = true
@@ -986,6 +991,21 @@ export class VectorStore {
       console.warn('Failed to load embeddings from cache:', error)
       return false
     }
+  }
+
+  /**
+   * Check if ChromaDB is initialized and being used
+   */
+  isChromaInitialized(): boolean {
+    return this.chromaInitialized && this.useChromaDB
+  }
+
+  /**
+   * Get all chunks from the vector store
+   */
+  getAllChunks(): DocumentChunk[] {
+    // This method is not needed for ChromaDB integration
+    return []
   }
 }
 

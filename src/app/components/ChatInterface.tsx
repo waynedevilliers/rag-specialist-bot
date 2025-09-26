@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Send, Bot, User, Loader2, Download, FileText, FileSpreadsheet, FileImage, Zap, DollarSign, Globe, History } from "lucide-react";
+import { Send, Bot, User, Loader2, Download, FileText, FileSpreadsheet, FileImage, Zap, DollarSign, Globe, History, RefreshCw, Edit3 } from "lucide-react";
 import SourceCitations from "./SourceCitations";
 import ConversationHistory from "./ConversationHistory";
 import ModelSelector from "./ModelSelector";
@@ -41,6 +41,8 @@ interface Message {
   sources?: DocumentSource[];
   processingTime?: number;
   tokenUsage?: TokenUsage;
+  isRetryable?: boolean;
+  originalInput?: string;
 }
 
 function TokenUsageDisplay({ tokenUsage, language }: { tokenUsage: TokenUsage; language: Language }) {
@@ -99,6 +101,11 @@ ChatInterface() {
       const latestMessage = messageElements[messageElements.length - 1];
       latestMessage.scrollIntoView({ behavior: "smooth", block: "center" });
     }
+  };
+
+  const retryMessage = async (originalInput: string) => {
+    setInput(originalInput);
+    await sendMessage();
   };
 
   const sendMessage = async () => {
@@ -166,11 +173,25 @@ ChatInterface() {
       }
     } catch (error) {
       console.error("Failed to send message:", error);
+
+      // Provide contextual error message based on error type
+      let errorContent = "❌ **Connection failed during system initialization**\n\n";
+
+      if (error instanceof Error && error.message.includes('500')) {
+        errorContent += `🔄 **This is normal during the first request** - the system is initializing the knowledge base.\n\n**What to do:**\n1. **Try your question again** - it usually works on the second attempt\n2. Wait a moment for the vector database to fully initialize\n3. The system contains 586 fashion design documents ready to help you!\n\n*Tip: Subsequent queries will be much faster once initialized.*`;
+      } else if (error instanceof Error && error.message.includes('network')) {
+        errorContent += "🌐 **Network connection issue**\n\nPlease check your internet connection and try again.";
+      } else {
+        errorContent += "🔧 **Technical issue detected**\n\nThe system is experiencing temporary difficulties. Please try your question again in a moment.";
+      }
+
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
         type: "assistant",
-        content: "I'm experiencing technical difficulties. Please check your connection and try again.",
+        content: errorContent,
         timestamp: new Date(),
+        isRetryable: true,
+        originalInput: input
       };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
@@ -618,6 +639,25 @@ ChatInterface() {
               )}
               {message.type === "assistant" && message.tokenUsage && (
                 <TokenUsageDisplay tokenUsage={message.tokenUsage} language={language} />
+              )}
+              {message.type === "assistant" && message.isRetryable && message.originalInput && (
+                <div className="mt-2 flex gap-2">
+                  <button
+                    onClick={() => retryMessage(message.originalInput!)}
+                    disabled={isLoading}
+                    className="px-3 py-1 text-xs bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 transition-colors"
+                  >
+                    <RefreshCw className="w-3 h-3" />
+                    Try Again
+                  </button>
+                  <button
+                    onClick={() => setInput(message.originalInput!)}
+                    className="px-3 py-1 text-xs bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 flex items-center gap-1 transition-colors"
+                  >
+                    <Edit3 className="w-3 h-3" />
+                    Edit & Retry
+                  </button>
+                </div>
               )}
             </div>
             

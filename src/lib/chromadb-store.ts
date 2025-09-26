@@ -1,7 +1,7 @@
-import { ChromaClient } from 'chromadb'
+import { ChromaClient, CloudClient } from 'chromadb'
 import { OpenAIEmbeddings } from '@langchain/openai'
 import { DocumentChunk } from './knowledge-base'
-import { SecurityValidator, SecurityUtils } from './security-validator'
+import { SecurityValidator } from './security-validator'
 
 export interface ChromaDocument {
   id: string
@@ -23,19 +23,29 @@ export interface ChromaSearchResult {
 }
 
 export class ChromaDBStore {
-  private client: ChromaClient
+  private client: ChromaClient | CloudClient
   private embeddings: OpenAIEmbeddings
   private collection: any = null
   private isInitialized = false
   private readonly collectionName = 'fashion_design_knowledge'
 
   constructor() {
-    // Initialize ChromaDB client
-    const chromaUrl = process.env.CHROMADB_URL || 'http://localhost:8000'
-
-    this.client = new ChromaClient({
-      path: chromaUrl
-    })
+    // Initialize ChromaDB client - prefer CloudClient if credentials are available
+    if (process.env.CHROMADB_API_KEY && process.env.CHROMADB_TENANT) {
+      this.client = new CloudClient({
+        apiKey: process.env.CHROMADB_API_KEY,
+        tenant: process.env.CHROMADB_TENANT,
+        database: process.env.CHROMADB_DATABASE || 'ellu-studios-chat-bot'
+      })
+      console.log('Using ChromaDB Cloud client')
+    } else {
+      // Fallback to local client
+      const chromaUrl = process.env.CHROMADB_URL || 'http://localhost:8000'
+      this.client = new ChromaClient({
+        path: chromaUrl
+      })
+      console.log('Using ChromaDB local client')
+    }
 
     // Initialize OpenAI embeddings
     this.embeddings = new OpenAIEmbeddings({
@@ -63,16 +73,11 @@ export class ChromaDBStore {
         this.collection = await this.client.getCollection({
           name: this.collectionName
         })
-        console.log(`Connected to existing collection: ${this.collectionName}`)
+        const count = await this.collection.count()
+        console.log(`Connected to existing collection: ${this.collectionName} with ${count} documents`)
       } catch (error) {
-        // Collection doesn't exist, create it
-        this.collection = await this.client.createCollection({
-          name: this.collectionName,
-          metadata: {
-            description: 'Fashion design knowledge base for ELLU Studios courses'
-          }
-        })
-        console.log(`Created new collection: ${this.collectionName}`)
+        console.log(`Collection ${this.collectionName} doesn't exist - ChromaDB integration requires existing collection`)
+        throw new Error('ChromaDB collection not found. Please run populate script first.')
       }
 
       this.isInitialized = true
