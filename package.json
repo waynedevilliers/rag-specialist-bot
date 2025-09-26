@@ -22,7 +22,7 @@
     "@langchain/core": "0.3.66",
     "@langchain/openai": "0.6.3",
     "chromadb": "3.0.15",
-    "dotenv": "17.2.2",
+    "dotenv": "^16.4.5",
     "html2canvas": "1.4.1",
     "jspdf": "3.0.1",
     "langchain": "0.3.30",
