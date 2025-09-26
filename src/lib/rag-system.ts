@@ -283,7 +283,7 @@ export class RAGSystem {
       const chunks = knowledgeBase.getChunks()
 
       // Initialize vector embeddings
-      await this.vectorStore.initializeVectors(chunks)
+      await vectorStore.initializeVectors(chunks)
       
       this.isInitialized = true
       const initTime = Date.now() - startTime

@@ -44,7 +44,6 @@ async function populateChromaDB() {
     // Initialize knowledge base
     console.log('📚 Loading knowledge base from local files...')
     const knowledgeBase = new KnowledgeBase()
-    await knowledgeBase.initialize()
 
     // Get all document chunks
     const chunks = knowledgeBase.getAllDocumentChunks()

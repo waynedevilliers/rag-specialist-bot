@@ -191,7 +191,7 @@ async function populateChromaDBCloud() {
         if (searchResults.documents?.[0] && searchResults.distances?.[0]) {
           const topResult = searchResults.documents[0][0]
           const topDistance = searchResults.distances[0][0]
-          const similarity = 1 - topDistance
+          const similarity = topDistance ? 1 - topDistance : 0
           const metadata = searchResults.metadatas?.[0]?.[0] as any
 
           console.log(`   Top result: "${metadata?.title || 'Unknown'}" (similarity: ${similarity.toFixed(3)})`)
